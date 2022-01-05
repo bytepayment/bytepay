@@ -1,0 +1,87 @@
+{
+  // git
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true,
+  "git.autofetch": true,
+  // editor
+  "editor.cursorSmoothCaretAnimation": true,
+  "editor.cursorBlinking": "expand",
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+  "editor.tabSize": 2,
+  "editor.suggestSelection": "first",
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  // eslint
+  "eslint.alwaysShowStatus": true,
+  "eslint.format.enable": true,
+  "eslint.run": "onSave",
+  "eslint.codeActionsOnSave.mode": "all",
+  // vue & vetur
+  "[vue]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  // "vetur.format.defaultFormatterOptions": {
+  //   "prettier": {
+  //     "semi": false,
+  //     "singleQuote": true
+  //   }
+  // },
+  // "vetur.experimental.templateInterpolationService": true, // vue template 属性提示
+  // "vetur.validation.templateProps": true,
+  // "vetur.validation.interpolation": false,
+  // javascript
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "[javascript]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  // typescript
+  "typescript.format.semicolons": "remove",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  // json
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "editor.renderControlCharacters": true,
+  // rest client
+  "rest-client.environmentVariables": {
+    "$shared": {},
+    "test": {
+      "base_url": "http://127.0.0.1:9000",
+      "user": "test",
+      "passwd": "test"
+    },
+    "storage": {
+      "base_url": "http://localhost:9001"
+    }
+  },
+  "cSpell.words": [
+    "appid",
+    "bson",
+    "Builtins",
+    "coll",
+    "dockerode",
+    "EJSON",
+    "entrypoint",
+    "lafjs",
+    "lafyun",
+    "objs",
+    "signin",
+    "uids",
+    "upsert",
+    "upserted",
+    "vitepress",
+    "withs"
+  ],
+  "mocha.files.glob": "packages/*/tests/**/*test.js",
+  "mochaExplorer.files": "packages/*/tests/**/*test*.js",
+  "vue3snippets.enable-compile-vue-file-on-did-save-code": true
+}
