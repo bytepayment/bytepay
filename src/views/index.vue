@@ -9,13 +9,13 @@ import { onMounted } from "vue";
 // import router from "../router";
 export default {
   setup() {
-    onMounted(() => {
-      const store = useStore();
-      const router = useRouter();
-      if (!store.state.user) {
-        router.push({ name: "auth-github" });
-      }
-    });
+    // onMounted(() => {
+    //   const store = useStore();
+    //   const router = useRouter();
+    //   if (!store.state.user) {
+    //     router.push({ name: "auth-github" });
+    //   }
+    // });
     return {};
   },
 };
