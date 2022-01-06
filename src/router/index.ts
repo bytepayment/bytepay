@@ -1,45 +1,54 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import NProgress from 'nprogress' // progress bar
-import 'nprogress/nprogress.css' // progress bar style
-import { getToken } from '../utils/auth'
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
+import NProgress from "nprogress" // progress bar
+import "nprogress/nprogress.css" // progress bar style
+import { getToken } from "../utils/auth"
+import Layout from "../layout/index.vue"
 const history = createWebHistory()
 
-const routes : Array<RouteRecordRaw> = [
+const routes: Array<RouteRecordRaw> = [
   {
-    path: '/',
-    name: 'home',
-    component: () => import('@/views/index.vue')
+    path: "/",
+    // name: "home",
+    component: Layout,
+    redirect: "/home",
+    children: [
+      {
+        path: "/home",
+        name: "home",
+        component: () => import("@/views/index.vue"),
+      },
+    ],
   },
   {
-    path: '/login',
-    name: 'login',
-    component: () => import('@/views/auth-github/auth-github.vue')
-  }
+    path: "/login",
+    name: "login",
+    component: () => import("@/views/auth-github/auth-github.vue"),
+  },
 ]
 
 const router = createRouter({
   history,
-  routes
+  routes,
 })
 
-const whiteList = ['/login', '/sign-up'] // no redirect whitelist
+const whiteList = ["/login", "/sign-up"] // no redirect whitelist
 
 router.beforeEach(async (to, from, next) => {
-    // start progress bar
+  // start progress bar
   NProgress.start()
   // determine whether the user has logged in
   const hasToken = getToken()
   if (hasToken) {
-    if (to.path === '/login') {
+    if (to.path === "/login") {
       // if is logged in, redirect to the home page
-      next({ path: '/' })
+      next({ path: "/" })
       NProgress.done() // hack: https://github.com/PanJiaChen/vue-element-admin/pull/2939
     } else {
       next()
     }
   } else {
-     /* has no token*/
-     if (whiteList.indexOf(to.path) !== -1) {
+    /* has no token*/
+    if (whiteList.indexOf(to.path) !== -1) {
       // console.log('token not found', to)
       // in the free login whitelist, go directly
       next()

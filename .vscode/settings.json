@@ -27,15 +27,15 @@
     "editor.formatOnType": true,
     "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
   },
-  // "vetur.format.defaultFormatterOptions": {
-  //   "prettier": {
-  //     "semi": false,
-  //     "singleQuote": true
-  //   }
-  // },
-  // "vetur.experimental.templateInterpolationService": true, // vue template 属性提示
-  // "vetur.validation.templateProps": true,
-  // "vetur.validation.interpolation": false,
+  "vetur.format.defaultFormatterOptions": {
+    "prettier": {
+      "semi": false,
+      "singleQuote": true
+    }
+  },
+  "vetur.experimental.templateInterpolationService": true, // vue template 属性提示
+  "vetur.validation.templateProps": true,
+  "vetur.validation.interpolation": false,
   // javascript
   "javascript.updateImportsOnFileMove.enabled": "always",
   "[javascript]": {
