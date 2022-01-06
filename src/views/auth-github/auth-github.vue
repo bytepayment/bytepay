@@ -13,31 +13,30 @@
 </template>
 
 <script setup lang="ts">
-import { useStore } from "vuex";
-import { useRouter, useRoute } from "vue-router";
-import logoUrl from "../../assets/GitHub.png";
-const Router = useRouter();
+import { useStore } from 'vuex'
+import { useRouter, useRoute } from 'vue-router'
+import logoUrl from '../../assets/GitHub.png'
+const Router = useRouter()
 // check if redirect back
-const code = (useRoute().query?.code as any) || "";
+const code = (useRoute().query?.code as any) || ''
 if (code) {
-  console.log("Github Redirect Back");
-  useStore().dispatch("login", code);
+  console.log('Github Redirect Back')
+  useStore().dispatch('login', code)
 }
 // oauth github
 const authUrl =
-  "https://github.com/login/oauth/authorize?client_id=8ab7f2f0d33da575a717&scope=user,public_repo";
+  'https://github.com/login/oauth/authorize?client_id=8ab7f2f0d33da575a717&scope=user,public_repo'
 function authGithub() {
-  window.location.href = authUrl;
+  window.location.href = authUrl
 }
 </script>
 
 <style lang="sass" scoped>
 .main
-  height: calc( 100vh - 50px )
+  height: 100vh
   width: 100vw
   display: flex
   justify-content: center
-  // align-items: center
   .card-container
     margin-top: 20vh
     width: 35vw

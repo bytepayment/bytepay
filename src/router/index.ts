@@ -17,6 +17,31 @@ const routes: Array<RouteRecordRaw> = [
         name: "home",
         component: () => import("@/views/index.vue"),
       },
+      {
+        path: "/property",
+        name: "property",
+        component: () => import("@/views/index.vue"),
+      },
+      {
+        path: "/task",
+        name: "task",
+        component: () => import("@/views/task/index.vue"),
+      },
+      {
+        path: "/help",
+        name: "help",
+        component: () => import("@/views/help/index.vue"),
+      },
+      {
+        path: "/password",
+        name: "password",
+        component: () => import("@/views/user/password.vue"),
+      },
+      {
+        path: "/recv-address",
+        name: "recrAddress",
+        component: () => import("@/views/user/recv-address.vue"),
+      },
     ],
   },
   {
