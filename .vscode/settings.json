@@ -25,7 +25,7 @@
   "[vue]": {
     "editor.formatOnSave": true,
     "editor.formatOnType": true,
-    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+    "editor.defaultFormatter": "octref.vetur"
   },
   "vetur.format.defaultFormatterOptions": {
     "prettier": {
@@ -36,6 +36,7 @@
   "vetur.experimental.templateInterpolationService": true, // vue template 属性提示
   "vetur.validation.templateProps": true,
   "vetur.validation.interpolation": false,
+  "vetur.format.enable": true,
   // javascript
   "javascript.updateImportsOnFileMove.enabled": "always",
   "[javascript]": {

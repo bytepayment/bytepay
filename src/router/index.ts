@@ -8,19 +8,13 @@ const history = createWebHistory()
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    // name: "home",
     component: Layout,
-    redirect: "/home",
+    redirect: "/property",
     children: [
-      {
-        path: "/home",
-        name: "home",
-        component: () => import("@/views/index.vue"),
-      },
       {
         path: "/property",
         name: "property",
-        component: () => import("@/views/index.vue"),
+        component: () => import("@/views/properties/properties.vue"),
       },
       {
         path: "/task",

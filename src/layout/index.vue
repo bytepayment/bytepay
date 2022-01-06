@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ArrowDownBold, CircleClose, Setting } from "@element-plus/icons-vue";
+import { ArrowDownBold, CircleClose, Setting } from '@element-plus/icons-vue'
 import { useStore } from 'vuex'
 import { computed, reactive } from 'vue'
 import Router from '../router'
@@ -27,7 +27,7 @@ const user = computed(() => {
   <!-- head bar-->
   <div>
     <el-row class="head-bar">
-      <el-col :span="2"></el-col>
+      <el-col :span="3"></el-col>
       <el-col :span="3" class="logo"> Here is logo </el-col>
       <!-- Menu -->
       <el-col :span="6" class="menu">
@@ -36,36 +36,42 @@ const user = computed(() => {
         <div @click="gotoHelp">Docs</div>
       </el-col>
       <!-- Empty -->
-      <el-col :span="7"></el-col>
+      <el-col :span="5"></el-col>
       <!-- Avata -->
       <el-col :span="4" class="avatar-container">
         <el-avatar :size="40" :src="user?.avatar_url"></el-avatar>
         <span class="username">
-            {{ user?.name || user?.login || ''}}
-          </span>
+          {{ user?.name || user?.login || '' }}
+        </span>
         <el-dropdown trigger="click">
-          <el-icon style="margin-left: 5px" color="white" size="16"><arrow-down-bold /></el-icon>
+          <el-icon style="margin-left: 5px" color="white" size="16"
+            ><arrow-down-bold
+          /></el-icon>
           <template #dropdown>
-            <el-dropdown-menu style="width:100px;">
+            <el-dropdown-menu style="width: 100px">
               <el-dropdown-item :icon="Setting">Settings</el-dropdown-item>
               <el-dropdown-item :icon="CircleClose">Logout</el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
       </el-col>
-      <el-col :span="2"></el-col>
+      <el-col :span="3"></el-col>
     </el-row>
-    <router-view />
+    <el-row>
+      <el-col :span="3"></el-col>
+      <el-col :span="18"><router-view /></el-col>
+      <el-col :span="3"></el-col>
+    </el-row>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .head-bar {
   height: 60px;
-  background: purple;
+  background: #6667ab;
   color: white;
   display: flex;
-  /* justify-content: center; */
+  justify-content: flex-start;
   align-items: center;
   .menu {
     display: flex;
@@ -75,6 +81,7 @@ const user = computed(() => {
   .avatar-container {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     .username {
       display: flex;
       margin-left: 10px;
