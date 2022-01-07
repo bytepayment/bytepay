@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
 import NProgress from "nprogress" // progress bar
 import "nprogress/nprogress.css" // progress bar style
-import { getToken } from "../utils/auth"
-import Layout from "../layout/index.vue"
+import { getToken } from "@/utils/auth"
+import Layout from "@/layout/index.vue"
 const history = createWebHistory()
 
 const routes: Array<RouteRecordRaw> = [
@@ -12,28 +12,33 @@ const routes: Array<RouteRecordRaw> = [
     redirect: "/property",
     children: [
       {
-        path: "/property",
+        path: "property",
         name: "property",
         component: () => import("@/views/properties/properties.vue"),
       },
       {
-        path: "/task",
+        path: "task",
         name: "task",
         component: () => import("@/views/task/index.vue"),
       },
       {
-        path: "/help",
+        path: "bind",
+        name: "bind",
+        component: () => import("@/views/task/bind.vue"),
+      },
+      {
+        path: "help",
         name: "help",
         component: () => import("@/views/help/index.vue"),
       },
       {
-        path: "/password",
+        path: "password",
         name: "password",
         component: () => import("@/views/user/password.vue"),
       },
       {
-        path: "/recv-address",
-        name: "recrAddress",
+        path: "recv-address",
+        name: "recvAddress",
         component: () => import("@/views/user/recv-address.vue"),
       },
     ],

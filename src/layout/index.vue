@@ -2,9 +2,10 @@
 import { ArrowDownBold, CircleClose, Setting } from '@element-plus/icons-vue'
 import { useStore } from 'vuex'
 import { computed, reactive } from 'vue'
-import Router from '../router'
+import { useRoute } from 'vue-router'
+import Router from '@/router'
 function gotoPage(url: string) {
-  Router.push(url)
+  Router.replace(url)
 }
 function gotoProperty() {
   gotoPage('/property')
@@ -20,6 +21,9 @@ const store = useStore()
 store.dispatch('get_user_info')
 const user = computed(() => {
   return store.state.user
+})
+const key = computed(() => {
+  return useRoute().path
 })
 </script>
 
@@ -59,7 +63,13 @@ const user = computed(() => {
     </el-row>
     <el-row>
       <el-col :span="3"></el-col>
-      <el-col :span="18"><router-view /></el-col>
+      <el-col :span="18">
+        <router-view v-slot="{ Component }">
+          <keep-alive>
+            <component :is="Component" />
+          </keep-alive>
+        </router-view>
+      </el-col>
       <el-col :span="3"></el-col>
     </el-row>
   </div>

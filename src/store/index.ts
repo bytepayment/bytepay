@@ -38,7 +38,7 @@ const store = createStore({
           // Loading should be closed asynchronously
           loadingInstance.close()
         })
-        Router.push("/home")
+        Router.push("/")
         console.log("Request complete", r)
       } catch (error) {
         ElMessage.error("Oops, get github token failed, please retry...")

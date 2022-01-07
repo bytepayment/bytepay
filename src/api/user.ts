@@ -1,10 +1,5 @@
 import { cloud } from "./cloud"
-import axios from "axios"
-
-const client_id = "8ab7f2f0d33da575a717"
-const client_secret = "5c5ab49116569b6830aa0ca80d0c1d9ceb90b83b"
-const tokenUrl = `https://github.com/login/oauth/access_token`
-const headers = { Accept: "application/json" }
+import { getToken } from "@/utils/auth"
 
 /**
  * code 换 token
@@ -22,6 +17,6 @@ export async function get_user_info(token: string) {
 /**
  * get repo info
  */
-export async function get_github_repos(token: string) {
-  return await cloud.invokeFunction("get_github_repos", { token })
+export async function get_github_repos() {
+  return await cloud.invokeFunction("get_github_repos", { token: getToken() })
 }
