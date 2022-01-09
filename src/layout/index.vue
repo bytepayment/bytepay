@@ -1,30 +1,30 @@
 <script lang="ts" setup>
-import { ArrowDownBold, CircleClose, Setting } from '@element-plus/icons-vue'
-import { useStore } from 'vuex'
-import { computed, reactive } from 'vue'
-import { useRoute } from 'vue-router'
-import Router from '@/router'
+import { ArrowDownBold, CircleClose, Setting } from "@element-plus/icons-vue";
+import { useStore } from "vuex";
+import { computed, reactive } from "vue";
+import { useRoute } from "vue-router";
+import Router from "@/router";
 function gotoPage(url: string) {
-  Router.replace(url)
+  Router.replace(url);
 }
 function gotoProperty() {
-  gotoPage('/property')
+  gotoPage("/property");
 }
 function gotoTask() {
-  gotoPage('/task')
+  gotoPage("/task");
 }
 function gotoHelp() {
-  gotoPage('/help')
+  gotoPage("/help");
 }
 
-const store = useStore()
-store.dispatch('get_user_info')
+const store = useStore();
+store.dispatch("get_user_info");
 const user = computed(() => {
-  return store.state.user
-})
+  return store.state.user;
+});
 const key = computed(() => {
-  return useRoute().path
-})
+  return useRoute().path;
+});
 </script>
 
 <template>
@@ -45,7 +45,7 @@ const key = computed(() => {
       <el-col :span="4" class="avatar-container">
         <el-avatar :size="40" :src="user?.avatar_url"></el-avatar>
         <span class="username">
-          {{ user?.name || user?.login || '' }}
+          {{ user?.name || user?.login || "" }}
         </span>
         <el-dropdown trigger="click">
           <el-icon style="margin-left: 5px" color="white" size="16"
@@ -64,11 +64,7 @@ const key = computed(() => {
     <el-row>
       <el-col :span="3"></el-col>
       <el-col :span="18">
-        <router-view v-slot="{ Component }">
-          <keep-alive>
-            <component :is="Component" />
-          </keep-alive>
-        </router-view>
+        <router-view />
       </el-col>
       <el-col :span="3"></el-col>
     </el-row>
