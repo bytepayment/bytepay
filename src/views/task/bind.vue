@@ -11,10 +11,7 @@ const repos: Ref<GithubRepo[]> = ref([]);
 const binded_repos: Ref<BindedGithubRepo[]> = ref([]);
 
 onBeforeMount(async () => {
-  const r = await get_github_repos();
-  // Filter repos that not owns to current login user
-  repos.value = r.filter((item: GithubRepo) => item.owner.id === user.id);
-  binded_repos.value = await get_binded_repos();
+  await initData();
 });
 async function bind_a_repo(repo: GithubRepo) {
   const r = await bind_repo(repo);
@@ -24,18 +21,26 @@ async function bind_a_repo(repo: GithubRepo) {
       message: r.error_msg,
     });
   }
-  return ElMessage({ type: "success", message: "Bind success" });
+  ElMessage({ type: "success", message: "Bind success" });
+  initData();
 }
+
 function if_binded(repo: GithubRepo) {
   console.log(binded_repos.value);
   for (let index = 0; index < binded_repos.value.length; index++) {
     const element = binded_repos.value[index];
-    console.log(element.repo_id, repo.id);
     if (repo.id === element.repo_id) {
       return true;
     }
   }
   return false;
+}
+
+async function initData() {
+  const r = await get_github_repos();
+  // Filter repos that not owns to current login user
+  repos.value = r.filter((item: GithubRepo) => item.owner.id === user.id);
+  binded_repos.value = await get_binded_repos();
 }
 </script>
 
