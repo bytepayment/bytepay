@@ -1,3 +1,5 @@
+import { GithubUser } from "@/entity"
+
 const kToken = "access_token"
 const kExpire = "token_expire"
 const kUser = "user"
@@ -29,7 +31,7 @@ export function removeToken() {
   return localStorage.removeItem(kToken)
 }
 
-export function getUser() {
+export function getUser() : GithubUser{
   return JSON.parse(localStorage.getItem(kUser) as any)
 }
 
