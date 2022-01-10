@@ -40,6 +40,7 @@ export async function bind_repo(repo: GithubRepo) {
     owner_id: user.id,
     repo_name: repo.name,
     repo_id: repo.id,
+    meta: repo,
   })
 }
 

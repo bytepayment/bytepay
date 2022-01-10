@@ -27,6 +27,7 @@ function copy_address(className: string) {
       type: 'success',
       message: 'Copied!',
     })
+    clipboard.destroy()
   })
   clipboard.on('error', (e) => {
     console.log(e)

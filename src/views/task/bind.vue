@@ -1,18 +1,18 @@
 <script lang="ts" setup>
-import { onBeforeMount, ref, Ref } from 'vue'
+import { onBeforeMount, ref, Ref, nextTick } from 'vue'
 import { useStore } from 'vuex'
+import { ElMessageBox, ElMessage, ElLoading } from 'element-plus'
+import { Link } from '@element-plus/icons-vue'
 import { GithubRepo, GithubUser, BindedGithubRepo } from '@/entity'
 import { get_github_repos, get_binded_repos, bind_repo } from '@/api/user'
-import { ElMessageBox, ElMessage } from 'element-plus'
-import { Link } from '@element-plus/icons-vue'
+import router from '@/router'
+// =============== Datas ===============
 const store = useStore()
 const user: GithubUser = store.state.user
 const repos: Ref<GithubRepo[]> = ref([])
 const binded_repos: Ref<BindedGithubRepo[]> = ref([])
 
-onBeforeMount(async () => {
-  await initData()
-})
+// =============== Functions ===============
 async function bind_a_repo(repo: GithubRepo) {
   const r = await bind_repo(repo)
   if (r.error !== 0) {
@@ -26,7 +26,6 @@ async function bind_a_repo(repo: GithubRepo) {
 }
 
 function if_binded(repo: GithubRepo) {
-  console.log(binded_repos.value)
   for (let index = 0; index < binded_repos.value.length; index++) {
     const element = binded_repos.value[index]
     if (repo.id === element.repo_id) {
@@ -42,6 +41,22 @@ async function initData() {
   repos.value = r.filter((item: GithubRepo) => item.owner.id === user.id)
   binded_repos.value = await get_binded_repos()
 }
+
+function GotoTaskPage() {
+  router.push({name: 'task'})
+}
+
+
+// =============== Hooks ===============
+onBeforeMount(async () => {
+  const loadingInstance = ElLoading.service({ fullscreen: true })
+  await initData()
+  nextTick(() => {
+          // Loading should be closed asynchronously
+          loadingInstance.close()
+        })
+})
+
 </script>
 
 <template>
@@ -73,7 +88,8 @@ async function initData() {
       </div>
     </el-card>
     <el-button class="skip-button" color="#626aef" size="large" :round="true"
-      >Skip First</el-button
+    @click="GotoTaskPage"
+      >Go Ahead</el-button
     >
   </div>
 </template>
