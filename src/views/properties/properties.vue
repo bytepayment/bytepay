@@ -1,14 +1,37 @@
 <script lang="ts" setup>
-import { ref } from "vue";
-import { DocumentCopy } from "@element-plus/icons-vue";
-const value2 = ref("");
-import { shortcuts } from "./constants";
-import remainUrl from "../../assets/jiaoyishuju.png";
-// import router from "../router";
-const remain = ref(10.5);
-const address = ref("asdfasdf");
-const freezeAmount = ref(10.5);
-const availableAmount = ref(0.0);
+import { onBeforeMount, ref, Ref } from 'vue'
+import { DocumentCopy } from '@element-plus/icons-vue'
+import { ElMessage } from 'element-plus'
+import Clipboard from 'clipboard'
+import QrcodeVue from 'qrcode.vue'
+import { shortcuts } from './constants'
+import remainUrl from '@/assets/jiaoyishuju.png'
+import { get_polkadot_keyring } from '@/api/user'
+const address = ref('')
+const centerDialogVisible = ref(false)
+const datatimeValue = ref('')
+const remain = ref(10.5)
+const freezeAmount = ref(10.5)
+const availableAmount = ref(0.0)
+onBeforeMount(async () => {
+  const r = await get_polkadot_keyring()
+  if (r.error !== 0) {
+  }
+  address.value = r.data.address
+})
+function copy_address(className: string) {
+  console.log('copy', address.value)
+  const clipboard = new Clipboard('.' + className)
+  clipboard.on('success', (e) => {
+    ElMessage({
+      type: 'success',
+      message: 'Copied!',
+    })
+  })
+  clipboard.on('error', (e) => {
+    console.log(e)
+  })
+}
 </script>
 
 <template>
@@ -18,7 +41,12 @@ const availableAmount = ref(0.0);
       <el-col :span="3"> My Accounts </el-col>
       <el-col :span="15"></el-col>
       <el-col :span="6" class="buttons">
-        <el-button color="#6667AB" style="color: white">Charge</el-button>
+        <el-button
+          color="#6667AB"
+          style="color: white"
+          @click="centerDialogVisible = true"
+          >Recharge</el-button
+        >
         <el-button>Withdraw</el-button>
       </el-col>
     </el-row>
@@ -34,9 +62,11 @@ const availableAmount = ref(0.0);
           <span> {{ remain }} DOT</span>
         </div>
         <div class="column-two">
-          <div class="address">
+          <div class="address" :data-clipboard-text="address">
             {{ address }}
-            <el-icon><document-copy /></el-icon>
+            <el-icon @click="copy_address('address')"
+              ><document-copy
+            /></el-icon>
           </div>
           <div class="detail">
             <span>Freeze:</span>
@@ -52,7 +82,7 @@ const availableAmount = ref(0.0);
       <el-col :span="4">Transaction Records</el-col>
       <el-col :span="4"
         ><el-date-picker
-          v-model="value2"
+          v-model="datatimeValue"
           type="datetimerange"
           :shortcuts="shortcuts"
           range-separator="To"
@@ -63,6 +93,27 @@ const availableAmount = ref(0.0);
     </el-row>
     <!-- Line 4 txs -->
     <el-card class="txs"></el-card>
+
+    <!-- QR Code -->
+    <el-dialog
+      v-model="centerDialogVisible"
+      title="Recharge"
+      width="50%"
+      center
+    >
+      <div class="recharge-dialog">
+        <qrcode-vue :value="address" :size="300" level="H" />
+      </div>
+
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="centerDialogVisible = false">Cancel</el-button>
+          <el-button type="primary" @click="centerDialogVisible = false"
+            >Confirm</el-button
+          >
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -110,6 +161,15 @@ const availableAmount = ref(0.0);
   .txs {
     margin-top: 15px;
     height: 40vh;
+  }
+  .recharge-dialog {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .address {
+      margin-top: 20px;
+    }
   }
 }
 </style>

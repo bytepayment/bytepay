@@ -26,7 +26,7 @@ export async function get_github_repos() {
  * get binded repo info
  */
 export async function get_binded_repos() {
-  return await cloud.invokeFunction("get_binded_repos", {id: getUser().id});
+  return await cloud.invokeFunction("get_binded_repos", { id: getUser().id })
 }
 
 /**
@@ -34,11 +34,21 @@ export async function get_binded_repos() {
  */
 export async function bind_repo(repo: GithubRepo) {
   const user = getUser()
-  return await cloud.invokeFunction('bind_github_repo', {
+  return await cloud.invokeFunction("bind_github_repo", {
     token: getToken(),
     owner_name: user.login,
     owner_id: user.id,
     repo_name: repo.name,
-    repo_id: repo.id
+    repo_id: repo.id,
+  })
+}
+
+/**
+ * Get polkdot keyring
+ */
+export async function get_polkadot_keyring() {
+  const user = getUser()
+  return await cloud.invokeFunction("get_polkdot_keyring", {
+    id: user.id,
   })
 }

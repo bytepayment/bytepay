@@ -1,46 +1,46 @@
 <script lang="ts" setup>
-import { GithubRepo, GithubUser, BindedGithubRepo } from "@/entity";
-import { get_github_repos, get_binded_repos, bind_repo } from "@/api/user";
-import { computed, onBeforeMount, ref, Ref } from "vue";
-import { Link } from "@element-plus/icons-vue";
-import { ElMessageBox, ElMessage } from "element-plus";
-import { useStore } from "vuex";
-const store = useStore();
-const user: GithubUser = store.state.user;
-const repos: Ref<GithubRepo[]> = ref([]);
-const binded_repos: Ref<BindedGithubRepo[]> = ref([]);
+import { onBeforeMount, ref, Ref } from 'vue'
+import { useStore } from 'vuex'
+import { GithubRepo, GithubUser, BindedGithubRepo } from '@/entity'
+import { get_github_repos, get_binded_repos, bind_repo } from '@/api/user'
+import { ElMessageBox, ElMessage } from 'element-plus'
+import { Link } from '@element-plus/icons-vue'
+const store = useStore()
+const user: GithubUser = store.state.user
+const repos: Ref<GithubRepo[]> = ref([])
+const binded_repos: Ref<BindedGithubRepo[]> = ref([])
 
 onBeforeMount(async () => {
-  await initData();
-});
+  await initData()
+})
 async function bind_a_repo(repo: GithubRepo) {
-  const r = await bind_repo(repo);
+  const r = await bind_repo(repo)
   if (r.error !== 0) {
     return ElMessageBox({
-      type: "error",
+      type: 'error',
       message: r.error_msg,
-    });
+    })
   }
-  ElMessage({ type: "success", message: "Bind success" });
-  initData();
+  ElMessage({ type: 'success', message: 'Bind success' })
+  initData()
 }
 
 function if_binded(repo: GithubRepo) {
-  console.log(binded_repos.value);
+  console.log(binded_repos.value)
   for (let index = 0; index < binded_repos.value.length; index++) {
-    const element = binded_repos.value[index];
+    const element = binded_repos.value[index]
     if (repo.id === element.repo_id) {
-      return true;
+      return true
     }
   }
-  return false;
+  return false
 }
 
 async function initData() {
-  const r = await get_github_repos();
+  const r = await get_github_repos()
   // Filter repos that not owns to current login user
-  repos.value = r.filter((item: GithubRepo) => item.owner.id === user.id);
-  binded_repos.value = await get_binded_repos();
+  repos.value = r.filter((item: GithubRepo) => item.owner.id === user.id)
+  binded_repos.value = await get_binded_repos()
 }
 </script>
 
@@ -57,11 +57,16 @@ async function initData() {
         <h2>{{ item.full_name }}</h2>
         <div v-if="if_binded(item)" class="button-group">
           <el-icon size="25" color="gray"><Link /></el-icon>
-          <el-button type="text" style="margin-left: 5px" disabled>Binded</el-button>
+          <el-button type="text" style="margin-left: 5px" disabled
+            >Binded</el-button
+          >
         </div>
         <div v-else class="button-group">
           <el-icon size="25" color="green"><Link /></el-icon>
-          <el-button type="text" style="margin-left: 5px" @click="bind_a_repo(item)"
+          <el-button
+            type="text"
+            style="margin-left: 5px"
+            @click="bind_a_repo(item)"
             >Bind</el-button
           >
         </div>
