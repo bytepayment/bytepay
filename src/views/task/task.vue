@@ -8,6 +8,12 @@ import Router from '@/router'
 const binded_repos: Ref<BindedGithubRepo[]> = ref([])
 const activeTabIndex = ref('0')
 const activeRepoIndex = ref('0')
+const taskStatus = ref('')
+const statusOptions = ref([
+  { label: 'online', value: 'online' },
+  { label: 'offline', value: 'offline' },
+  { label: 'complete', value: 'complete' },
+])
 // =============== Functions ===============
 function gotoBindPage() {
   Router.push({ name: 'bind' })
@@ -68,9 +74,23 @@ onBeforeMount(async () => {
     </el-col>
     <el-col :span="16">
       <div class="main-card-author" v-if="activeTabIndex === '0'">
-        <h2>Tasks</h2>
-        <h3>Status</h3>
-        <el-dropdown></el-dropdown>
+        <div class="menu-bar">
+          <div style="font-weight: 600;">Tasks</div>
+          <div style="margin-left: 20px;color:darkgray">Status</div>
+          <el-select
+            v-model="taskStatus"
+            placeholder="All"
+            size="small"
+            style="width: 150px;margin-left: 15px;"
+          >
+            <el-option
+              v-for="item in statusOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </div>
       </div>
       <div class="main-card-dev" v-else></div>
     </el-col>
@@ -90,13 +110,17 @@ onBeforeMount(async () => {
   .repo-list {
     .repo-list-item {
       height: 30px;
-      display: flex;
-      align-items: center;
+      @include flex-row-center;
     }
   }
 }
 .main-card-author {
-  margin-left: 20px;
+  margin: 85px 0 0 25px;
+  .menu-bar {
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+  }
 }
 .main-card-dev {
   margin-left: 20px;

@@ -12,4 +12,11 @@ export default defineConfig({
       "@": resolve("src"),
     },
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: '@import "./src/assets/styles/global.scss";',
+      },
+    },
+  },
 })
