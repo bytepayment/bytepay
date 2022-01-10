@@ -1,0 +1,1 @@
+{"name":"bind_github_repo","label":"Bind Github Repo","hash":"db013361cbd36ef0b770aa19076ab699","tags":["Github","Repo"],"description":"","enableHTTP":true,"status":1,"triggers":[],"debugParams":"{\"token\":\"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\",\"owner_name\":\"sulnong\",\"owner_id\":\"37979965\",\"repo_id\":\"130289677\",\"repo_name\":\"getVideos\"}","version":24}
