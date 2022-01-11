@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onBeforeMount, ref, Ref } from 'vue'
+import { onBeforeMount, ref, Ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { BindedGithubRepo, DotpayTask } from '@/entity'
 import { get_binded_repos, get_tasks } from '@/api/user'
@@ -40,8 +40,13 @@ onBeforeMount(async () => {
     gotoBindPage()
   }
   binded_repos.value = r
+  await onRepoChanged()
 })
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </script>
+onMounted(async () => {
+  console.log('mounted')
+
+})
+</script>
 
 <template>
   <el-row style="margin-top: 20px">
@@ -143,6 +148,7 @@ onBeforeMount(async () => {
     width: 100%;
   }
   .task-table {
+    margin-top: 20px;
   }
 }
 .main-card-dev {
