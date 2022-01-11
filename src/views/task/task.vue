@@ -1,19 +1,20 @@
 <script lang="ts" setup>
 import { onBeforeMount, ref, Ref } from 'vue'
 import { ElMessage } from 'element-plus'
-import { GithubRepo, GithubUser, BindedGithubRepo } from '@/entity'
-import { get_github_repos, get_binded_repos } from '@/api/user'
+import { BindedGithubRepo, DotpayTask } from '@/entity'
+import { get_binded_repos, get_tasks } from '@/api/user'
 import Router from '@/router'
 // =============== Datas ===============
 const binded_repos: Ref<BindedGithubRepo[]> = ref([])
 const activeTabIndex = ref('0')
-const activeRepoIndex = ref(0)
+const activeRepoIndex = ref(1)
 const taskStatus = ref('')
 const statusOptions = ref([
   { label: 'Created', value: 'created' },
   { label: 'Applied', value: 'applied' },
   { label: 'Completed', value: 'completed' },
 ])
+const authorTasks: Ref<DotpayTask[]> = ref([])
 // =============== Functions ===============
 function gotoBindPage() {
   Router.push({ name: 'bind' })
@@ -21,9 +22,12 @@ function gotoBindPage() {
 const handleClick = (tab: string, event: Event) => {
   console.log(activeTabIndex.value)
 }
-function onRepoChanged() {
+async function onRepoChanged() {
+  if (typeof activeRepoIndex.value !== 'number') {
+    return
+  }
   const selectedRepo = binded_repos.value[activeRepoIndex.value]
-  console.log('selectedRepo: ', selectedRepo)
+  authorTasks.value = await get_tasks(selectedRepo.repo_id)
 }
 // =============== Hooks ===============
 onBeforeMount(async () => {
@@ -37,7 +41,7 @@ onBeforeMount(async () => {
   }
   binded_repos.value = r
 })
-</script>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </script>
 
 <template>
   <el-row style="margin-top: 20px">
@@ -98,7 +102,15 @@ onBeforeMount(async () => {
             ></el-option>
           </el-select>
         </div>
-        <div class="task-table"></div>
+        <div class="task-table">
+          <el-table :data="authorTasks" stripe style="width: 100%">
+            <el-table-column prop="id" label="id" width="180" />
+            <el-table-column prop="pay" label="Price" width="180" />
+            <el-table-column prop="title" label="Title" />
+            <el-table-column prop="describe" label="Description" />
+            <el-table-column prop="task_url" label="Link" />
+          </el-table>
+        </div>
       </div>
       <div class="main-card-dev" v-else></div>
     </el-col>
@@ -114,11 +126,12 @@ onBeforeMount(async () => {
   }
   .tabs {
     margin-top: 15px;
+    height: 80vh;
   }
   .repo-list {
     .repo-list-item {
-      height: 30px;
       @include flex-row-center;
+      height: 30px;
     }
   }
 }
@@ -130,7 +143,6 @@ onBeforeMount(async () => {
     width: 100%;
   }
   .task-table {
-    border: 1px solid red;
   }
 }
 .main-card-dev {

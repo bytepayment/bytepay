@@ -53,3 +53,9 @@ export async function get_polkadot_keyring() {
     id: user.id,
   })
 }
+
+export async function get_tasks(repo_id: number) {
+  return await cloud.invokeFunction("get_tasks", {
+    repo_id,
+  })
+}

@@ -4,19 +4,7 @@ import { useStore } from "vuex"
 import { computed, reactive } from "vue"
 import { useRoute } from "vue-router"
 import Router from "@/router"
-function gotoPage(url: string) {
-  Router.replace(url)
-}
-function gotoProperty() {
-  gotoPage("/property")
-}
-function gotoTask() {
-  gotoPage("/task")
-}
-function gotoHelp() {
-  gotoPage("/docs/what-is-dotpay")
-}
-
+// =============== Datas ===============
 const store = useStore()
 store.dispatch("get_user_info")
 const user = computed(() => {
@@ -25,6 +13,13 @@ const user = computed(() => {
 const key = computed(() => {
   return useRoute().path
 })
+// =============== Functions ===============
+function gotoPage(url: string) {
+  Router.replace(url)
+}
+function logout() {
+  store.dispatch('logout')
+}
 </script>
 
 <template>
@@ -35,9 +30,9 @@ const key = computed(() => {
       <el-col :span="3" class="logo">Here is logo</el-col>
       <!-- Menu -->
       <el-col :span="6" class="menu">
-        <div @click="gotoProperty">My property</div>
-        <div @click="gotoTask">Task</div>
-        <div @click="gotoHelp">Docs</div>
+        <div @click="gotoPage('/property')">My property</div>
+        <div @click="gotoPage('/task')">Task</div>
+        <div @click="gotoPage('/docs/what-is-dotpay')">Docs</div>
       </el-col>
       <!-- Empty -->
       <el-col :span="5"></el-col>
@@ -51,8 +46,8 @@ const key = computed(() => {
           </el-icon>
           <template #dropdown>
             <el-dropdown-menu style="width: 100px">
-              <el-dropdown-item :icon="Setting">Settings</el-dropdown-item>
-              <el-dropdown-item :icon="CircleClose">Logout</el-dropdown-item>
+              <el-dropdown-item :icon="Setting" @click="gotoPage('/password')">Settings</el-dropdown-item>
+              <el-dropdown-item :icon="CircleClose" @click="logout()">Logout</el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>

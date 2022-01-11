@@ -31,7 +31,7 @@ export function removeToken() {
   return localStorage.removeItem(kToken)
 }
 
-export function getUser() : GithubUser{
+export function getUser(): GithubUser {
   return JSON.parse(localStorage.getItem(kUser) as any)
 }
 
