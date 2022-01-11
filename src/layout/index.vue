@@ -1,30 +1,30 @@
 <script lang="ts" setup>
-import { ArrowDownBold, CircleClose, Setting } from "@element-plus/icons-vue";
-import { useStore } from "vuex";
-import { computed, reactive } from "vue";
-import { useRoute } from "vue-router";
-import Router from "@/router";
+import { ArrowDownBold, CircleClose, Setting } from "@element-plus/icons-vue"
+import { useStore } from "vuex"
+import { computed, reactive } from "vue"
+import { useRoute } from "vue-router"
+import Router from "@/router"
 function gotoPage(url: string) {
-  Router.replace(url);
+  Router.replace(url)
 }
 function gotoProperty() {
-  gotoPage("/property");
+  gotoPage("/property")
 }
 function gotoTask() {
-  gotoPage("/task");
+  gotoPage("/task")
 }
 function gotoHelp() {
-  gotoPage("/help");
+  gotoPage("/docs/what-is-dot-pay")
 }
 
-const store = useStore();
-store.dispatch("get_user_info");
+const store = useStore()
+store.dispatch("get_user_info")
 const user = computed(() => {
-  return store.state.user;
-});
+  return store.state.user
+})
 const key = computed(() => {
-  return useRoute().path;
-});
+  return useRoute().path
+})
 </script>
 
 <template>
@@ -32,7 +32,7 @@ const key = computed(() => {
   <div>
     <el-row class="head-bar">
       <el-col :span="3"></el-col>
-      <el-col :span="3" class="logo"> Here is logo </el-col>
+      <el-col :span="3" class="logo">Here is logo</el-col>
       <!-- Menu -->
       <el-col :span="6" class="menu">
         <div @click="gotoProperty">My property</div>
@@ -44,13 +44,11 @@ const key = computed(() => {
       <!-- Avata -->
       <el-col :span="4" class="avatar-container">
         <el-avatar :size="40" :src="user?.avatar_url"></el-avatar>
-        <span class="username">
-          {{ user?.name || user?.login || "" }}
-        </span>
+        <span class="username">{{ user?.name || user?.login || "" }}</span>
         <el-dropdown trigger="click">
-          <el-icon style="margin-left: 5px" color="white" size="16"
-            ><arrow-down-bold
-          /></el-icon>
+          <el-icon style="margin-left: 5px" color="white" size="16">
+            <arrow-down-bold />
+          </el-icon>
           <template #dropdown>
             <el-dropdown-menu style="width: 100px">
               <el-dropdown-item :icon="Setting">Settings</el-dropdown-item>

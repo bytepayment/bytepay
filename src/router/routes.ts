@@ -35,12 +35,12 @@ export const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/task/bind.vue"),
       },
       {
-        path: "help",
-        name: "help",
+        path: "docs/:name",
+        name: "docs",
         meta: {
           title: "Docs",
         },
-        component: () => import("@/views/help/index.vue"),
+        component: () => import("@/views/docs/docs.vue"),
       },
       {
         path: "password",
