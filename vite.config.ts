@@ -9,7 +9,7 @@ function resolve(dir: string): string {
 export default defineConfig({
   plugins: [
     vue({
-      include: [/\.vue$/, /\.md$/], // <--
+      include: [/\.vue$/, /\.md$/],
     }),
     Markdown(),
   ],

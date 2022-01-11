@@ -14,7 +14,7 @@ function gotoTask() {
   gotoPage("/task")
 }
 function gotoHelp() {
-  gotoPage("/docs/what-is-dot-pay")
+  gotoPage("/docs/what-is-dotpay")
 }
 
 const store = useStore()

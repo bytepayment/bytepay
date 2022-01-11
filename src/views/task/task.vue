@@ -7,12 +7,12 @@ import Router from '@/router'
 // =============== Datas ===============
 const binded_repos: Ref<BindedGithubRepo[]> = ref([])
 const activeTabIndex = ref('0')
-const activeRepoIndex = ref('0')
+const activeRepoIndex = ref(0)
 const taskStatus = ref('')
 const statusOptions = ref([
-  { label: 'online', value: 'online' },
-  { label: 'offline', value: 'offline' },
-  { label: 'complete', value: 'complete' },
+  { label: 'Created', value: 'created' },
+  { label: 'Applied', value: 'applied' },
+  { label: 'Completed', value: 'completed' },
 ])
 // =============== Functions ===============
 function gotoBindPage() {
@@ -20,6 +20,10 @@ function gotoBindPage() {
 }
 const handleClick = (tab: string, event: Event) => {
   console.log(activeTabIndex.value)
+}
+function onRepoChanged() {
+  const selectedRepo = binded_repos.value[activeRepoIndex.value]
+  console.log('selectedRepo: ', selectedRepo)
 }
 // =============== Hooks ===============
 onBeforeMount(async () => {
@@ -49,7 +53,7 @@ onBeforeMount(async () => {
             @click="gotoBindPage"
           >Bind Repositories</el-button>
         </div>
-
+        <!-- Switch Author And Developer -->
         <el-tabs
           class="tabs"
           v-model="activeTabIndex"
@@ -57,21 +61,24 @@ onBeforeMount(async () => {
           type="border-card"
           @tab-click="handleClick"
         >
+          <!-- Author -->
           <el-tab-pane label="My Repo" class="repo-list">
-            <el-collapse v-model="activeRepoIndex" accordion>
+            <el-collapse v-model="activeRepoIndex" accordion @change="onRepoChanged()">
               <el-collapse-item
                 v-for="(item, index) in binded_repos"
                 :title="item.repo_name"
                 :name="index"
               >
-                <div>{{ item?.meta?.description || '' }}</div>
+                <div>{{ item?.meta?.description || 'Your repo have no description 😳 ' }}</div>
               </el-collapse-item>
             </el-collapse>
           </el-tab-pane>
+          <!-- Developer -->
           <el-tab-pane label="My Task">My Task</el-tab-pane>
         </el-tabs>
       </div>
     </el-col>
+    <!-- Content Area -->
     <el-col :span="16">
       <div class="main-card-author" v-if="activeTabIndex === '0'">
         <div class="menu-bar">
@@ -91,6 +98,7 @@ onBeforeMount(async () => {
             ></el-option>
           </el-select>
         </div>
+        <div class="task-table"></div>
       </div>
       <div class="main-card-dev" v-else></div>
     </el-col>
@@ -120,6 +128,9 @@ onBeforeMount(async () => {
     display: flex;
     align-items: flex-end;
     width: 100%;
+  }
+  .task-table {
+    border: 1px solid red;
   }
 }
 .main-card-dev {

@@ -4,7 +4,7 @@ import "nprogress/nprogress.css" // progress bar style
 import { getToken } from "@/utils/auth"
 import { routes, whiteList } from "./routes"
 const history = createWebHistory()
-
+const SiteName = "Dotpay"
 const router = createRouter({
   history,
   routes,
@@ -19,10 +19,10 @@ router.beforeEach(async (to, from, next) => {
     if (to.path === "/login") {
       // if is logged in, redirect to the home page
       next({ path: "/" })
-      document.title = ("Dot Pay - " + to.meta.title) as string
+      document.title = (SiteName + " - " + to.meta.title) as string
       NProgress.done() // hack: https://github.com/PanJiaChen/vue-element-admin/pull/2939
     } else {
-      document.title = ("Dot Pay - " + to.meta.title) as string
+      document.title = (SiteName + " - " + to.meta.title) as string
       next()
     }
   } else {
@@ -30,12 +30,12 @@ router.beforeEach(async (to, from, next) => {
     if (whiteList.indexOf(to.path) !== -1) {
       // console.log('token not found', to)
       // in the free login whitelist, go directly
-      document.title = ("Dot Pay - " + to.meta.title) as string
+      document.title = (SiteName + " - " + to.meta.title) as string
       next()
     } else {
       // other pages that do not have permission to access are redirected to the login page.
       next(`/login?redirect=${to.path}`)
-      document.title = "Dot Pay - " + "Login"
+      document.title = SiteName + " - " + "Login"
       NProgress.done()
     }
   }
