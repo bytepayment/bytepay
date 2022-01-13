@@ -7,6 +7,19 @@ export interface GithubUser {
   email: string
 }
 
+export interface CPIUser {
+  id: number
+  avatar_url: string
+  login: string
+  name: string
+  public_repos: number
+  email: string
+  polka: {
+    address: string
+    mnemonic: string
+  }
+  own_polka_address: string
+}
 export interface GithubRepo {
   id: number
   owner: GithubUser

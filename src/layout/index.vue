@@ -46,7 +46,7 @@ function logout() {
           </el-icon>
           <template #dropdown>
             <el-dropdown-menu style="width: 100px">
-              <el-dropdown-item :icon="Setting" @click="gotoPage('/password')">Settings</el-dropdown-item>
+              <el-dropdown-item :icon="Setting" @click="gotoPage('/settings/password')">Settings</el-dropdown-item>
               <el-dropdown-item :icon="CircleClose" @click="logout()">Logout</el-dropdown-item>
             </el-dropdown-menu>
           </template>

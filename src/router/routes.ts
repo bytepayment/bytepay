@@ -43,12 +43,12 @@ export const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/docs/docs.vue"),
       },
       {
-        path: "password",
-        name: "password",
+        path: "settings/:setting",
+        name: "settings",
         meta: {
-          title: "Password",
+          title: "Settings",
         },
-        component: () => import("@/views/user/password.vue"),
+        component: () => import("@/views/settings/settings.vue"),
       },
       {
         path: "recv-address",

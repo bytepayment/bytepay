@@ -2,7 +2,10 @@
 </script>
 
 <template>
-  <h1>password</h1>
+  <div>
+    <h1>Password</h1>
+    <el-divider></el-divider>
+  </div>
 </template>
 
 <style lang="scss" scoped>

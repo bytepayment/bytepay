@@ -6,9 +6,23 @@
 2) Then comment in specfied format like below:
 
 ```bash
-Dotpay: /pay number DOT
+Dotpay: /pay number DOT # eg. Dotpay: /pay 10 DOT
 ```
-eg: `Dotpay: /pay 10 DOT`
 
-3) After that, we will check your account balance, if your balance have more than the dot you would pay, we would create a task.
-4) Developer would see this task in `dotpay.com/tasks`
+1) After that, if following conditions are met, we would create a task.
+  - You are owner of the repository
+  - Your account balance is beyond than the number you want pay
+  - This issue has not been created task
+
+## 2. Apply A Task
+
+1) After the author publishes the task, the developer can apply for the task before no one accepts the task.
+2) Comment in specified format like below:
+
+```bash
+Dotpay: /apply task
+```
+
+## 3. Finsh A Task
+
+## 4. Pay For A Task

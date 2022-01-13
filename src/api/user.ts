@@ -3,7 +3,7 @@ import { getToken, getUser } from "@/utils/auth"
 import { cloud } from "./cloud"
 
 /**
- * code 换 token
+ * code exchange token
  */
 export async function get_access_token(code: string) {
   return await cloud.invokeFunction("get_github_token", { code })
@@ -54,14 +54,37 @@ export async function get_polkadot_keyring() {
   })
 }
 
+/**
+ * Get Author Tasks By Repo
+ * @param repo_id repo id
+ * @returns taska
+ */
 export async function get_tasks(repo_id: number) {
   return await cloud.invokeFunction("get_tasks", {
     repo_id,
   })
 }
 
+/**
+ * Get Developer Tasks
+ * @param dev_id developer id
+ * @returns developer tasks
+ */
 export async function get_dev_tasks(dev_id: number) {
   return await cloud.invokeFunction("get_dev_tasks", {
     dev_id,
+  })
+}
+
+/**
+ * Developer Bind His Own Polka Account
+ * @param address polka address
+ * @returns
+ */
+export async function bind_own_polka_address(address: string) {
+  const user = getUser()
+  return await cloud.invokeFunction("bind_polka_address", {
+    id: user.id,
+    address,
   })
 }

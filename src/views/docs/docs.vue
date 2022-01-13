@@ -4,10 +4,9 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import Router from '@/router'
 import mdMaps from './md-maps'
+// =============== Datas ===============
 const activeMD = ref('what-is-dotpay')
-onMounted(() => {
-  activeMD.value = useRoute().params.name as any
-})
+// =============== Functions ===============
 function setActiveMDName(name: string) {
   activeMD.value = name
   Router.push({ name: 'docs', params: { name } })
@@ -21,8 +20,10 @@ const handleOpen = (key: string, keyPath: string[]) => {
 const handleClose = (key: string, keyPath: string[]) => {
   // console.log(key, keyPath)
 }
-
-
+// =============== Hooks ===============
+onMounted(() => {
+  activeMD.value = useRoute().params.name as any
+})
 </script>
 
 <template>
@@ -61,7 +62,7 @@ const handleClose = (key: string, keyPath: string[]) => {
           </el-sub-menu>
         </el-menu>
       </el-col>
-      <el-col :span="2"></el-col>
+      <el-col :span="2" />
       <el-col :span="17" class="content-container">
         <component :is="getComponent()"></component>
       </el-col>
