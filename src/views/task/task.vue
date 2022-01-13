@@ -9,14 +9,17 @@ import Router from '@/router'
 const binded_repos: Ref<BindedGithubRepo[]> = ref([])
 const activeTabIndex = ref('0')
 const activeAuthorRepoIndex = ref(1)
-const taskStatus = ref('')
+const taskAuthorStatus = ref('')
 const statusOptions = ref([
   { label: 'Created', value: 'created' },
   { label: 'Applied', value: 'applied' },
   { label: 'Completed', value: 'completed' },
+  { label: 'Paid', value: 'paid' },
 ])
 const authorTasks: Ref<DotpayTask[]> = ref([])
 const authorTasksForTabel: Ref<DotpayTask[]> = ref([])
+const devTasks: Ref<DotpayTask[]> = ref([])
+const devTasksForTabel: Ref<DotpayTask[]> = ref([])
 // =============== Functions ===============
 function gotoBindPage() {
   Router.push({ name: 'bind' })
@@ -27,6 +30,11 @@ function gotoTaskUrl(url: string) {
 const handleClick = (tab: string, event: Event) => {
   console.log(activeTabIndex.value)
 }
+
+function onAuthorStatusChange(val: any) {
+  if (!val) return authorTasksForTabel.value = authorTasks.value
+  authorTasksForTabel.value = authorTasks.value.filter(i => i.status === val)
+}
 async function onAuthorRepoChanged() {
   if (typeof activeAuthorRepoIndex.value !== 'number') {
     return
@@ -34,10 +42,6 @@ async function onAuthorRepoChanged() {
   const selectedRepo = binded_repos.value[activeAuthorRepoIndex.value]
   authorTasks.value = await get_tasks(selectedRepo.repo_id)
   authorTasksForTabel.value = authorTasks.value
-}
-function onStatusChange(val: any) {
-  if (!val) return authorTasksForTabel.value = authorTasks.value
-  authorTasksForTabel.value = authorTasks.value.filter(i => i.status === val)
 }
 // =============== Hooks ===============
 onBeforeMount(async () => {
@@ -50,7 +54,9 @@ onBeforeMount(async () => {
     gotoBindPage()
   }
   binded_repos.value = r
+  // Get Author Tasks
   await onAuthorRepoChanged()
+  // Get Devloper Tasks
 })
 onMounted(async () => {
   console.log('mounted')
@@ -105,12 +111,12 @@ onMounted(async () => {
           <div style="font-weight: 600;">Tasks</div>
           <div style="margin-left: 20px;color:darkgray">Status</div>
           <el-select
-            v-model="taskStatus"
+            v-model="taskAuthorStatus"
             placeholder="All"
             size="small"
             style="width: 150px;margin-left: 15px;"
             clearable
-            @change="onStatusChange"
+            @change="onAuthorStatusChange"
           >
             <el-option
               v-for="item in statusOptions"
@@ -147,12 +153,12 @@ onMounted(async () => {
           <div style="font-weight: 600;">Tasks</div>
           <div style="margin-left: 20px;color:darkgray">Status</div>
           <el-select
-            v-model="taskStatus"
+            v-model="taskAuthorStatus"
             placeholder="All"
             size="small"
             style="width: 150px;margin-left: 15px;"
             clearable
-            @change="onStatusChange"
+            @change="onAuthorStatusChange"
           >
             <el-option
               v-for="item in statusOptions"
