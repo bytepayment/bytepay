@@ -59,3 +59,9 @@ export async function get_tasks(repo_id: number) {
     repo_id,
   })
 }
+
+export async function get_dev_tasks(dev_id: number) {
+  return await cloud.invokeFunction("get_dev_tasks", {
+    dev_id,
+  })
+}

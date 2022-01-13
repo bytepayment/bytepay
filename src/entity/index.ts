@@ -1,9 +1,10 @@
 export interface GithubUser {
-  id: string
+  id: number
   avatar_url: string
   login: string
   name: string
   public_repos: number
+  email: string
 }
 
 export interface GithubRepo {
@@ -27,13 +28,14 @@ export interface DotpayTask {
   issue_id: number
   title: string
   task_url: string
-  repo: string
+  repo_name: string
   repo_id: string
   repo_url: string
-  author: string
   pay: number
   describe: string
+  status: string
   createTime: string
   updataTime: string
-  status: string
+  author: GithubUser
+  developer: GithubUser
 }

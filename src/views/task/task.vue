@@ -1,19 +1,22 @@
 <script lang="ts" setup>
 import { onBeforeMount, ref, Ref, onMounted } from 'vue'
+import { useStore } from 'vuex'
 import { ElMessage } from 'element-plus'
 import { Link } from '@element-plus/icons-vue'
-import { BindedGithubRepo, DotpayTask } from '@/entity'
-import { get_binded_repos, get_tasks } from '@/api/user'
+import { BindedGithubRepo, DotpayTask, GithubUser } from '@/entity'
+import { get_binded_repos, get_tasks, get_dev_tasks } from '@/api/user'
 import Router from '@/router'
 // =============== Datas ===============
+const user: GithubUser = useStore().state.user
 const binded_repos: Ref<BindedGithubRepo[]> = ref([])
 const activeTabIndex = ref('0')
 const activeAuthorRepoIndex = ref(1)
 const taskAuthorStatus = ref('')
+const taskDevStatus = ref('')
 const statusOptions = ref([
   { label: 'Created', value: 'created' },
   { label: 'Applied', value: 'applied' },
-  { label: 'Completed', value: 'completed' },
+  { label: 'Finished', value: 'finished' },
   { label: 'Paid', value: 'paid' },
 ])
 const authorTasks: Ref<DotpayTask[]> = ref([])
@@ -27,14 +30,6 @@ function gotoBindPage() {
 function gotoTaskUrl(url: string) {
   window.open(url)
 }
-const handleClick = (tab: string, event: Event) => {
-  console.log(activeTabIndex.value)
-}
-
-function onAuthorStatusChange(val: any) {
-  if (!val) return authorTasksForTabel.value = authorTasks.value
-  authorTasksForTabel.value = authorTasks.value.filter(i => i.status === val)
-}
 async function onAuthorRepoChanged() {
   if (typeof activeAuthorRepoIndex.value !== 'number') {
     return
@@ -43,6 +38,15 @@ async function onAuthorRepoChanged() {
   authorTasks.value = await get_tasks(selectedRepo.repo_id)
   authorTasksForTabel.value = authorTasks.value
 }
+function onAuthorStatusChange(val: any) {
+  if (!val) return authorTasksForTabel.value = authorTasks.value
+  authorTasksForTabel.value = authorTasks.value.filter(i => i.status === val)
+}
+function onDevStatusChange(val: any) {
+  if (!val) return devTasksForTabel.value = devTasks.value
+  devTasksForTabel.value = devTasks.value.filter(i => i.status === val)
+}
+
 // =============== Hooks ===============
 onBeforeMount(async () => {
   const r = await get_binded_repos()
@@ -57,9 +61,8 @@ onBeforeMount(async () => {
   // Get Author Tasks
   await onAuthorRepoChanged()
   // Get Devloper Tasks
-})
-onMounted(async () => {
-  console.log('mounted')
+  devTasks.value = await get_dev_tasks(user.id)
+  devTasksForTabel.value = devTasks.value
 })
 </script>
 
@@ -78,13 +81,7 @@ onMounted(async () => {
           >Bind Repositories</el-button>
         </div>
         <!-- Switch Author And Developer -->
-        <el-tabs
-          class="tabs"
-          v-model="activeTabIndex"
-          :stretch="true"
-          type="border-card"
-          @tab-click="handleClick"
-        >
+        <el-tabs class="tabs" v-model="activeTabIndex" :stretch="true" type="border-card">
           <!-- Author -->
           <el-tab-pane label="My Repo" class="repo-list">
             <el-collapse v-model="activeAuthorRepoIndex" accordion @change="onAuthorRepoChanged()">
@@ -153,12 +150,12 @@ onMounted(async () => {
           <div style="font-weight: 600;">Tasks</div>
           <div style="margin-left: 20px;color:darkgray">Status</div>
           <el-select
-            v-model="taskAuthorStatus"
+            v-model="taskDevStatus"
             placeholder="All"
             size="small"
             style="width: 150px;margin-left: 15px;"
             clearable
-            @change="onAuthorStatusChange"
+            @change="onDevStatusChange"
           >
             <el-option
               v-for="item in statusOptions"
@@ -169,7 +166,7 @@ onMounted(async () => {
           </el-select>
         </div>
         <div class="task-table">
-          <el-table :data="authorTasksForTabel" stripe style="width: 100%">
+          <el-table :data="devTasksForTabel" stripe style="width: 100%">
             <el-table-column label="id" width="120">
               <template #default="scope">#{{ scope.row.issue_id }}</template>
             </el-table-column>
