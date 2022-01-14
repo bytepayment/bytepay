@@ -56,7 +56,7 @@ export const routes: Array<RouteRecordRaw> = [
         meta: {
           title: "Receive Address",
         },
-        component: () => import("@/views/user/recv-address.vue"),
+        component: () => import("@/views/settings/recv-address.vue"),
       },
     ],
   },

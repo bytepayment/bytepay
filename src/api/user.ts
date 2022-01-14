@@ -1,7 +1,9 @@
-import { GithubRepo } from "@/entity"
-import { getToken, getUser } from "@/utils/auth"
+import { GithubRepo } from '@/entity'
+import { getToken, getUser } from '@/utils/auth'
 import { cloud } from "./cloud"
-
+// ========================================================================================
+// ======================================== Github ========================================
+// ========================================================================================
 /**
  * code exchange token
  */
@@ -23,13 +25,6 @@ export async function get_github_repos() {
 }
 
 /**
- * get binded repo info
- */
-export async function get_binded_repos() {
-  return await cloud.invokeFunction("get_binded_repos", { id: getUser().id })
-}
-
-/**
  * bind a repo
  */
 export async function bind_repo(repo: GithubRepo) {
@@ -44,14 +39,15 @@ export async function bind_repo(repo: GithubRepo) {
   })
 }
 
+
+// ========================================================================================
+// ======================================== Dotpay ========================================
+// ========================================================================================
 /**
- * Get polkdot keyring
+ * get binded repo info
  */
-export async function get_polkadot_keyring() {
-  const user = getUser()
-  return await cloud.invokeFunction("get_polkdot_keyring", {
-    id: user.id,
-  })
+ export async function get_binded_repos() {
+  return await cloud.invokeFunction("get_binded_repos", { id: getUser().id })
 }
 
 /**
@@ -59,7 +55,7 @@ export async function get_polkadot_keyring() {
  * @param repo_id repo id
  * @returns taska
  */
-export async function get_tasks(repo_id: number) {
+ export async function get_tasks(repo_id: number) {
   return await cloud.invokeFunction("get_tasks", {
     repo_id,
   })
@@ -76,6 +72,20 @@ export async function get_dev_tasks(dev_id: number) {
   })
 }
 
+// ========================================================================================
+// ======================================== Polkadot ======================================
+// ========================================================================================
+
+/**
+ * Get polkdot keyring
+ */
+ export async function get_polkadot_keyring() {
+  const user = getUser()
+  return await cloud.invokeFunction("get_polkdot_keyring", {
+    id: user.id,
+  })
+}
+
 /**
  * Developer Bind His Own Polka Account
  * @param address polka address
@@ -86,5 +96,27 @@ export async function bind_own_polka_address(address: string) {
   return await cloud.invokeFunction("bind_polka_address", {
     id: user.id,
     address,
+  })
+}
+
+/**
+ * Get Polka Account Info
+ * @returns polka account balance
+ */
+export async function get_polka_account_info() {
+  const user = getUser()
+  return await cloud.invokeFunction('get_polkadot_account_info', {
+    id: user.id
+  })
+}
+
+/**
+ * Get Polka Transfer Record
+ * @returns polka account transfer record
+ */
+ export async function get_polkadot_tx_record() {
+  const user = getUser()
+  return await cloud.invokeFunction('get_polkadot_tx_record', {
+    id: user.id
   })
 }

@@ -1,17 +1,14 @@
 <script lang="ts" setup>
-import { reactive, onMounted } from 'vue'
-import { useStore } from 'vuex'
+import { reactive, onMounted, ref } from 'vue'
 import { ElMessage } from 'element-plus'
-import { bind_own_polka_address } from '@/api/user'
-import { CPIUser } from '@/entity'
-const user: CPIUser = useStore().state.user
+import { bind_own_polka_address, get_user_info } from '@/api/user'
+import { getToken } from '@/utils/auth'
 // =============== Datas ===============
-// =============== Functions ===============
-// =============== Hooks ===============
 const addressForm = reactive({
   address: ''
 })
-
+const own_address = ref('')
+// =============== Functions ===============
 async function bindAddress() {
   const r = await bind_own_polka_address(addressForm.address)
   if (r.error !== 0) {
@@ -19,6 +16,11 @@ async function bindAddress() {
   }
   ElMessage({ type: 'success', message: 'Bind Success', center: true, showClose: true })
 }
+// =============== Hooks ===============
+onMounted(async () => {
+  const userInfo = await get_user_info(getToken() as any)
+  own_address.value = userInfo.own_polka_address
+})
 </script>
 
 <template>
@@ -33,7 +35,12 @@ async function bindAddress() {
       <p>Also We support bind your own account here, after you finished task, author will pay into your own account directly.</p>
     </div>
     <el-divider />
-
+    <div v-if="own_address" class="own-address-container">
+      <span>
+        <strong>Your own address have alreay binded</strong>
+      </span>
+      <span class="address-text">{{ own_address }}</span>
+    </div>
     <div class="form-container">
       <el-form :inline="true" :model="addressForm" class="demo-form-inline">
         <el-form-item label="Polka Account:">
@@ -46,6 +53,12 @@ async function bindAddress() {
 </template>
 
 <style lang="scss" scoped>
+.own-address-container {
+  @include flex-column-center;
+  .address-text {
+    margin-top: 20px;
+  }
+}
 .form-container {
   margin-top: 50px;
   display: flex;
