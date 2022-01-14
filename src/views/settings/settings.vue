@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
+import Router from '@/router'
 const activeSetting = ref('password')
 import Password from './password.vue'
 import Address from './recv-address.vue'
@@ -20,6 +21,7 @@ function getComponent() {
 }
 function setActiveSetting(settingName: string) {
   activeSetting.value = settingName
+  Router.replace(`/settings/${settingName}`)
 }
 </script>
 

@@ -2,6 +2,8 @@
 
 import cloud from '@/cloud-sdk'
 import axios from 'axios'
+
+const CryptoPayLabUrl = 'https://crypto-pay-lab.io'
 // Declare Issue Data Type
 interface User {
   id: number
@@ -40,7 +42,7 @@ const CreateReg = new RegExp(/Dotpay:\s+\/pay\s+([0-9]\d*\.?\d*)\s+DOT/)
 const ApplyReg = new RegExp(/Dotpay:\s+\/apply task/)
 const FinishedReg = new RegExp(/Dotpay:\s+\/finish task/)
 const PaidReg = new RegExp(/Dotpay:\s+\/paid\s(.*)\s+([0-9]\d*\.?\d*)\s+DOT/)
-const BindReg = new RegExp(/Dotpay:\s+\/bind task/)
+const BindReg = new RegExp(/Dotpay:\s+\/bind (.*)/)
 const RobottToken = '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'
 const headers = { 'Accept': 'application/json', 'Authorization': `Bearer ${RobottToken}` }
 
@@ -69,9 +71,18 @@ async function CreateTask(collTask, issuePayload: Issue) {
   if (f.data) {
     return console.log('A Single Issue Can Create One Task Only.')
   }
-  // Add This Task Into Our Own Database
+  // Check if balance have enough amount - 检查账户余额是否充足
+  const balanceResult = await cloud.invoke('get_polkadot_account_info', { body: { id: sender.id } })
+  if (balanceResult.error !== 0) return console.log('Get Account Balance Error')
   const matchResult = issue_content.match(CreateReg)
   const dotNumber = parseFloat(matchResult[1])
+  if (balanceResult.data.free < dotNumber) {
+    // Robot 发布 comment
+    const comment_content = `**Dotpay: @${sender.login}'s polka account have only ${balanceResult.data.free} Dot, less than ${dotNumber} you want pay.**`
+    const r = await submitIssueComment(issue.user.login, repository.name, issue.number, comment_content)
+    return console.log('Account balance is not enough...')
+  }
+  // Add This Task Into Our Own Database
   const newTask = {
     issue_id: issue.id,
     issue_number: issue.number,
@@ -90,7 +101,7 @@ async function CreateTask(collTask, issuePayload: Issue) {
   // 更新数据库
   await collTask.add(newTask)
   // Robot 发布 comment
-  const comment_content = `**Dotpay: Finish This Task, ${sender.login} will pay you ${dotNumber} Dot.**`
+  const comment_content = `**Dotpay: Finish This Task, @${sender.login} will pay you ${dotNumber} Dot.**`
   const r = await submitIssueComment(issue.user.login, repository.name, issue.number, comment_content)
   console.log(r)
 }
@@ -105,8 +116,25 @@ async function ApplyTask(collTask, issuePayload: Issue) {
   // 更新数据库
   await collTask.where({ issue_id: issue.id }).update({ developer: sender, status: 'applied' })
   // Robot 发布 comment
-  const comment_content = `**Dotpay: Task has been assigned to ${sender.login}.**`
+  const comment_content = `**Dotpay: Task has been assigned to @${sender.login}.**`
   const r = await submitIssueComment(issue.user.login, repository.name, issue.number, comment_content)
+  // 检查开发者是否绑定账户，提醒他可以绑定自己的账户
+  const collUser = cloud.database().collection('user')
+  const fu = await collUser.where({ id: sender.id }).getOne()
+  if (!fu.data) { // 开发者未使用我们的平台
+    const comment_content = `
+    **Dotpay: @${sender.login} You can open ${CryptoPayLabUrl} to create your account or bind your own polka account in following Comment\r\n**
+    Dotpay: /bind address\r\n
+    eg. \`Dotpay: /bind 5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE\`
+    `
+    await submitIssueComment(issue.user.login, repository.name, issue.number, comment_content)
+  } else if (!fu.data.own_polka_address) { // 开发者未绑定自己的账户
+    const comment_content = `**Dotpay: you can use polka address we created by default or bind your own address on ${CryptoPayLabUrl}/settings/address.**`
+    await submitIssueComment(issue.user.login, repository.name, issue.number, comment_content)
+  } else {
+    // do nothing
+    console.log('not match')
+  }
 }
 
 async function FinishTask(collTask, issuePayload: Issue) {
@@ -185,7 +213,7 @@ exports.main = async function (ctx: FunctionContext) {
   const collHookPayload = db.collection('hook_payload')
   const issue_content = body.comment.body
   if (issue_content.match(CreateReg) || issue_content.match(ApplyReg) || issue_content.match(PaidReg) || issue_content.match(FinishedReg) || issue_content.match(BindReg)) {
-    collHookPayload.add({...body})
+    // collHookPayload.add({...body})
   }
 }
 
