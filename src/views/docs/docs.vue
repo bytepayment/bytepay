@@ -6,6 +6,7 @@ import Router from '@/router'
 import mdMaps from './md-maps'
 // =============== Datas ===============
 const activeMD = ref('what-is-dotpay')
+const defaultOpens = ref(['1', '2', '3', '4', '5'])
 // =============== Functions ===============
 function setActiveMDName(name: string) {
   activeMD.value = name
@@ -35,6 +36,7 @@ onMounted(() => {
           class="el-menu-vertical-demo"
           @open="handleOpen"
           @close="handleClose"
+          :default-openeds="defaultOpens"
         >
           <el-sub-menu index="1">
             <template #title>

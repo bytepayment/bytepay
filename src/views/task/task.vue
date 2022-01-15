@@ -25,7 +25,7 @@ const devTasks: Ref<DotpayTask[]> = ref([])
 const devTasksForTabel: Ref<DotpayTask[]> = ref([])
 // =============== Functions ===============
 function gotoBindPage() {
-  Router.push({ name: 'bind' })
+  Router.replace('/bind')
 }
 function gotoTaskUrl(url: string) {
   window.open(url)
@@ -64,7 +64,7 @@ onBeforeMount(async () => {
   devTasks.value = await get_dev_tasks(user.id)
   devTasksForTabel.value = devTasks.value
 })
-</script>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </script>
 
 <template>
   <el-row style="margin-top: 20px">
@@ -87,6 +87,7 @@ onBeforeMount(async () => {
             <el-collapse v-model="activeAuthorRepoIndex" accordion @change="onAuthorRepoChanged()">
               <el-collapse-item
                 v-for="(item, index) in binded_repos"
+                :key="index"
                 :title="item.repo_name"
                 :name="index"
               >

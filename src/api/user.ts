@@ -72,6 +72,14 @@ export async function get_dev_tasks(dev_id: number) {
   })
 }
 
+export async function set_password(password_form: object) {
+  const user = getUser()
+  return await cloud.invokeFunction('set_password', {
+    password_form,
+    id: user.id
+  })
+}
+
 // ========================================================================================
 // ======================================== Polkadot ======================================
 // ========================================================================================
