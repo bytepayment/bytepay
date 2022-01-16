@@ -7,6 +7,7 @@ import QrcodeVue from 'qrcode.vue'
 import { shortcuts } from './constants'
 import remainUrl from '@/assets/jiaoyishuju.png'
 import { get_polkadot_keyring, get_polka_account_info } from '@/api/user'
+import Router from '@/router'
 const address = ref('')
 const centerDialogVisible = ref(false)
 const datatimeValue = ref('')
@@ -26,7 +27,6 @@ onBeforeMount(async () => {
   // Get Polka Account Balance
   const ar = await get_polka_account_info()
   if (ar.error !== 0) return
-  console.log(ar)
   account.data = ar.data
 
 
@@ -45,6 +45,9 @@ function copy_address(className: string) {
     console.log(e)
   })
 }
+function gotoWithdraw() {
+  Router.push('/settings/withdraw')
+}
 </script>
 
 <template>
@@ -55,7 +58,7 @@ function copy_address(className: string) {
       <el-col :span="15"></el-col>
       <el-col :span="6" class="buttons">
         <el-button color="#6667AB" style="color: white" @click="centerDialogVisible = true">Recharge</el-button>
-        <el-button>Withdraw</el-button>
+        <el-button @click="gotoWithdraw">Withdraw</el-button>
       </el-col>
     </el-row>
     <!-- Line 2 remain card -->

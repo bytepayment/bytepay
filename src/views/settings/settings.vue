@@ -6,6 +6,7 @@ import Router from '@/router'
 const activeSetting = ref('password')
 import Password from './password.vue'
 import Address from './recv-address.vue'
+import Withdraw from './withdraw.vue'
 const user = useStore().state.user
 onMounted(() => {
   activeSetting.value = useRoute().params.setting as any
@@ -15,6 +16,8 @@ function getComponent() {
     return Password
   } else if (activeSetting.value === 'address') {
     return Address
+  } else if (activeSetting.value === 'withdraw') {
+    return Withdraw
   } else {
     console.log('not found')
   }
@@ -38,6 +41,7 @@ function setActiveSetting(settingName: string) {
       <div class="setting-list">
         <div class="setting-item" style="font-weight: 600;">Account Settings</div>
         <div class="setting-item" @click="setActiveSetting('password')">Password</div>
+        <div class="setting-item" @click="setActiveSetting('withdraw')">Withdraw</div>
         <div class="setting-item last-item" @click="setActiveSetting('address')">Polka Address</div>
       </div>
     </el-col>

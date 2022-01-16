@@ -127,4 +127,17 @@ export async function get_polka_account_info() {
   return await cloud.invokeFunction('get_polkadot_tx_record', {
     id: user.id
   })
+ }
+
+ /**
+  * Withdraw polka account, transfer dot actually
+  */
+export async function polkadot_withdraw(address: string, password: string, amount: number) {
+  const user = getUser()
+  return await cloud.invokeFunction('withdraw_polkadot', {
+    id: user.id,
+    address,
+    password,
+    amount
+  })
 }

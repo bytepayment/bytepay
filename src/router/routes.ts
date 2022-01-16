@@ -49,15 +49,7 @@ export const routes: Array<RouteRecordRaw> = [
           title: "Settings",
         },
         component: () => import("@/views/settings/settings.vue"),
-      },
-      {
-        path: "recv-address",
-        name: "recvAddress",
-        meta: {
-          title: "Receive Address",
-        },
-        component: () => import("@/views/settings/recv-address.vue"),
-      },
+      }
     ],
   },
   {

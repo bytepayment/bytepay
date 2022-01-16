@@ -7,7 +7,8 @@ import { set_password } from '@/api/user'
 import type { ElForm } from 'element-plus'
 
 // =============== Datas ===============
-const user = useStore().state.user
+const store = useStore()
+const user = store.state.user
 const ruleFormRef = ref<InstanceType<typeof ElForm>>()
 const ifSetPass = computed(() => {
   return user.isSetPass
@@ -19,7 +20,7 @@ const passwordForm = reactive({
 })
 const rules = reactive({
   new_pass: [{ type: 'string', required: true, trigger: 'blur', message: 'Please input new password' }, { min: 6, max: 16, message: 'length should be 6 to 16.' }],
-  new_pass_again: [{ validator: validatePass2, trigger: 'blur' }],
+  new_pass_again: [{ validator: validatePass2, trigger: 'blur', required: true }],
 })
 // =============== Functions ===============
 async function setPassword() {
@@ -30,8 +31,9 @@ async function setPassword() {
   }
   if (passwordForm.old_pass) data['old_pass'] = Md5.hashStr(passwordForm.old_pass)
   console.log('set password: ', data)
-  const r = await set_password(passwordForm)
+  const r = await set_password(data)
   if (r.error !== 0) return ElMessage({ type: 'error', message: r.error_msg })
+  await store.dispatch('get_user_info')
   ElMessage({ type: 'success', message: r.error_msg || 'success' })
 }
 function validatePass2(rule: any, value: any, callback: any) {
@@ -52,7 +54,7 @@ function validatePass2(rule: any, value: any, callback: any) {
     <el-divider></el-divider>
     <div class="form-container">
       <el-form :model="passwordForm" class="demo-form-inline" :rules="rules" ref="ruleFormRef">
-        <el-form-item v-if="ifSetPass" label="Old Password:" label-width="150px" prop="old_pass">
+        <el-form-item v-if="ifSetPass" label="Old Password:" label-width="180px" prop="old_pass">
           <el-input
             v-model="passwordForm.old_pass"
             clearable
@@ -60,7 +62,7 @@ function validatePass2(rule: any, value: any, callback: any) {
             style="width: 500px;"
           />
         </el-form-item>
-        <el-form-item label="New Password:" label-width="150px" prop="new_pass">
+        <el-form-item label="New Password:" label-width="180px" prop="new_pass">
           <el-input
             v-model="passwordForm.new_pass"
             clearable
@@ -68,7 +70,7 @@ function validatePass2(rule: any, value: any, callback: any) {
             style="width: 500px;"
           />
         </el-form-item>
-        <el-form-item label="New Password:" label-width="150px" prop="new_pass_again">
+        <el-form-item label="Confirm New Password:" label-width="180px" prop="new_pass_again">
           <el-input
             v-model="passwordForm.new_pass_again"
             clearable
@@ -77,7 +79,7 @@ function validatePass2(rule: any, value: any, callback: any) {
           />
         </el-form-item>
       </el-form>
-      <el-button type="primary" class="bind-btn" @click="setPassword">Bind</el-button>
+      <el-button type="primary" class="bind-btn" @click="setPassword">Set Password</el-button>
     </div>
   </div>
 </template>
