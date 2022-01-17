@@ -3,14 +3,18 @@ import { onBeforeMount, ref, reactive } from 'vue'
 import { DocumentCopy } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import Clipboard from 'clipboard'
+import moment from 'moment'
 import QrcodeVue from 'qrcode.vue'
 import { shortcuts } from './constants'
 import remainUrl from '@/assets/jiaoyishuju.png'
-import { get_polkadot_keyring, get_polka_account_info } from '@/api/user'
+import { get_polkadot_keyring, get_polka_account_info, get_polkadot_tx_record } from '@/api/user'
 import Router from '@/router'
+const subscanBaseUrl = 'https://westend.subscan.io/account/'
 const address = ref('')
 const centerDialogVisible = ref(false)
 const datatimeValue = ref('')
+const txs = ref([])
+const txsCount = ref(0)
 const account = reactive({
   data: {
     free: 0.0,
@@ -28,8 +32,13 @@ onBeforeMount(async () => {
   const ar = await get_polka_account_info()
   if (ar.error !== 0) return
   account.data = ar.data
-
-
+  // Get Polka Account Transfers
+  const transferResult = await get_polkadot_tx_record()
+  if (transferResult.error !== 0) {
+    ElMessage({ type: 'error', message: transferResult.error_msg })
+  }
+  txs.value = transferResult.data.transfers
+  txsCount.value = transferResult.data.count
 })
 function copy_address(className: string) {
   console.log('copy', address.value)
@@ -47,6 +56,9 @@ function copy_address(className: string) {
 }
 function gotoWithdraw() {
   Router.push('/settings/withdraw')
+}
+function addressFormat(address: string) {
+  return address.substring(0, 5) + '...' + address.substring(address.length - 5, address.length)
 }
 </script>
 
@@ -94,19 +106,45 @@ function gotoWithdraw() {
     <el-row class="txs-text">
       <el-col :span="4">Transaction Records</el-col>
       <el-col :span="4">
-        <el-date-picker
+        <!-- <el-date-picker
           v-model="datatimeValue"
           type="datetimerange"
           :shortcuts="shortcuts"
           range-separator="To"
           start-placeholder="Start date"
           end-placeholder="End date"
-        />
+        />-->
       </el-col>
       <el-col :span="16"></el-col>
     </el-row>
     <!-- Line 4 txs -->
-    <el-card class="txs"></el-card>
+    <el-card class="txs">
+      <el-table :data="txs" stripe style="width: 100%" height="450">
+        <el-table-column prop="extrinsic_index" label="Extrinsic Index" width="150" />
+        <el-table-column prop="block_num" label="Block" width="120" />
+        <el-table-column prop="block_timestamp" label="Time" width="140">
+          <template #default="scope">{{ moment.unix(scope.row.block_timestamp).fromNow() }}</template>
+        </el-table-column>
+        <el-table-column label="From">
+          <template #default="scope">
+            <el-button type="text">{{ addressFormat(scope.row.from) }}</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column label="To">
+          <template #default="scope">
+            <el-button type="text">{{ addressFormat(scope.row.to) }}</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column label="Amount" width="120">
+          <template #default="scope">{{ scope.row.amount }} DOT</template>
+        </el-table-column>
+        <el-table-column label="Hash">
+          <template #default="scope">
+            <el-button type="text">{{ addressFormat(scope.row.hash) }}</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-card>
 
     <!-- QR Code -->
     <el-dialog v-model="centerDialogVisible" title="Recharge" width="50%" center>
@@ -167,7 +205,11 @@ function gotoWithdraw() {
   }
   .txs {
     margin-top: 15px;
-    height: 40vh;
+    .hash {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
   .recharge-dialog {
     display: flex;

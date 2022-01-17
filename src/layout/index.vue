@@ -30,9 +30,9 @@ function logout() {
       <el-col :span="3" class="logo">Here is logo</el-col>
       <!-- Menu -->
       <el-col :span="6" class="menu">
-        <div @click="gotoPage('/property')">My property</div>
-        <div @click="gotoPage('/task')">Task</div>
-        <div @click="gotoPage('/docs/what-is-dotpay')">Docs</div>
+        <div class="menu-item" @click="gotoPage('/property')">My property</div>
+        <div class="menu-item" @click="gotoPage('/task')">Task</div>
+        <div class="menu-item" @click="gotoPage('/docs/what-is-dotpay')">Docs</div>
       </el-col>
       <!-- Empty -->
       <el-col :span="5"></el-col>
@@ -76,6 +76,9 @@ function logout() {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    .menu-item:hover {
+      cursor: pointer;
+    }
   }
   .avatar-container {
     display: flex;
