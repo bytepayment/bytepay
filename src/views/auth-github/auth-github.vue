@@ -20,6 +20,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import { ElLoading, ElMessage } from "element-plus"
 import logoUrl from '@/assets/GitHub.png'
+const client_id = import.meta.env.VITE_GITHUB_OAUTH_CLIENT_ID
 const Router = useRouter()
 const store = useStore()
 // check if redirect back
@@ -46,7 +47,7 @@ onMounted(async () => {
 
 // oauth github
 const authUrl =
-  'https://github.com/login/oauth/authorize?client_id=8ab7f2f0d33da575a717&scope=user,public_repo'
+  `https://github.com/login/oauth/authorize?client_id=${client_id}&scope=user,public_repo`
 function authGithub() {
   window.location.href = authUrl
 }

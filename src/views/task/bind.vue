@@ -4,7 +4,7 @@ import { useStore } from 'vuex'
 import { ElMessageBox, ElMessage, ElLoading } from 'element-plus'
 import { Link } from '@element-plus/icons-vue'
 import { GithubRepo, GithubUser, BindedGithubRepo } from '@/entity'
-import { get_github_repos, get_binded_repos, bind_repo } from '@/api/user'
+import { get_github_repos, get_binded_repos, bind_repo, unbind_repo } from '@/api/user'
 import router from '@/router'
 // =============== Datas ===============
 const store = useStore()
@@ -22,6 +22,18 @@ async function bind_a_repo(repo: GithubRepo) {
     })
   }
   ElMessage({ type: 'success', message: 'Bind success' })
+  initData()
+}
+
+async function unbind_a_repo(repo: GithubRepo) {
+  const r = await unbind_repo(repo)
+  if (r.error !== 0) {
+    return ElMessageBox({
+      type: 'error',
+      message: r.error_msg,
+    })
+  }
+  ElMessage({ type: 'success', message: 'Unbind success' })
   initData()
 }
 
@@ -43,7 +55,7 @@ async function initData() {
 }
 
 function GotoTaskPage() {
-  router.push({name: 'task'})
+  router.push({ name: 'task' })
 }
 
 
@@ -52,9 +64,9 @@ onBeforeMount(async () => {
   const loadingInstance = ElLoading.service({ fullscreen: true })
   await initData()
   nextTick(() => {
-          // Loading should be closed asynchronously
-          loadingInstance.close()
-        })
+    // Loading should be closed asynchronously
+    loadingInstance.close()
+  })
 })
 
 </script>
@@ -62,35 +74,34 @@ onBeforeMount(async () => {
 <template>
   <div class="main">
     <h1>repoistories</h1>
-    <el-card
-      v-for="(item, index) in repos"
-      :key="index"
-      shadow="always"
-      style="margin-top: 20px"
-    >
+    <el-card v-for="(item, index) in repos" :key="index" shadow="always" style="margin-top: 20px">
       <div class="repo-card">
         <h2>{{ item.full_name }}</h2>
         <div v-if="if_binded(item)" class="button-group">
-          <el-icon size="25" color="gray"><Link /></el-icon>
-          <el-button type="text" style="margin-left: 5px" disabled
-            >Binded</el-button
-          >
+          <!-- <el-icon size="25" color="gray">
+            <Link />
+          </el-icon>
+          <el-button type="text" style="margin-left: 5px" disabled>Binded</el-button>-->
+          <el-button type="danger" @click="unbind_a_repo(item)">Unbind</el-button>
+          <el-button type="success" disabled>Binded</el-button>
         </div>
         <div v-else class="button-group">
-          <el-icon size="25" color="green"><Link /></el-icon>
-          <el-button
-            type="text"
-            style="margin-left: 5px"
-            @click="bind_a_repo(item)"
-            >Bind</el-button
-          >
+          <!-- <el-icon size="25" color="green">
+            <Link />
+          </el-icon>
+          <el-button type="text" style="margin-left: 5px" @click="bind_a_repo(item)">Bind</el-button>-->
+          <el-button type="danger" disabled>Unbind</el-button>
+          <el-button type="success" @click="bind_a_repo(item)">Binded</el-button>
         </div>
       </div>
     </el-card>
-    <el-button class="skip-button" color="#626aef" size="large" :round="true"
-    @click="GotoTaskPage"
-      >Go Ahead</el-button
-    >
+    <el-button
+      class="skip-button"
+      color="#626aef"
+      size="large"
+      :round="true"
+      @click="GotoTaskPage"
+    >Go Ahead</el-button>
   </div>
 </template>
 

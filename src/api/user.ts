@@ -39,6 +39,16 @@ export async function bind_repo(repo: GithubRepo) {
   })
 }
 
+/**
+ * unbind a repo
+ * @returns
+ */
+export async function unbind_repo(repo: GithubRepo) {
+  return await cloud.invokeFunction("unbind_github_repo", {
+    token: getToken(),
+    repo_id: repo.id
+  })
+}
 
 // ========================================================================================
 // ======================================== Dotpay ========================================

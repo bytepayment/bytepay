@@ -16,6 +16,7 @@ declare module "*.md" {
 
 interface ImportMetaEnv {
   readonly VITE_API_BASE_URL: string
+  readonly VITE_GITHUB_OAUTH_CLIENT_ID: string
   // more environment var...
 }
 
