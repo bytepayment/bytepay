@@ -24,5 +24,16 @@ Dotpay: /apply task
 ```
 
 ## 3. Finsh A Task
+```bash
+Dotpay: /finish task
+```
 
 ## 4. Pay For A Task
+```bash
+Dotpay: /paid task
+```
+
+## 5. Bind Address
+```bash
+Dotpay: /bind 5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE
+```

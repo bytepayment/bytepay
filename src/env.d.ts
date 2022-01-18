@@ -13,3 +13,12 @@ declare module "*.md" {
   const component: DefineComponent<{}, {}, any>
   export default component
 }
+
+interface ImportMetaEnv {
+  readonly VITE_API_BASE_URL: string
+  // more environment var...
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv
+}
