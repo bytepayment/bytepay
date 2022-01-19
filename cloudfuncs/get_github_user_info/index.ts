@@ -20,10 +20,13 @@ exports.main = async function (ctx: FunctionContext) {
   const userColl = cloud.database().collection('user')
   const f = await userColl.where({ id: r.data.id }).getOne()
   if (!f.data) {
-    userColl.add({token, ...r.data})
+    await userColl.add({ token, ...r.data, isSetPass: false })
+    return { token, ...r.data, isSetPass: false }
   } else {
     console.log('update user info')
-    userColl.where({ id: r.data.id }).update({token})
+    await userColl.where({ id: r.data.id }).update({ token, ...r.data })
+    if (f.data.polka) f.data.polka.mnemonic = null;
+    if (f.data.password) f.data.password = null;
+    return { ...f.data }
   }
-  return r.data
 }

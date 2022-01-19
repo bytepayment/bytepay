@@ -1,0 +1,1 @@
+{"name":"get_polkadot_account_info","label":"获取Polka账户信息","hash":"75c0c0921bd98e75b167d6d92efd826e","tags":["Polkadot"],"description":"","enableHTTP":true,"status":1,"triggers":[],"debugParams":"{\"id\":37979965}","version":22}

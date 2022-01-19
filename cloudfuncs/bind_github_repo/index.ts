@@ -3,6 +3,9 @@
 import cloud from '@/cloud-sdk'
 import axios from 'axios'
 
+const Config = cloud.shared.get('config')
+const BindRepoWebhooksUrl = Config.BindRepoWebhooksUrl
+
 // Bind a repo, means add a webhook
 exports.main = async function (ctx: FunctionContext) {
   // body, query 为请求参数, auth 是授权对象
@@ -12,7 +15,7 @@ exports.main = async function (ctx: FunctionContext) {
   // Construct Add Webhook Body
   const data = {
     config: {
-      url: 'https://6119a1ac-1e79-4449-8665-f4f7d3066a5a.lafyun.com/func/webhooks',
+      url: BindRepoWebhooksUrl,
       content_type: 'json'
     },
     events: ['issues', 'issue_comment']
@@ -36,7 +39,7 @@ exports.main = async function (ctx: FunctionContext) {
     }
     // Add into our own database
     const addData = {
-      owner_id, repo_id, owner_name, repo_name, meta
+      owner_id, repo_id, owner_name, repo_name, meta, hook_id: r.data.id
     }
     await col.add(addData)
     return { error: 0, data: r.data }

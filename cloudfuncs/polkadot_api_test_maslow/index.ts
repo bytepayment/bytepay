@@ -4,7 +4,7 @@ import cloud from '@/cloud-sdk'
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { Keyring } from '@polkadot/keyring'
 
-const SUNLONG = '5G6DLm6e6Np4x9WuDdNuozbcdtFHQyBxhcU7C1dUgZFVzhZk';
+const SUNLONG = '5GbNZj4ntEt25oMrZTfpXHfwVQhvJmb8vBX33mj7L7v7P3EK';
 
 const mnemonic = 'flavor gallery bean admit envelope aim mosquito prison state reform observe help'
 
@@ -12,12 +12,12 @@ export async function main (ctx: FunctionContext) {
 
   const api = await createPolkApi()
 
-  const amount = 10000 * 10000 * 10000 * 0.1
+  const amount = 10000 * 10000 * 10000 * 4
 
   // Constuct the keyring after the API (crypto has an async init)
   const keyring = new Keyring({ type: 'sr25519' });
   const pair = keyring.createFromUri(mnemonic);
-  console.log(pair)
+  console.log('pair', pair)
   // Sign and Send the transaction
   const hash = await api.tx.balances
     .transfer(SUNLONG, amount)

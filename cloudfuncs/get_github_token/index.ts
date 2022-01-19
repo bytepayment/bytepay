@@ -2,8 +2,11 @@
 import cloud from '@/cloud-sdk'
 import axios from 'axios'
 
-const client_id = '8ab7f2f0d33da575a717'
-const client_secret = '5c5ab49116569b6830aa0ca80d0c1d9ceb90b83b'
+const Config = cloud.shared.get('config')
+
+const client_id = Config.OauthAppId
+const client_secret = Config.OauthAppSecret
+
 const tokenUrl = `https://github.com/login/oauth/access_token`
 const headers = { 'Accept': 'application/json' }
 

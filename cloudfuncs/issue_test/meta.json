@@ -1,1 +1,1 @@
-{"name":"issue_test","label":"Issue Test","hash":"557cf05419f30d5a0c1bae67a696cb79","tags":["test"],"description":"","enableHTTP":true,"status":1,"triggers":[],"version":1}
+{"name":"issue_test","label":"Issue Test","hash":"684c6bdf34543b0e66380f1febf7ec44","tags":["test"],"description":"","enableHTTP":true,"status":1,"triggers":[],"debugParams":"{\n  \"code\": \"laf\"\n}","version":7}

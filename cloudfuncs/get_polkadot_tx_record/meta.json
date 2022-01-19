@@ -1,0 +1,1 @@
+{"name":"get_polkadot_tx_record","label":"获取交易记录","hash":"48d4827636c8b69d2426cea19bdd7c7d","tags":["Polkadot"],"description":"","enableHTTP":true,"status":1,"triggers":[],"debugParams":"{\"id\":37979965}","version":32}
