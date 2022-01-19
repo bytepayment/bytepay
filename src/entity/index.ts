@@ -27,6 +27,7 @@ export interface GithubRepo {
   full_name: string
   description: string
   isBinded: boolean
+  loading: boolean
 }
 
 export interface BindedGithubRepo {

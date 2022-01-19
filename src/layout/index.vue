@@ -4,6 +4,7 @@ import { useStore } from "vuex"
 import { computed, reactive } from "vue"
 import { useRoute } from "vue-router"
 import Router from "@/router"
+import LogoUrl from '@/assets/logo.png'
 // =============== Datas ===============
 const store = useStore()
 store.dispatch("get_user_info")
@@ -26,8 +27,11 @@ function logout() {
   <!-- head bar-->
   <div>
     <el-row class="head-bar">
-      <el-col :span="3"></el-col>
-      <el-col :span="3" class="logo">Here is logo</el-col>
+      <el-col :span="2"></el-col>
+      <el-col :span="4" class="logo">
+        <el-image style="width:50px;height:50px;" fit="fill" :src="LogoUrl"></el-image>
+        <span class="text">Bytepay</span>
+      </el-col>
       <!-- Menu -->
       <el-col :span="6" class="menu">
         <div class="menu-item" @click="gotoPage('/property')">My property</div>
@@ -72,6 +76,16 @@ function logout() {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  .logo {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    .text {
+      color: white;
+      display: flex;
+      align-items: center;
+    }
+  }
   .menu {
     display: flex;
     justify-content: space-around;

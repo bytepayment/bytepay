@@ -22,7 +22,6 @@ async function bind_a_repo(repo: GithubRepo) {
     })
   }
   ElMessage({ type: 'success', message: 'Bind success' })
-  initData()
 }
 
 async function unbind_a_repo(repo: GithubRepo) {
@@ -34,7 +33,6 @@ async function unbind_a_repo(repo: GithubRepo) {
     })
   }
   ElMessage({ type: 'success', message: 'Unbind success' })
-  initData()
 }
 
 function if_binded(repo: GithubRepo) {
@@ -48,25 +46,39 @@ function if_binded(repo: GithubRepo) {
 }
 
 async function initData() {
+  const loadingInstance = ElLoading.service({ fullscreen: true })
   const r = await get_github_repos()
-  // Filter repos that not owns to current login user
-  repos.value = r.filter((item: GithubRepo) => item.owner.id === user.id)
   binded_repos.value = await get_binded_repos()
+  // Filter repos that not owns to current login user
+  r.forEach((element: GithubRepo) => {
+    element.isBinded = if_binded(element)
+    element.loading = false
+  })
+  repos.value = r.filter((item: GithubRepo) => item.owner.id === user.id)
+  nextTick(() => {
+    // Loading should be closed asynchronously
+    loadingInstance.close()
+  })
 }
 
 function GotoTaskPage() {
   router.push({ name: 'task' })
 }
 
+async function onChangeBindStatus(item: GithubRepo) {
+  item.loading = true
+  if (item.isBinded) {
+    await bind_a_repo(item)
+    return item.loading = false
+  }
+  await unbind_a_repo(item)
+  item.loading = false
+}
+
 
 // =============== Hooks ===============
 onBeforeMount(async () => {
-  const loadingInstance = ElLoading.service({ fullscreen: true })
   await initData()
-  nextTick(() => {
-    // Loading should be closed asynchronously
-    loadingInstance.close()
-  })
 })
 
 </script>
@@ -75,24 +87,23 @@ onBeforeMount(async () => {
   <div class="main">
     <h1>repoistories</h1>
     <el-card v-for="(item, index) in repos" :key="index" shadow="always" style="margin-top: 20px">
-      <div class="repo-card">
+      <div class="repo-card" v-if="repos">
         <h2>{{ item.full_name }}</h2>
-        <div v-if="if_binded(item)" class="button-group">
-          <!-- <el-icon size="25" color="gray">
-            <Link />
-          </el-icon>
-          <el-button type="text" style="margin-left: 5px" disabled>Binded</el-button>-->
-          <el-button type="danger" @click="unbind_a_repo(item)">Unbind</el-button>
-          <el-button type="success" disabled>Binded</el-button>
-        </div>
-        <div v-else class="button-group">
-          <!-- <el-icon size="25" color="green">
-            <Link />
-          </el-icon>
-          <el-button type="text" style="margin-left: 5px" @click="bind_a_repo(item)">Bind</el-button>-->
+        <!-- <div v-if="if_binded(item)" class="button-group"> -->
+        <el-switch
+          active-text="Active Only"
+          v-model="item.isBinded"
+          @change="onChangeBindStatus(item)"
+          :loading="item.loading"
+        ></el-switch>
+        <!-- <el-button type="danger" @click="unbind_a_repo(item)">Unbind</el-button>
+        <el-button type="success" disabled>Binded</el-button>-->
+        <!-- </div> -->
+        <!-- <div v-else class="button-group">
+          <el-switch active-text="Active Only" v-model="item.isBinded"></el-switch>
           <el-button type="danger" disabled>Unbind</el-button>
           <el-button type="success" @click="bind_a_repo(item)">Binded</el-button>
-        </div>
+        </div>-->
       </div>
     </el-card>
     <el-button
