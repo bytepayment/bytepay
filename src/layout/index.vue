@@ -27,8 +27,8 @@ function logout() {
   <!-- head bar-->
   <div>
     <el-row class="head-bar">
-      <el-col :span="2"></el-col>
-      <el-col :span="4" class="logo">
+      <el-col :span="3"></el-col>
+      <el-col :span="3" class="logo">
         <el-image style="width:50px;height:50px;" fit="fill" :src="LogoUrl"></el-image>
         <span class="text">Bytepay</span>
       </el-col>
@@ -78,7 +78,7 @@ function logout() {
   align-items: center;
   .logo {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-content: center;
     .text {
       color: white;

@@ -5,14 +5,12 @@ import { ElMessage } from 'element-plus'
 import Clipboard from 'clipboard'
 import moment from 'moment'
 import QrcodeVue from 'qrcode.vue'
-import { shortcuts } from './constants'
 import remainUrl from '@/assets/jiaoyishuju.png'
 import { get_polkadot_keyring, get_polka_account_info, get_polkadot_tx_record } from '@/api/user'
 import Router from '@/router'
 const subscanBaseUrl = 'https://westend.subscan.io/account/'
 const address = ref('')
 const centerDialogVisible = ref(false)
-const datatimeValue = ref('')
 const txs = ref([])
 const txsCount = ref(0)
 const account = reactive({
@@ -60,6 +58,9 @@ function gotoWithdraw() {
 function addressFormat(address: string) {
   return address.substring(0, 5) + '...' + address.substring(address.length - 5, address.length)
 }
+function dotFormat(dot: number) {
+  return dot.toFixed(2)
+}
 </script>
 
 <template>
@@ -81,8 +82,8 @@ function addressFormat(address: string) {
           <el-image :src="remainUrl" fit="fill"></el-image>
         </div>
         <div class="column-one">
-          <span>Reserved</span>
-          <span>{{ account.data.reserved }} DOT</span>
+          <span>Free</span>
+          <span>{{ account.data.free?.toFixed(2) }} DOT</span>
         </div>
         <div class="column-two">
           <div class="address" :data-clipboard-text="address">
@@ -92,8 +93,8 @@ function addressFormat(address: string) {
             </el-icon>
           </div>
           <div class="detail">
-            <span>Free:</span>
-            <span>{{ account.data.free }} DOT</span>
+            <span>Reserved:</span>
+            <span>{{ account.data.reserved }} DOT</span>
             <span style="margin-left: 25px;">MiscFrozen:</span>
             <span>{{ account.data.miscFrozen }} DOT</span>
             <span style="margin-left: 25px;">FeeFrozen:</span>
@@ -104,16 +105,15 @@ function addressFormat(address: string) {
     </el-card>
     <!-- Line 3 txs text-->
     <el-row class="txs-text">
-      <el-col :span="4">Transaction Records</el-col>
-      <el-col :span="4">
-        <!-- <el-date-picker
-          v-model="datatimeValue"
-          type="datetimerange"
-          :shortcuts="shortcuts"
-          range-separator="To"
-          start-placeholder="Start date"
-          end-placeholder="End date"
-        />-->
+      <el-col :span="4" class="title">Transaction Records</el-col>
+      <el-col :span="4" class="info">
+        <span>
+          List 10 recent transfers,
+          <a
+            :href="`https://polkadot.subscan.io/account/${address}`"
+            target="_blank"
+          >more</a>
+        </span>
       </el-col>
       <el-col :span="16"></el-col>
     </el-row>
@@ -147,7 +147,7 @@ function addressFormat(address: string) {
     </el-card>
 
     <!-- QR Code -->
-    <el-dialog v-model="centerDialogVisible" title="Recharge" width="50%" center>
+    <el-dialog v-model="centerDialogVisible" title="Recharge" width="40%" center>
       <div class="recharge-dialog">
         <qrcode-vue :value="address" :size="300" level="H" />
       </div>
@@ -170,6 +170,8 @@ function addressFormat(address: string) {
     margin-top: 20px;
     display: flex;
     align-items: center;
+    font-weight: 600;
+    font-size: 22px;
     .buttons {
       display: flex;
       justify-content: flex-end;
@@ -202,6 +204,13 @@ function addressFormat(address: string) {
     margin-top: 20px;
     display: flex;
     align-items: center;
+    .title {
+      font-weight: 600;
+      font-size: 22px;
+    }
+    .info {
+      color: #b7b8b7;
+    }
   }
   .txs {
     margin-top: 15px;
