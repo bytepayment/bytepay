@@ -105,8 +105,8 @@ function dotFormat(dot: number) {
     </el-card>
     <!-- Line 3 txs text-->
     <el-row class="txs-text">
-      <el-col :span="4" class="title">Transaction Records</el-col>
-      <el-col :span="4" class="info">
+      <el-col :span="5" class="title">Transaction Records</el-col>
+      <el-col :span="5" class="info">
         <span>
           List 10 recent transfers,
           <a
@@ -115,7 +115,7 @@ function dotFormat(dot: number) {
           >more</a>
         </span>
       </el-col>
-      <el-col :span="16"></el-col>
+      <el-col :span="14"></el-col>
     </el-row>
     <!-- Line 4 txs -->
     <el-card class="txs">
