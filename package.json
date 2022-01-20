@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "mocha tests/*/*.test.js"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^0.2.4",

@@ -1,4 +1,4 @@
-# Interact With Github Issue
+# Interact With Github Issue Comment
 
 ## 1. Create A Task
 
@@ -9,19 +9,21 @@
 Dotpay: /pay number DOT # eg. Dotpay: /pay 10 DOT
 ```
 
-1) After that, if following conditions are met, we would create a task.
+3) After that, if following conditions are met, we would create a task.
   - You are owner of the repository
   - Your account balance is beyond than the number you want pay
   - This issue has not been created task
 
 ## 2. Apply A Task
 
-1) After the author publishes the task, the developer can apply for the task before no one accepts the task.
+1) After the author publishes the task, the developer can apply for the task.
 2) Comment in specified format like below:
 
 ```bash
 Dotpay: /apply task
 ```
+3) If no other developer applied this task, then we would assign this task to developer who
+comment in above format
 
 ## 3. Finsh A Task
 ```bash
