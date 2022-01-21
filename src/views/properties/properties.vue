@@ -67,8 +67,8 @@ function dotFormat(dot: number) {
   <div class="main">
     <!-- Line 1 -->
     <el-row class="accounts-brief">
-      <el-col :span="3">My Accounts</el-col>
-      <el-col :span="15"></el-col>
+      <el-col :span="6">My Accounts</el-col>
+      <el-col :span="12"></el-col>
       <el-col :span="6" class="buttons">
         <el-button color="#6667AB" style="color: white" @click="centerDialogVisible = true">Recharge</el-button>
         <el-button @click="gotoWithdraw">Withdraw</el-button>
@@ -105,8 +105,8 @@ function dotFormat(dot: number) {
     </el-card>
     <!-- Line 3 txs text-->
     <el-row class="txs-text">
-      <el-col :span="5" class="title">Transaction Records</el-col>
-      <el-col :span="5" class="info">
+      <el-col :span="6" class="title">Transaction Records</el-col>
+      <el-col :span="6" class="info">
         <span>
           List 10 recent transfers,
           <a
@@ -115,7 +115,7 @@ function dotFormat(dot: number) {
           >more</a>
         </span>
       </el-col>
-      <el-col :span="14"></el-col>
+      <el-col :span="12"></el-col>
     </el-row>
     <!-- Line 4 txs -->
     <el-card class="txs">

@@ -28,7 +28,7 @@ function logout() {
   <div>
     <el-row class="head-bar">
       <el-col :span="3"></el-col>
-      <el-col :span="3" class="logo">
+      <el-col :span="3" class="logo" @click="gotoPage('property')">
         <el-image style="width:50px;height:50px;" fit="fill" :src="LogoUrl"></el-image>
         <span class="text">Bytepay</span>
       </el-col>
