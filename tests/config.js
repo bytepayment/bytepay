@@ -4,8 +4,15 @@ async function getToken() {
   const r = await request.post('get_token_for_test')
   return r.data
 }
+
+async function getDevToken() {
+  const r = await request.post('get_developer_token_for_test')
+  return r.data
+}
+
 module.exports = {
   getToken,
+  getDevToken,
   test_user_id: 37979965,
   test_dev_id: 23449728,
   test_user_login: 'sulnong',

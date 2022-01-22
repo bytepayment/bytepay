@@ -2,6 +2,7 @@ const assert = require('assert')
 const generator = require('project-name-generator')
 const {
   getToken,
+  getDevToken,
   test_user_id,
   test_user_login,
   test_repo_name,
@@ -14,17 +15,24 @@ function sleep(ms) {
 
 /**
  * For This Test Workflow, we will do following things
- * 1. Create an issue in test repo: sulnong/Transl
+ * 1. Create an issue in test repo: sulnong/DotpayTest.
+ * 2. Use our test account sulnong to create an task in issue just created above.
+ * 3. Use our test developer account to apply this task.
+ * 4. Use our test developer account to finish this task.
+ * 5. Task owner paid for this task.
+ * Note: test developer has already bind his own polka account.
  */
 
 describe('Interact With Repo', function () {
   this.timeout(0)
   let token = undefined
+  let dev_token = undefined
   let createIssue = undefined
   before(async function () {
     token = await getToken()
+    dev_token = await getDevToken()
   })
-  it.skip('Issue:create() should be ok', async function () {
+  it('Issue:create() should be ok', async function () {
     const r = await axios({
       url: `https://api.github.com/repos/${test_user_login}/${test_repo_name}/issues`,
       method: 'POST',
@@ -45,9 +53,9 @@ describe('Interact With Repo', function () {
     assert(createIssue.hasOwnProperty('body'))
   })
 
-  it.skip('Task:create() sould be ok', async function () {
-    await sleep(2000) // sleep 3 seconds wait github create issue
-    const url = `https://api.github.com/repos/${test_user_login}/${test_repo_name}/issues/3/comments`
+  it('Task:create() sould be ok', async function () {
+    await sleep(2000) // sleep 2 seconds
+    const url = `https://api.github.com/repos/${test_user_login}/${test_repo_name}/issues/${createIssue.number}/comments`
     const r = await axios({
       url,
       method: 'POST',
@@ -61,53 +69,50 @@ describe('Interact With Repo', function () {
     })
     assert(r.status === 201)
     result = r.data
-    assert(result.id === createIssue.id)
     assert(result.body === 'Dotpay: /pay 0.0001 DOT')
   })
 
   it('Task:apply() should be ok', async function () {
-    await sleep(2000) // sleep 3 seconds wait github create issue
-    const url = `https://api.github.com/repos/${test_user_login}/${test_repo_name}/issues/3/comments`
+    await sleep(2000) // sleep 2 seconds
+    const url = `https://api.github.com/repos/${test_user_login}/${test_repo_name}/issues/${createIssue.number}/comments`
     const r = await axios({
       url,
       method: 'POST',
       headers: {
         Accept: 'application/vnd.github.v3+json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${dev_token}`,
       },
       data: {
-        body: 'Dotpay: /pay 0.0001 DOT',
+        body: 'Dotpay: /apply task',
       },
     })
     assert(r.status === 201)
     result = r.data
-    assert(result.id === createIssue.id)
-    assert(result.body === 'Dotpay: /pay 0.0001 DOT')
+    assert(result.body === 'Dotpay: /apply task')
   })
 
   it('Task:finish() should be ok', async function () {
-    await sleep(2000) // sleep 3 seconds wait github create issue
-    const url = `https://api.github.com/repos/${test_user_login}/${test_repo_name}/issues/3/comments`
+    await sleep(2000) // sleep 2 seconds
+    const url = `https://api.github.com/repos/${test_user_login}/${test_repo_name}/issues/${createIssue.number}/comments`
     const r = await axios({
       url,
       method: 'POST',
       headers: {
         Accept: 'application/vnd.github.v3+json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${dev_token}`,
       },
       data: {
-        body: 'Dotpay: /pay 0.0001 DOT',
+        body: 'Dotpay: /finish task',
       },
     })
     assert(r.status === 201)
     result = r.data
-    assert(result.id === createIssue.id)
-    assert(result.body === 'Dotpay: /pay 0.0001 DOT')
+    assert(result.body === 'Dotpay: /finish task')
   })
 
   it('Task:pay() should be ok', async function () {
-    await sleep(2000) // sleep 3 seconds wait github create issue
-    const url = `https://api.github.com/repos/${test_user_login}/${test_repo_name}/issues/3/comments`
+    await sleep(2000) // sleep 2 seconds
+    const url = `https://api.github.com/repos/${test_user_login}/${test_repo_name}/issues/${createIssue.number}/comments`
     const r = await axios({
       url,
       method: 'POST',
@@ -116,12 +121,18 @@ describe('Interact With Repo', function () {
         Authorization: `Bearer ${token}`,
       },
       data: {
-        body: 'Dotpay: /pay 0.0001 DOT',
+        body: 'Dotpay: /paid task',
       },
     })
     assert(r.status === 201)
     result = r.data
-    assert(result.id === createIssue.id)
-    assert(result.body === 'Dotpay: /pay 0.0001 DOT')
+    assert(result.body === 'Dotpay: /paid task')
+  })
+
+  it('Task:check() should be ok', async function () {
+    await sleep(2000) // Wait 2 seconds
+    console.log(
+      `Please visit https://github.com/sulnong/DotpayTest/issues/${createIssue.number} check this full workflow...`
+    )
   })
 })
