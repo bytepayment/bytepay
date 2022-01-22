@@ -16,6 +16,7 @@
     "mocha": "^9.1.4",
     "moment": "^2.29.1",
     "nprogress": "^0.2.0",
+    "project-name-generator": "^2.1.9",
     "qrcode.vue": "^3.3.3",
     "ts-md5": "^1.2.10",
     "vue": "^3.2.25",

@@ -8,7 +8,7 @@ const request = require('../request')
  * 2. Get dev tasks
  */
 
-describe('Task Related API', function () {
+describe('Get Tasks From Bytepay', function () {
   this.timeout(0)
 
   it('dev_task:get() should be ok', async function () {
