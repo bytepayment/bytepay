@@ -5,7 +5,12 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
-    "test": "mocha tests/*/*.test.js"
+    "test": "mocha tests/*/*.test.js",
+    "build-test": "vue-tsc --noEmit && vite build --mode test",
+    "docker-build-app": "docker build -t sulnong/bytepay:app .",
+    "docker-build-test": "docker build -t sulnong/bytepay:test . -f Dockerfile-test",
+    "docker-push-app": "docker push sulnong/bytepay:app",
+    "docker-push-test": "docker push sulnong/bytepay:test"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^0.2.4",
