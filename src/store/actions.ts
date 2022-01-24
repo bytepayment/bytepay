@@ -14,8 +14,10 @@ export const actions = {
   async get_user_info(ctx: any, payload: any) {
     console.log("Get github user information")
     const r = await get_user_info(getToken() as any)
-    if (!r.login) {
+    if (!r.login || r.error == 1) {
       console.log("Get github user info failed")
+      removeToken()
+      Router.push({ name: "login" })
     }
     ctx.commit("UPDATE_USER_INFO", r)
     setUser(JSON.stringify(r))
