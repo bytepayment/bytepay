@@ -9,25 +9,16 @@ DotPay is a platform that supports paid tasks to complete open-source projects o
 <br/>
 
 ## How to run this project (dev mode)
-
-### 1. Eidt your host file
+### 1. Run docker command
 ```bash
-127.0.0.1   dotpay.com
+docker run --rm -p 80:80 sulnong/bytepay:app
 ```
-### 2. Clone And Run
-```bash
-git clone git@github.com:bytepayment/bytepay.git
-cd bytepay
-npm i
-npm run dev
-```
-
-### 3. Open your browser
-Open http://dotpay.com:3000
+### 2. Open your browser
+Open http://bytepay.local-dev.host
 <br/>
 
-## Run Test
+## How To Run Test
 
 ```bash
-npm run test
+docker run --rm sulnong/bytepay:test
 ```
