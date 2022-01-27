@@ -16,8 +16,9 @@ const taskDevStatus = ref('')
 const statusOptions = ref([
   { label: 'Created', value: 'created' },
   { label: 'Applied', value: 'applied' },
-  { label: 'Finished', value: 'finished' },
   { label: 'Paid', value: 'paid' },
+  { label: 'Closed', value: 'closed' },
+  { label: 'Closed-Without-Pay', value: 'closed-without-pay' },
 ])
 const authorTasks: Ref<DotpayTask[]> = ref([])
 const authorTasksForTabel: Ref<DotpayTask[]> = ref([])

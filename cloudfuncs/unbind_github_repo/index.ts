@@ -35,7 +35,10 @@ exports.main = async function (ctx: FunctionContext) {
     await coll.where({ repo_id }).remove()
     return { error: 0, data: r.data }
   } catch (error) {
-    console.log(error)
+    if (error?.response?.status === 404) {
+      await coll.where({ repo_id }).remove()
+      return { error: 0, data: 'success' }
+    }
     let error_msg_r = error?.response?.data?.errors || ''
     if (error_msg_r) {
       const error_msg = error_msg_r.map(i => i.message).join(';')

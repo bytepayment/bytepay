@@ -1,1 +1,0 @@
-{"name":"polkdot_api_test","label":"Polkdot API 测试","hash":"2a429aa7ea7fca61ca0fc3eca19b8f45","tags":["test"],"description":"","enableHTTP":true,"status":1,"triggers":[],"debugParams":"{\n  \"code\": \"laf\"\n}","version":32}

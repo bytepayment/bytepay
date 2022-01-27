@@ -38,7 +38,7 @@ exports.main = async function (ctx: FunctionContext) {
     }
     // 4 - Start transfer
     const transResult = await cloud.invoke('polka_dot_transfer', { body: { pay_user_id: id, recv_address: address, amount } })
-    if (transResult.error !== 0) return { error: 4, error_msg: 'Withdraw Faild: Call polka transfer error...' }
+    if (transResult.error !== 0) return { error: 4, error_msg: transResult.error_msg }
     return { error: 0, data: transResult.data }
   } catch (error) {
     return { error: 5, error_msg: 'Internal Server Error' }

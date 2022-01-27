@@ -1,1 +1,1 @@
-{"name":"polka_dot_transfer","label":"Polkadot 交易","hash":"79b41fd59065baec8a3c1429ff3d58a6","tags":["Polkadot"],"description":"","enableHTTP":false,"status":1,"triggers":[],"debugParams":"{\"code\":\"laf\"}","version":4}
+{"name":"polka_dot_transfer","label":"Polkadot 交易","hash":"62637632fe387e4d58eb34ff055fe1e7","tags":["Polkadot"],"description":"","enableHTTP":false,"status":1,"triggers":[],"debugParams":"{\"code\":\"laf\"}","version":8}

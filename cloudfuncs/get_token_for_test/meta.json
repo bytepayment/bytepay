@@ -1,0 +1,1 @@
+{"name":"get_token_for_test","label":"针对测试返回token","hash":"257f35cb6d3af46641963b572635f7e6","tags":["test"],"description":"","enableHTTP":true,"status":1,"triggers":[],"debugParams":"{\n  \"code\": \"laf\"\n}","version":2}
