@@ -20,6 +20,7 @@ Open http://bytepay.local-dev.host
 ## How To Run Test
 
 ```bash
+docker pull sulnong/bytepay:test
 docker run --rm sulnong/bytepay:test
 ```
 ## Test Report
