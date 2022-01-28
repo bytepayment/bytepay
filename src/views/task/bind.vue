@@ -79,6 +79,7 @@ async function onChangeBindStatus(item: GithubRepo) {
 // =============== Hooks ===============
 onBeforeMount(async () => {
   await initData()
+  await store.dispatch('get_user_info')
 })
 
 </script>

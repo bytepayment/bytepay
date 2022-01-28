@@ -60,7 +60,7 @@ function onDevStatusChange(val: any) {
 // =============== Hooks ===============
 onBeforeMount(async () => {
   // Check if user is first time enter into this page
-  if (user?.gotoTaskPageTimes || 0 == 0) {
+  if (!user.gotoTaskPageTimes || user.gotoTaskPageTimes == 0) {
     ElMessage({
       message: "Seems your are first time enter into this page, try active a repo first",
       type: 'warning',
@@ -90,6 +90,7 @@ onBeforeMount(async () => {
         meta: {
           id: task.repo_id,
           name: task.repo_name,
+          owner: task.repository.owner,
           full_name: task.repo_name,
           description: task.repo_description,
           isBinded: false,

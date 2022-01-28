@@ -24,6 +24,7 @@ export interface CPIUser {
 export interface GithubRepo {
   id: number
   name: string
+  owner: GithubUser
   full_name: string
   description: string
   isBinded: boolean
@@ -54,4 +55,5 @@ export interface DotpayTask {
   updataTime: string
   author: GithubUser
   developer: GithubUser
+  repository: GithubRepo
 }
