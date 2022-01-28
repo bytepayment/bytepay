@@ -5,6 +5,7 @@ export interface GithubUser {
   name: string
   public_repos: number
   email: string
+  gotoTaskPageTimes: number
 }
 
 export interface CPIUser {
@@ -22,7 +23,6 @@ export interface CPIUser {
 }
 export interface GithubRepo {
   id: number
-  owner: GithubUser
   name: string
   full_name: string
   description: string
@@ -44,8 +44,9 @@ export interface DotpayTask {
   title: string
   task_url: string
   repo_name: string
-  repo_id: string
+  repo_id: number
   repo_url: string
+  repo_description: string
   pay: number
   describe: string
   status: string

@@ -8,7 +8,7 @@ import QrcodeVue from 'qrcode.vue'
 import remainUrl from '@/assets/jiaoyishuju.png'
 import { get_polkadot_keyring, get_polka_account_info, get_polkadot_tx_record } from '@/api/user'
 import Router from '@/router'
-const subscanBaseUrl = 'https://westend.subscan.io/account/'
+const subscanBaseUrl = import.meta.env.VITE_SUBSCAN_BASE_URL
 const address = ref('')
 const centerDialogVisible = ref(false)
 const txs = ref([])
@@ -56,7 +56,7 @@ function gotoWithdraw() {
   Router.push('/settings/withdraw')
 }
 function addressFormat(address: string) {
-  return address.substring(0, 5) + '...' + address.substring(address.length - 5, address.length)
+  return address.substring(0, 7) + '...' + address.substring(address.length - 5, address.length)
 }
 function dotFormat(dot: number) {
   return dot.toFixed(2)
@@ -110,7 +110,7 @@ function dotFormat(dot: number) {
         <span>
           List 10 recent transfers,
           <a
-            :href="`https://polkadot.subscan.io/account/${address}`"
+            :href="`${subscanBaseUrl}/account/${address}`"
             target="_blank"
           >more</a>
         </span>
@@ -127,12 +127,28 @@ function dotFormat(dot: number) {
         </el-table-column>
         <el-table-column label="From">
           <template #default="scope">
-            <el-button type="text">{{ addressFormat(scope.row.from) }}</el-button>
+            <a
+              v-if="scope.row.from !== address"
+              :href="`${subscanBaseUrl}/account/${scope.row.from}`"
+              target="_blank"
+            >{{ addressFormat(scope.row.from) }}</a>
+            <span v-else>{{ addressFormat(scope.row.from) }}</span>
           </template>
         </el-table-column>
         <el-table-column label="To">
           <template #default="scope">
-            <el-button type="text">{{ addressFormat(scope.row.to) }}</el-button>
+            <a
+              v-if="scope.row.to !== address"
+              :href="`${subscanBaseUrl}/account/${scope.row.to}`"
+              target="_blank"
+            >{{ addressFormat(scope.row.to) }}</a>
+            <span v-else>{{ addressFormat(scope.row.to) }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="Status" width="100">
+          <template #default="scope">
+            <el-tag v-if="scope.row.success" type="success">Success</el-tag>
+            <el-tag v-else type="danger">Failed</el-tag>
           </template>
         </el-table-column>
         <el-table-column label="Amount" width="120">
@@ -140,7 +156,10 @@ function dotFormat(dot: number) {
         </el-table-column>
         <el-table-column label="Hash">
           <template #default="scope">
-            <el-button type="text">{{ addressFormat(scope.row.hash) }}</el-button>
+            <a
+              :href="`${subscanBaseUrl}/extrinsic/${scope.row.hash}`"
+              target="_blank"
+            >{{ addressFormat(scope.row.hash) }}</a>
           </template>
         </el-table-column>
       </el-table>

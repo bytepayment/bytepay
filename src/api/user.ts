@@ -51,7 +51,7 @@ export async function unbind_repo(repo: GithubRepo) {
 }
 
 // ========================================================================================
-// ======================================== Dotpay ========================================
+// ======================================== Bytepay =======================================
 // ========================================================================================
 /**
  * get binded repo info
@@ -86,6 +86,13 @@ export async function set_password(password_form: object) {
   const user = getUser()
   return await cloud.invokeFunction('set_password', {
     password_form,
+    id: user.id
+  })
+}
+
+export async function goto_task_page() {
+  const user = getUser()
+  return await cloud.invokeFunction('goto_task_page', {
     id: user.id
   })
 }
