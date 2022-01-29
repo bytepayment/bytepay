@@ -4,16 +4,22 @@ DotPay is a platform that supports paid tasks to complete open-source projects o
 <br/>
 
 ## Visit Our Online Project (Recommend)
+
 [Bytepay](https://bytepay.online)
 
 <br/>
 
 ## How to run this project (dev mode)
+
 ### 1. Run docker command
+
 ```bash
+docker pull sulnong/bytepay:app
 docker run --rm -p 80:80 sulnong/bytepay:app
 ```
+
 ### 2. Open your browser
+
 Open http://bytepay.local-dev.host
 <br/>
 
@@ -23,6 +29,7 @@ Open http://bytepay.local-dev.host
 docker pull sulnong/bytepay:test
 docker run --rm sulnong/bytepay:test
 ```
+
 ## Test Report
 
 After you run the command: `docker run --rm sulnong/bytepay:test`
@@ -66,11 +73,11 @@ You will get a test repost as following:
     ✔ Task:create() sould be ok (3206ms)
     ✔ Task:apply() should be ok (3531ms)
     ✔ Task:pay() should be ok (4686ms)
-Please visit https://github.com/bytepayment/bytepaytest/issues/4 check this full workflow...
     ✔ Task:check() should be ok (2000ms)
 
 
   22 passing (60s)
+Please visit https://github.com/bytepayment/bytepaytest/issues/4 check this full workflow...
 ```
 
 ## Ink! Transfer Contract

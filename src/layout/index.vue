@@ -36,7 +36,7 @@ function logout() {
       <el-col :span="6" class="menu">
         <div class="menu-item" @click="gotoPage('/property')">My property</div>
         <div class="menu-item" @click="gotoPage('/task')">Task</div>
-        <div class="menu-item" @click="gotoPage('/docs/what-is-dotpay')">Docs</div>
+        <div class="menu-item" @click="gotoPage('/docs/bytepay-overview')">Docs</div>
       </el-col>
       <!-- Empty -->
       <el-col :span="5"></el-col>
