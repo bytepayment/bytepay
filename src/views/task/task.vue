@@ -90,7 +90,7 @@ onBeforeMount(async () => {
         meta: {
           id: task.repo_id,
           name: task.repo_name,
-          owner: task.repository.owner,
+          owner: task?.repository?.owner || '',
           full_name: task.repo_name,
           description: task.repo_description,
           isBinded: false,
