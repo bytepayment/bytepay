@@ -62,4 +62,4 @@ export const routes: Array<RouteRecordRaw> = [
   },
 ]
 
-export const whiteList = ["/login", "/sign-up"] // no redirect whitelist
+export const whiteList = ["/login", "/sign-up", "/docs/bytepay-overview", "/docs/bytepay-userguide"] // no redirect whitelist

@@ -13,6 +13,7 @@ export const actions = {
   },
   async get_user_info(ctx: any, payload: any) {
     console.log("Get github user information")
+    if (!getToken()) return
     const r = await get_user_info(getToken() as any)
     if (!r.login || r.error == 1) {
       console.log("Get github user info failed")
