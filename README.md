@@ -14,25 +14,33 @@ DotPay is a platform that supports paid tasks to complete open-source projects o
 ### 1. Run docker command
 
 ```bash
-docker pull sulnong/bytepay:app
-docker run --rm -p 80:80 sulnong/bytepay:app
+docker run --rm -p 10086:80 sulnong/bytepay:app-v1
 ```
 
 ### 2. Open your browser
 
-Open http://bytepay.local-dev.host
+Open http://localhost:10086
 <br/>
 
 ## How To Run Test
 
+### Method 1 - By docker
 ```bash
 docker pull sulnong/bytepay:test
 docker run --rm sulnong/bytepay:test
 ```
 
+### Method 2 - By local environment
+```bash
+git clone git@github.com:bytepayment/bytepaytest.git
+cd bytepaytest
+npm i
+npm run test
+```
+
 ## Test Report
 
-After you run the command: `docker run --rm sulnong/bytepay:test`
+After you run the command
 
 **Notice**: Test will create an issue and does the main workflow like create task, apply task and pay for the task.
 
