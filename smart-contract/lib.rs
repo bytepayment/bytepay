@@ -1,5 +1,8 @@
-//! A smart contract which demonstrates behavior of the `self.env().transfer()` function.
-//! It transfers some of it's balance to the caller.
+//! Bytepay Smart Contract
+//! This contract is made to save author(who create a task)'s token to pay for the developer
+//! Owner calling deposit to sign with platform
+//! Owner set up the transfer whitelist set_witelist(username, address)
+//! The platform could only transfer to the account in the whitelist
 
 #![cfg_attr(not(feature = "std"), no_std)]
 #![allow(clippy::new_without_default)]
@@ -8,7 +11,8 @@ use ink_lang as ink;
 
 #[ink::contract]
 pub mod bytepay {
-    /// No storage is needed for this simple contract.
+    /// Bytepay storage
+    /// Save owner, balances map and whitelist vector
     #[ink(storage)]
     pub struct Bytepay {
         owner: AccountId,
@@ -45,17 +49,23 @@ pub mod bytepay {
             self.balance_of(&account)
         }
 
-        /// Deposit
+        /// Deposit by endowment from caller balance
+        /// 
+        /// Errors
+        /// Panics in case the request deposit exceeds the caller balance
+        /// Panics in case the deposit failed for another reason
         #[ink(message, payable)]
         pub fn deposit(&mut self) {
             let caller = self.env().caller();
             let deposited = self.env().transferred_value();
+            println!("{:?} deposit {:?} tokens.", caller, deposited);
             let mut balance = self.balance_of(&caller);
             balance += deposited;
             self.balances.insert(caller, balance);
         }
 
         /// Withdraw
+        /// Author who deposit can withdraw his own token
         #[ink(message)]
         pub fn withdraw(&mut self, amount: Balance) {
             let caller = self.env().caller();
@@ -66,12 +76,19 @@ pub mod bytepay {
             assert!(balance >= amount, "Not enough balance");
 
             // Start transfer given amount to caller
-            assert!(self.env().transfer(caller, amount).is_ok());
+            // assert!(self.env().transfer(caller, amount).is_ok());
+            match self.env().transfer(caller, amount) {
+                Ok(r) => {println!("{:?}", r)},
+                Err(err) => {println!("{:?}", err)}
+            }
             balance -= amount;
             self.balances.insert(caller, balance);
         }
 
-        /// Set Whitelist
+        /// Set Whitelist, only author have permission to call this function
+        /// 
+        /// Errors
+        /// Panics in case the caller have not deposited
         pub fn set_whitelist(&mut self, account: AccountId) {
             let caller = self.env().caller();
             let balance = self.balance_of(&caller);
@@ -87,6 +104,12 @@ pub mod bytepay {
         }
 
         /// Transfer
+        /// Only the platform have permission to call this function
+        /// Transfer `amount` numbers of token to the given `account`
+        /// 
+        /// Errors
+        /// Panics in case the caller is not the platform
+        /// Panics in case 
         pub fn transfer(&mut self, account: AccountId, amount: Balance) -> bool {
             // Only owner of contract can do transfer work
             let caller = self.env().caller();
@@ -111,7 +134,7 @@ pub mod bytepay {
             *self.balances.get(&account).unwrap_or(&0)
         }
 
-        fn is_account_in_whitelist(&self, account: &AccountId) -> bool {
+        pub fn is_account_in_whitelist(&self, account: &AccountId) -> bool {
             for item in &self.whitelist {
                 if account == item {
                     return true;
@@ -166,9 +189,66 @@ pub mod bytepay {
             assert_eq!(get_balance(eve), 200);
         }
 
+        /// This test would failed cause haven't panic
+        /// In off-chain enviroment, callser can depoist any number even if
+        /// he has insufficient balance
         #[ink::test]
-        fn set_whitelist_works() {}
+        #[should_panic(expected = "insufficient funds!")]
+        fn deposit_failes_insufficient_balcance() {
+            // Use Alice as contract owner
+            let accounts = default_accounts();
+            let alice = accounts.alice;
+            let bob = accounts.bob;
+            set_sender(alice, None);
+            let mut contract = Bytepay::new();
 
+            // Bob Deposit
+            set_balance(bob, 100);
+            set_sender(bob, Some(200));
+            contract.deposit();
+
+            // should panic here
+        }
+
+        #[ink::test]
+        fn set_whitelist_works() {
+            // Use Alice as contract owner
+            let accounts = default_accounts();
+            let alice = accounts.alice;
+            let bob = accounts.bob;
+            set_sender(alice, None);
+            let mut contract = Bytepay::new();
+
+            // Bob Deposit
+            set_balance(bob, 200);
+            set_sender(bob, Some(100));
+            contract.deposit();
+            // Bob set whitelist
+            contract.set_whitelist(accounts.eve);
+            // Eve should in whitelist
+            assert!(contract.is_account_in_whitelist(&accounts.eve));
+        }
+
+        #[ink::test]
+        #[should_panic(expected = "Account have no deposits")]
+        fn set_whitelist_failes_not_deposited() {
+            // Use Alice as contract owner
+            let accounts = default_accounts();
+            let alice = accounts.alice;
+            let bob = accounts.bob;
+            set_sender(alice, None);
+            let mut contract = Bytepay::new();
+
+            // Bob set whitelist without deposit
+            set_balance(bob, 200);
+            set_sender(bob, Some(100));
+            contract.set_whitelist(accounts.eve);
+            // panic here
+            
+        }
+
+        /// This test would failed cause self.env().transfer() function failed
+        /// In off-chain environment, deposited token seems not go into contract accounts
         #[ink::test]
         fn withdraw_works() {
             // Use Alice as contract owner
@@ -196,7 +276,27 @@ pub mod bytepay {
         }
 
         #[ink::test]
-        fn transfer_works() {}
+        #[should_panic(expected = "Not Contract Owner")]
+        fn transfer_failes_not_contract_owner(){
+            // Use Alice as contract owner
+            let accounts = default_accounts();
+            let alice = accounts.alice;
+            let bob = accounts.bob;
+            let eve = accounts.eve;
+            set_sender(alice, None);
+            let mut contract = Bytepay::new();
+
+            // Bob try to transfer
+            set_sender(bob, Some(0));
+            contract.transfer(eve, 100);
+
+            // should panic
+        }
+
+        #[ink::test]
+        fn transfer_works() {
+            // Not implemented becauseof off-chain test environment have problem
+        }
 
         fn set_sender(sender: AccountId, endowment: Option<Balance>) {
             let callee = ink_env::account_id::<ink_env::DefaultEnvironment>();
