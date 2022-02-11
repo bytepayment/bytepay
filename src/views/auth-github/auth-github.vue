@@ -47,7 +47,7 @@ onMounted(async () => {
 
 // oauth github
 const authUrl =
-  `https://github.com/login/oauth/authorize?client_id=${client_id}&scope=user,public_repo`
+  `https://github.com/login/oauth/authorize?client_id=${client_id}&scope=read:user,admin:repo_hook`
 function authGithub() {
   window.location.href = authUrl
 }
