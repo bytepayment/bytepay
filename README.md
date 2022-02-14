@@ -33,7 +33,7 @@ docker run --rm sulnong/bytepay:test
 ### Method 2 - By local environment
 ```bash
 git clone git@github.com:bytepayment/bytepaytest.git
-cd bytepaytest
+cd bytepay/test
 npm i
 npm run test
 ```
