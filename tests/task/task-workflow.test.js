@@ -91,6 +91,25 @@ describe("Interact With Repo", function () {
     assert(result.body === "/bytepay apply");
   });
 
+  it("Task:bind() should be ok", async function () {
+    await sleep(2000); // sleep 2 seconds
+    const url = `https://api.github.com/repos/${test_org_name}/${test_repo_name}/issues/${createIssue.number}/comments`;
+    const r = await axios({
+      url,
+      method: "POST",
+      headers: {
+        Accept: "application/vnd.github.v3+json",
+        Authorization: `Bearer ${dev_token}`,
+      },
+      data: {
+        body: "/bytepay bind 5FU6HZLVj74hF1sBxAFQ7PkS6HQbVF3gAFDLPLV37YFNKNjV",
+      },
+    });
+    assert(r.status === 201);
+    result = r.data;
+    assert(result.body === "/bytepay bind 5FU6HZLVj74hF1sBxAFQ7PkS6HQbVF3gAFDLPLV37YFNKNjV");
+  });
+
   it("Task:pay() should be ok", async function () {
     await sleep(2000); // sleep 2 seconds
     const url = `https://api.github.com/repos/${test_org_name}/${test_repo_name}/issues/${createIssue.number}/comments`;
@@ -111,9 +130,10 @@ describe("Interact With Repo", function () {
   });
 
   it("Task:check() should be ok", async function () {
-    await sleep(2000); // Wait 2 seconds
-    console.log(
-      `Please visit https://github.com/${test_org_name}/${test_repo_name}/issues/${createIssue.number} check this full workflow...`
-    );
+    setTimeout(() => {
+      console.log(
+        `Please visit https://github.com/${test_org_name}/${test_repo_name}/issues/${createIssue.number} check this full workflow...`
+      );
+    }, 2000);
   });
 });
