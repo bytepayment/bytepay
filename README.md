@@ -103,3 +103,17 @@ cargo +nightly test
 ```
 
 Above command would failed because deposit doesn't works. see [opened issue](https://github.com/paritytech/ink/issues/1117) for detail.
+
+
+## Run all in local mode
+```bash
+docker-compose up
+```
+
+Above command would start three containers:
+1. mongo - local database
+2. web - our bytepay frontend web
+3. app-server - bytepay backend server
+
+
+See backend implementation in directory `server/functions`

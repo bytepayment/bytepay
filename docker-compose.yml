@@ -13,7 +13,7 @@ services:
       - "27017:27017"
 
   app-server:
-    image: bytepay:server
+    image: sulnong/bytepay:server-v1
     user: root
     working_dir: /app
     environment:
@@ -30,6 +30,8 @@ services:
     restart: always
 
   web:
-    image: bytepay:app-v1
+    image: sulnong/bytepay:app-v2
     ports:
       - "10086:80"
+    depends_on:
+      - app-server
