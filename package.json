@@ -18,14 +18,15 @@
     "laf-client-sdk": "^0.7.0",
     "mocha": "^9.1.4",
     "moment": "^2.29.1",
+    "mongodb": "^4.3.1",
+    "nanoid": ">=3.1.31",
     "nprogress": "^0.2.0",
     "project-name-generator": "^2.1.9",
     "qrcode.vue": "^3.3.3",
     "ts-md5": "^1.2.10",
     "vue": "^3.2.25",
     "vue-router": "^4.0.12",
-    "vuex": "^4.0.2",
-    "nanoid": ">=3.1.31"
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@types/node": "^17.0.6",

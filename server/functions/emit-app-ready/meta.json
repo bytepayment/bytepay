@@ -1,0 +1,1 @@
+{"name":"emit-app-ready","label":"触发App::ready","hash":"3623ba5a0e17ed25b6eaf1f4e3d9384a","tags":["test"],"description":"","enableHTTP":true,"status":1,"triggers":[],"debugParams":"{\n  \"code\": \"laf\"\n}","version":15}

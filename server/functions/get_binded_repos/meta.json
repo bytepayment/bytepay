@@ -1,0 +1,1 @@
+{"name":"get_binded_repos","label":"Github: 获取绑定仓库列表","hash":"e77860c56d51498123b6162c4055ea3e","tags":["Github","Repo"],"description":"","enableHTTP":true,"status":1,"triggers":[],"debugParams":"{\"code\":\"laf\"}","version":5}

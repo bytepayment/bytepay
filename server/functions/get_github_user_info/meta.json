@@ -1,0 +1,1 @@
+{"name":"get_github_user_info","label":"Github: 获取 Userinfo","hash":"0441c3ea135360c9ed21cbf2a6953e4e","tags":["Github","User"],"description":"","enableHTTP":true,"status":1,"triggers":[],"debugParams":"{\"token\":\"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\"}","version":29}

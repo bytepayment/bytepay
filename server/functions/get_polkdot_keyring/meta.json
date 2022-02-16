@@ -1,0 +1,1 @@
+{"name":"get_polkdot_keyring","label":"获取 Polkadot 地址","hash":"3238ea2a21f20d2dc4808b817c4d2d04","tags":["Polkadot"],"description":"","enableHTTP":true,"status":1,"triggers":[],"debugParams":"{\"id\":37979965}","version":13}

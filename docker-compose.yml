@@ -1,11 +1,35 @@
-version: '3.3'
+# !!! This compose file only for development use
+version: '3.8'
 services:
-  bytepay:
-    image: nginx
-    volumes:
-      - .:/app
-      - ./nginx.conf.prod:/etc/nginx/conf.d/nginx.conf
-      - /root/workspace/laf/deploy-scripts/cert:/cert
+  mongo:
+    image: bitnami/mongodb:5.0
+    environment:
+      - MONGODB_REPLICA_SET_MODE=primary
+      - MONGODB_ADVERTISED_HOSTNAME=mongo
+      - MONGODB_REPLICA_SET_NAME=laf
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      - MONGODB_ROOT_PASSWORD=password123
     ports:
-      - "80:80"
-      - "443:443"
+      - "27017:27017"
+
+  app-server:
+    image: bytepay:server
+    user: root
+    working_dir: /app
+    environment:
+      DB_URI: mongodb://root:password123@mongo:27017/app-db?authSource=admin&replicaSet=laf&writeConcern=majority
+      SERVER_SECRET_SALT: Rewrite_Your_Own_Secret_Salt_abcdefg1234567
+    command: sh /app/start.sh
+    volumes:
+      - ./server/init.js:/app/dist/init.js
+      - ./server/functions:/app/dist/functions
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongo
+    restart: always
+
+  web:
+    image: bytepay:app-v1
+    ports:
+      - "10086:80"

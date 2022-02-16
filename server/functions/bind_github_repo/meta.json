@@ -1,0 +1,1 @@
+{"name":"bind_github_repo","label":"Github: 绑定仓库","hash":"0b5d5e9dc1c43638f2d81d530af01626","tags":["Github","Repo"],"description":"","enableHTTP":true,"status":1,"triggers":[],"debugParams":"{\"token\":\"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\",\"owner_name\":\"sulnong\",\"owner_id\":\"37979965\",\"repo_id\":\"130289677\",\"repo_name\":\"getVideos\"}","version":29}

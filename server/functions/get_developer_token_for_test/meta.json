@@ -1,0 +1,1 @@
+{"name":"get_developer_token_for_test","label":"Test:获取开发者token","hash":"66c9af9e42aefd650ade7666531fb4d5","tags":["test"],"description":"","enableHTTP":true,"status":1,"triggers":[],"debugParams":"{\"code\":\"laf\"}","version":3}
