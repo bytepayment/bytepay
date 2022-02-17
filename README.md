@@ -116,4 +116,8 @@ Above command would start three containers:
 3. app-server - bytepay backend server
 
 
-See backend implementation in directory `server/functions`
+Note: 
+- backend app server is based on [lafyun/app-service](https://registry.hub.docker.com/r/lafyun/app-service), which is a http-backend-server runtime.
+- Check [Dockerfile](https://github.com/bytepayment/bytepay/blob/main/server/Dockerfile) to know how we build.
+- All our backend implementation is in directory [server/functions](https://github.com/bytepayment/bytepay/tree/main/server/functions).
+- [This script - init.js](https://github.com/bytepayment/bytepay/blob/main/server/init.js) integrated our backend implementation with [lafyun/app-service](https://registry.hub.docker.com/r/lafyun/app-service)
