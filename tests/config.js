@@ -20,6 +20,6 @@ module.exports = {
   test_repo_name: "bytepaytest",
   test_repo_id: 138711724,
   test_user_polka_address: "5GbNZj4ntEt25oMrZTfpXHfwVQhvJmb8vBX33mj7L7v7P3EK",
-  test_recv_address: "5FU6HZLVj74hF1sBxAFQ7PkS6HQbVF3gAFDLPLV37YFNKNjV",
-  test_bind_own_address: "5FU6HZLVj74hF1sBxAFQ7PkS6HQbVF3gAFDLPLV37YFNKNjV",
+  test_recv_address: "5FjiXjMHLNFNn4M6LAhENnKq3qa5wA4uGCd5BFSwEPQJe5vL",
+  test_bind_own_address: "5FjiXjMHLNFNn4M6LAhENnKq3qa5wA4uGCd5BFSwEPQJe5vL",
 };

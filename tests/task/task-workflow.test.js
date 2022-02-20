@@ -102,12 +102,12 @@ describe("Interact With Repo", function () {
         Authorization: `Bearer ${dev_token}`,
       },
       data: {
-        body: "/bytepay bind 5FU6HZLVj74hF1sBxAFQ7PkS6HQbVF3gAFDLPLV37YFNKNjV",
+        body: "/bytepay bind 5FjiXjMHLNFNn4M6LAhENnKq3qa5wA4uGCd5BFSwEPQJe5vL",
       },
     });
     assert(r.status === 201);
     result = r.data;
-    assert(result.body === "/bytepay bind 5FU6HZLVj74hF1sBxAFQ7PkS6HQbVF3gAFDLPLV37YFNKNjV");
+    assert(result.body === "/bytepay bind 5FjiXjMHLNFNn4M6LAhENnKq3qa5wA4uGCd5BFSwEPQJe5vL");
   });
 
   it("Task:pay() should be ok", async function () {
