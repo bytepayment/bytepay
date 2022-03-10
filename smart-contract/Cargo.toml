@@ -1,20 +1,19 @@
 [package]
 name = "bytepay"
 version = "0.1.0"
-authors = ["[your_name] <[your_email]>"]
+authors = ["sulnong <iterator_sl@qq.com>"]
 edition = "2021"
 rust-version = "1.56.1"
 
 [dependencies]
-ink_primitives = { version = "3.0.0-rc8", default-features = false }
-ink_metadata = { version = "3.0.0-rc8", default-features = false, features = ["derive"], optional = true }
-ink_env = { version = "3.0.0-rc8", default-features = false, features = [ "ink-debug" ] }
-ink_storage = { version = "3.0.0-rc8", default-features = false }
-ink_lang = { version = "3.0.0-rc8", default-features = false }
-ink_prelude = { version = "3.0.0-rc8", default-features = false }
+ink_primitives = { version = "3.0.0-rc9", default-features = false }
+ink_metadata = { version = "3.0.0-rc9", default-features = false, features = ["derive"], optional = true }
+ink_env = { version = "3.0.0-rc9", default-features = false }
+ink_storage = { version = "3.0.0-rc9", default-features = false }
+ink_lang = { version = "3.0.0-rc9", default-features = false }
 
-scale = { package = "parity-scale-codec", version = "2.1", default-features = false, features = ["derive"] }
-scale-info = { version = "1.0.0", default-features = false, features = ["derive"], optional = true }
+scale-info = { version = "2", default-features = false, features = ["derive"], optional = true }
+scale = { package = "parity-scale-codec", version = "3", default-features = false, features = ["derive", "full"] }
 
 [lib]
 name = "bytepay"
@@ -31,9 +30,7 @@ std = [
     "ink_env/std",
     "ink_storage/std",
     "ink_primitives/std",
-    "ink_lang/std",
     "scale/std",
     "scale-info/std",
 ]
 ink-as-dependency = []
-ink-experimental-engine = ["ink_env/ink-experimental-engine"]

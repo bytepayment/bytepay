@@ -11,24 +11,32 @@ use ink_lang as ink;
 
 #[ink::contract]
 pub mod bytepay {
+    use ink_storage::{
+        traits::SpreadAllocate,
+        Mapping
+    };
+
     /// Bytepay storage
     /// Save owner, balances map and whitelist vector
     #[ink(storage)]
+    #[derive(SpreadAllocate)]
     pub struct Bytepay {
         owner: AccountId,
-        balances: ink_storage::collections::HashMap<AccountId, Balance>,
-        whitelist: ink_storage::collections::Vec<AccountId>,
+        balances: Mapping<AccountId, Balance>,
+        whitelist: Mapping<(AccountId,AccountId), Balance>,
     }
 
     impl Bytepay {
         /// Creates a new instance of this contract.
         #[ink(constructor)]
         pub fn new() -> Self {
-            Self {
-                owner: Self::env().caller(),
-                balances: Default::default(),
-                whitelist: Default::default(),
-            }
+            ink_lang::utils::initialize_contract(|contract| {
+                Self::new_init(contract)
+            })
+        }
+
+        fn new_init(&mut self) {
+            self.owner = Self::env().caller();
         }
 
         /// Get Contracts Owner
@@ -50,7 +58,7 @@ pub mod bytepay {
         }
 
         /// Deposit by endowment from caller balance
-        /// 
+        ///
         /// Errors
         /// Panics in case the request deposit exceeds the caller balance
         /// Panics in case the deposit failed for another reason
@@ -58,10 +66,10 @@ pub mod bytepay {
         pub fn deposit(&mut self) {
             let caller = self.env().caller();
             let deposited = self.env().transferred_value();
-            println!("{:?} deposit {:?} tokens.", caller, deposited);
+            ink_env::debug_println!("{:?} deposit {:?} tokens.", caller, deposited);
             let mut balance = self.balance_of(&caller);
             balance += deposited;
-            self.balances.insert(caller, balance);
+            self.balances.insert(caller, &balance);
         }
 
         /// Withdraw
@@ -78,67 +86,64 @@ pub mod bytepay {
             // Start transfer given amount to caller
             // assert!(self.env().transfer(caller, amount).is_ok());
             match self.env().transfer(caller, amount) {
-                Ok(r) => {println!("{:?}", r)},
-                Err(err) => {println!("{:?}", err)}
+                Ok(r) => {ink_env::debug_println!("{:?}", r)},
+                Err(err) => {ink_env::debug_println!("{:?}", err)}
             }
             balance -= amount;
-            self.balances.insert(caller, balance);
+            self.balances.insert(caller, &balance);
         }
 
         /// Set Whitelist, only author have permission to call this function
-        /// 
+        ///
         /// Errors
         /// Panics in case the caller have not deposited
-        pub fn set_whitelist(&mut self, account: AccountId) {
+        pub fn set_whitelist(&mut self, account: AccountId, amount: Balance) {
             let caller = self.env().caller();
             let balance = self.balance_of(&caller);
 
             // only who deposited can set white-list
             assert!(balance != 0, "Account have no deposits");
 
-            // check account if already in whitelist
-            if self.is_account_in_whitelist(&account) {
-                return;
-            }
-            self.whitelist.push(account);
+            let mut dev_balances = self.whitelist.get((&caller, &account)).unwrap_or_default();
+            dev_balances += amount;
+            self.whitelist.insert((&caller, &account), &dev_balances);
         }
 
         /// Transfer
         /// Only the platform have permission to call this function
         /// Transfer `amount` numbers of token to the given `account`
-        /// 
+        ///
         /// Errors
         /// Panics in case the caller is not the platform
-        /// Panics in case 
-        pub fn transfer(&mut self, account: AccountId, amount: Balance) -> bool {
+        /// Panics in case
+        pub fn transfer(&mut self, from: AccountId, to: AccountId, amount: Balance) -> bool {
             // Only owner of contract can do transfer work
             let caller = self.env().caller();
             assert!(caller == self.owner, "Not Contract Owner");
 
-            // Check whitelist
-            if !self.is_account_in_whitelist(&account) {
-                return false;
-            }
+            // Check to account is in from whitelist
+            let to_balance = self.whitelist.get((&from, &to)).unwrap_or_default();
+            assert!(to_balance >= amount, "beyond value in whitelist");
+
             // Check balance
-            let mut balance = self.balance_of(&caller);
+            let mut balance = self.balance_of(&from);
             assert!(balance >= amount, "Not enough balance");
 
             // Transfer
-            assert!(self.env().transfer(account, amount).is_ok());
+            assert!(self.env().transfer(to, amount).is_ok());
             balance -= amount;
-            self.balances.insert(caller, balance);
+            self.balances.insert(caller, &balance);
             return true;
         }
 
         fn balance_of(&self, account: &AccountId) -> Balance {
-            *self.balances.get(&account).unwrap_or(&0)
+            self.balances.get(&account).unwrap_or_default()
         }
 
-        pub fn is_account_in_whitelist(&self, account: &AccountId) -> bool {
-            for item in &self.whitelist {
-                if account == item {
-                    return true;
-                }
+        pub fn is_account_in_whitelist(&self, from: &AccountId, to: &AccountId) -> bool {
+            let to_value = self.whitelist.get((&from, &to)).unwrap_or_default();
+            if to_value > 0 {
+                return true;
             }
             return false;
         }
@@ -180,7 +185,7 @@ pub mod bytepay {
             set_balance(bob, 200);
             set_sender(bob, Some(100));
             contract.deposit();
-            assert_eq!(contract.get(), 100);
+            assert_eq!(get_balance(bob), 100);
 
             // Eve havn't deposit
             set_balance(eve, 200);
@@ -224,9 +229,9 @@ pub mod bytepay {
             set_sender(bob, Some(100));
             contract.deposit();
             // Bob set whitelist
-            contract.set_whitelist(accounts.eve);
+            contract.set_whitelist(accounts.eve, 100);
             // Eve should in whitelist
-            assert!(contract.is_account_in_whitelist(&accounts.eve));
+            assert!(contract.is_account_in_whitelist(&accounts.bob, &accounts.eve));
         }
 
         #[ink::test]
@@ -242,9 +247,9 @@ pub mod bytepay {
             // Bob set whitelist without deposit
             set_balance(bob, 200);
             set_sender(bob, Some(100));
-            contract.set_whitelist(accounts.eve);
+            contract.set_whitelist(accounts.eve, 100);
             // panic here
-            
+
         }
 
         /// This test would failed cause self.env().transfer() function failed
@@ -288,7 +293,7 @@ pub mod bytepay {
 
             // Bob try to transfer
             set_sender(bob, Some(0));
-            contract.transfer(eve, 100);
+            contract.transfer(bob, eve, 100);
 
             // should panic
         }
