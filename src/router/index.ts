@@ -4,7 +4,7 @@ import "nprogress/nprogress.css" // progress bar style
 import { getToken } from "@/utils/auth"
 import { routes, whiteList } from "./routes"
 const history = createWebHistory()
-const SiteName = "Dotpay"
+const SiteName = "Bytepay"
 const router = createRouter({
   history,
   routes,

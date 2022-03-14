@@ -1,6 +1,6 @@
 # Bytepay
 
-DotPay is a platform that supports paid tasks to complete open-source projects on Github.
+Bytepay is a platform that supports paid tasks to complete open-source projects on Github.
 <br/>
 
 ## Visit Our Online Project (Recommend)

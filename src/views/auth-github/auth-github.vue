@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <el-card class="card-container" shadow="always">
-      <div class="welcome-text">Welcome to Dotpay</div>
+      <div class="welcome-text">Welcome to Bytepay</div>
       <div class="auth-container">
         <div class="auth-area">
           <div class="login-text">Login</div>
