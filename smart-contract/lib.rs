@@ -11,10 +11,7 @@ use ink_lang as ink;
 
 #[ink::contract]
 pub mod bytepay {
-    use ink_storage::{
-        traits::SpreadAllocate,
-        Mapping
-    };
+    use ink_storage::{traits::SpreadAllocate, Mapping};
 
     /// Bytepay storage
     /// Save owner, balances map and whitelist vector
@@ -23,16 +20,14 @@ pub mod bytepay {
     pub struct Bytepay {
         owner: AccountId,
         balances: Mapping<AccountId, Balance>,
-        whitelist: Mapping<(AccountId,AccountId), Balance>,
+        whitelist: Mapping<(AccountId, AccountId), Balance>,
     }
 
     impl Bytepay {
         /// Creates a new instance of this contract.
-        #[ink(constructor)]
+        #[ink(constructor, payable)]
         pub fn new() -> Self {
-            ink_lang::utils::initialize_contract(|contract| {
-                Self::new_init(contract)
-            })
+            ink_lang::utils::initialize_contract(|contract| Self::new_init(contract))
         }
 
         fn new_init(&mut self) {
@@ -86,8 +81,12 @@ pub mod bytepay {
             // Start transfer given amount to caller
             // assert!(self.env().transfer(caller, amount).is_ok());
             match self.env().transfer(caller, amount) {
-                Ok(r) => {ink_env::debug_println!("{:?}", r)},
-                Err(err) => {ink_env::debug_println!("{:?}", err)}
+                Ok(r) => {
+                    ink_env::debug_println!("{:?}", r)
+                }
+                Err(err) => {
+                    ink_env::debug_println!("{:?}", err)
+                }
             }
             balance -= amount;
             self.balances.insert(caller, &balance);
@@ -249,7 +248,6 @@ pub mod bytepay {
             set_sender(bob, Some(100));
             contract.set_whitelist(accounts.eve, 100);
             // panic here
-
         }
 
         /// This test would failed cause self.env().transfer() function failed
@@ -282,7 +280,7 @@ pub mod bytepay {
 
         #[ink::test]
         #[should_panic(expected = "Not Contract Owner")]
-        fn transfer_failes_not_contract_owner(){
+        fn transfer_failes_not_contract_owner() {
             // Use Alice as contract owner
             let accounts = default_accounts();
             let alice = accounts.alice;
