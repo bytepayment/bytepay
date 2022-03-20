@@ -49,6 +49,22 @@ export const routes: Array<RouteRecordRaw> = [
           title: "Settings",
         },
         component: () => import("@/views/settings/settings.vue"),
+      },
+      {
+        path: "market",
+        name: "market",
+        meta: {
+          title: "market",
+        },
+        component: () => import("@/views/nfc-market/index.vue"),
+      },
+      {
+        path: "detail",
+        name: "detail",
+        meta: {
+          title: "detail",
+        },
+        component: () => import("@/views/nfc-market/detail.vue"),
       }
     ],
   },
