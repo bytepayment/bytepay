@@ -65,6 +65,14 @@ export const routes: Array<RouteRecordRaw> = [
           title: "detail",
         },
         component: () => import("@/views/nfc-market/detail.vue"),
+      },
+      {
+        path: "publish",
+        name: "publish",
+        meta: {
+          title: "publish",
+        },
+        component: () => import("@/views/nfc-market/publish.vue"),
       }
     ],
   },

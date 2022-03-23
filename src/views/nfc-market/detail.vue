@@ -100,7 +100,6 @@ function switchTab(index) {
         border-radius: 5px;
         cursor: pointer;
       }
-
       .quantity {
         margin: 0 30px 0 30px;
         height: 30px;

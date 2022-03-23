@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
-import Router from "@/router"
-
+import Router from "@/router";
 
 // =============== Datas ===============
 let tabIndex = ref(0);
@@ -11,9 +10,8 @@ const arr = ["诺克萨斯", "艾欧尼亚", "巨神峰", "祖安", "班德尔�
 function switchTab(index) {
   tabIndex.value = index;
 }
-
 function gotoPage(url: string) {
-  Router.replace(url)
+  Router.replace(url);
 }
 </script>
 
@@ -37,6 +35,7 @@ function gotoPage(url: string) {
         <div class="name">1 DOT</div>
       </div>
     </div>
+    <div @click="gotoPage('/publish')" class="button">publish</div>
   </div>
 </template>
 
@@ -79,8 +78,8 @@ function gotoPage(url: string) {
     box-shadow: 4px 6px 10px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     .name {
-    text-align: center;
-    margin:5px 0 0 0;
+      text-align: center;
+      margin: 5px 0 0 0;
     }
     img {
       width: 200px;
@@ -90,5 +89,18 @@ function gotoPage(url: string) {
       background-color: #b7b8b7;
     }
   }
+}
+.button {
+  position:absolute;
+  top:20px;
+  right:20%;
+  width: 80px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  color: #ffffff;
+  background-color: #6667ab;
+  border-radius: 5px;
+  cursor: pointer;
 }
 </style>
