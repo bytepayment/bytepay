@@ -56,7 +56,7 @@ export const routes: Array<RouteRecordRaw> = [
         meta: {
           title: "market",
         },
-        component: () => import("@/views/nfc-market/index.vue"),
+        component: () => import("@/views/nft-market/index.vue"),
       },
       {
         path: "detail",
@@ -64,7 +64,7 @@ export const routes: Array<RouteRecordRaw> = [
         meta: {
           title: "detail",
         },
-        component: () => import("@/views/nfc-market/detail.vue"),
+        component: () => import("@/views/nft-market/detail.vue"),
       },
       {
         path: "publish",
@@ -72,7 +72,7 @@ export const routes: Array<RouteRecordRaw> = [
         meta: {
           title: "publish",
         },
-        component: () => import("@/views/nfc-market/publish.vue"),
+        component: () => import("@/views/nft-market/publish.vue"),
       }
     ],
   },
