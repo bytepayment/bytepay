@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
 import { cloud } from "@/api/cloud";
+import { ElMessage } from "element-plus";
+import Router from "@/router";
+
 
 // =============== Datas ===============
 let title = ref("");
@@ -11,17 +14,33 @@ let circulation = ref("");
 let description = ref("");
 const fileList = ref([]);
 // =============== Functions ===============
+
 async function ok() {
+  if (!title.value) return ElMessage.warning("title can not be null");
+  if (!price.value) return ElMessage.warning("price can not be null");
+  if (!version.value) return ElMessage.warning("version can not be null");
+  if (!project.value) return ElMessage.warning("project can not be null");
+  if (!circulation.value) return ElMessage.warning("circulation can not be null");
+  if (!description.value) return ElMessage.warning("description can not be null");
+
   const r = await cloud.invokeFunction("nft_mint", {
-    title: title,
-    price: price,
-    version: version,
-    project: project,
-    total_supply: circulation,
-    description: description,
-    file_path: fileList,
+    title: title.value,
+    price: price.value,
+    version: version.value,
+    project: project.value,
+    total_supply: circulation.value,
+    description: description.value,
+    file_path: fileList.value,
   });
-  console.log(r, "云函数已经执行");
+  if (1 === r.code) ElMessage.warning(r.message);
+  if (0 === r.code) {
+    ElMessage.success(r.message);
+    gotoPage("/market");
+  }
+}
+
+function gotoPage(url: string) {
+  Router.replace(url);
 }
 </script>
 
@@ -49,18 +68,14 @@ async function ok() {
     <div class="uploadBox">
       <el-upload
         action="https://f8e01ed1-af71-41f0-bb60-6a293ecc18e8.bytepay.online:8000"
-        :on-preview="handlePreview"
-        :on-remove="handleRemove"
-        :before-remove="beforeRemove"
         multiple
-        :limit="3"
-        :on-exceed="handleExceed"
+        :limit="5"
         :file-list="fileList"
       >
         <el-button class="upload" size="small" type="primary">upload</el-button>
       </el-upload>
     </div>
-    <div @click="ok" class="ok">ok</div>
+    <div @click="ok" class="ok">submit</div>
   </div>
 </template>
 

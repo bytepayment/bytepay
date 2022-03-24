@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
+import { cloud } from "@/api/cloud";
+
 
 // =============== Datas ===============
 let value = ref("");
@@ -28,6 +30,13 @@ const options = [
   },
 ];
 // =============== Functions ===============
+
+async function buy() {
+  const r = await cloud.invokeFunction("nft_buy", {});
+  console.log(r,);
+  
+}
+
 function switchTab(index) {
   tabIndex.value = index;
 }
@@ -38,7 +47,7 @@ function switchTab(index) {
     <div class="right">
       <div class="title">This is title</div>
       <div class="middle">
-        <div class="button">1DOT click to buy</div>
+        <div @click='buy' class="button">1DOT click to buy</div>
         <div class="quantity">left:882</div>
         <div class="owner">owner:</div>
         <el-select style="width: 100px" v-model="value" placeholder="请选择">

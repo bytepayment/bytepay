@@ -1,12 +1,25 @@
 <script lang="ts" setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted } from "vue";
+import { cloud } from "@/api/cloud";
 import Router from "@/router";
 
 // =============== Datas ===============
 let tabIndex = ref(0);
 const arr = ["诺克萨斯", "艾欧尼亚", "巨神峰", "祖安", "班德尔城", "夏尔"];
+const list = ref([]);
 
 // =============== Functions ===============
+
+onMounted(() => {
+  getList();
+});
+
+async function getList() {
+  const r = await cloud.invokeFunction("nft_get_list", {});
+  if (0 === r.code) list.value = r.data;
+  console.log(r, "000");
+}
+
 function switchTab(index) {
   tabIndex.value = index;
 }
@@ -28,11 +41,11 @@ function gotoPage(url: string) {
       </div>
     </div>
     <div class="content">
-      <div @click="gotoPage('/detail')" v-for="(item, index) in 10" class="item">
+      <div @click="gotoPage('/detail')" v-for="(item, index) in list" class="item">
         <img src="../../assets/bacc.jpeg" alt="" />
-        <div class="name">dragon</div>
-        <div class="name">1 left</div>
-        <div class="name">1 DOT</div>
+        <div class="name">{{ item.title }}</div>
+        <div class="name">{{item.total_supply}} left</div>
+        <div class="name">{{item.price}} DOT</div>
       </div>
     </div>
     <div @click="gotoPage('/publish')" class="button">publish</div>
@@ -78,8 +91,10 @@ function gotoPage(url: string) {
     box-shadow: 4px 6px 10px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     .name {
+      width:200px;
+      height:20px;
       text-align: center;
-      margin: 5px 0 0 0;
+      margin: 0px 0 5px 0;
     }
     img {
       width: 200px;
@@ -91,9 +106,9 @@ function gotoPage(url: string) {
   }
 }
 .button {
-  position:absolute;
-  top:20px;
-  right:20%;
+  position: absolute;
+  top: 20px;
+  right: 20%;
   width: 80px;
   height: 30px;
   text-align: center;
