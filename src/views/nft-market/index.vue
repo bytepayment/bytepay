@@ -20,7 +20,7 @@ async function getList() {
   console.log(r, "000");
 }
 
-function switchTab(index) {
+function switchTab(index: number) {
   tabIndex.value = index;
 }
 function gotoPage(url: string) {

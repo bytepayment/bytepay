@@ -5,7 +5,7 @@ export const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     meta: {
-      title: "Dot Pay",
+      title: "Bytepay",
     },
     component: Layout,
     redirect: "/property",
