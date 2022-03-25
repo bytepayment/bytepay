@@ -158,3 +158,7 @@ export async function polkadot_withdraw(address: string, password: string, amoun
     amount
   })
 }
+
+export async function getClasses() {
+  return await cloud.invokeFunction('nft_get_classes', {})
+ }

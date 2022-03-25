@@ -1,40 +1,36 @@
 <script lang="ts" setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import { cloud } from "@/api/cloud";
-
+import Router from "@/router";
+import { useRoute } from "vue-router";
 
 // =============== Datas ===============
-let value = ref("");
-let tabIndex = ref(0);
-
-const options = [
+const tabIndex = ref(0);
+const list = ref([
   {
-    value: "选项1",
-    label: "黄金糕",
+    title: "",
+    price: "",
+    left_amount: "",
+    description: "",
   },
-  {
-    value: "选项2",
-    label: "双皮奶",
-  },
-  {
-    value: "选项3",
-    label: "蚵仔煎",
-  },
-  {
-    value: "选项4",
-    label: "龙须面",
-  },
-  {
-    value: "选项5",
-    label: "北京烤鸭",
-  },
-];
+]);
 // =============== Functions ===============
+
+onMounted(() => {
+  const route = useRoute();
+  getDetail(route.query.name, route.query.classid);
+});
+
+async function getDetail(name, classid) {
+  const r = await cloud.invokeFunction("nft_get_detail", {
+    name: name,
+    classid: classid,
+  });
+  if (0 === r.code) list.value = r.data;
+}
 
 async function buy() {
   const r = await cloud.invokeFunction("nft_buy", {});
-  console.log(r,);
-  
 }
 
 function switchTab(index) {
@@ -45,40 +41,25 @@ function switchTab(index) {
 <template>
   <div class="box">
     <div class="right">
-      <div class="title">This is title</div>
+      <div class="title">
+        {{ list[tabIndex].title }}
+      </div>
       <div class="middle">
-        <div @click='buy' class="button">1DOT click to buy</div>
-        <div class="quantity">left:882</div>
-        <div class="owner">owner:</div>
-        <el-select style="width: 100px" v-model="value" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          >
-          </el-option>
-        </el-select>
+        <div @click="buy" class="button">{{ list[tabIndex].price }} DOT click to buy</div>
+        <div class="quantity">left:{{ list[tabIndex].left_amount }}</div>
       </div>
       <div class="detail">
-        君不见黄河之水天上来，奔流到海不复回。 君不见高堂明镜悲白发，朝如青丝暮成雪。
-        人生得意须尽欢，莫使金樽空对月。 天生我材必有用，千金散尽还复来。
-        烹羊宰牛且为乐，会须一饮三百杯。 岑夫子，丹丘生，将进酒，杯莫停。
-        与君歌一曲，请君为我倾耳听。(倾耳听 一作：侧耳听)
-        钟鼓馔玉不足贵，但愿长醉不愿醒。(不足贵 一作：何足贵；不愿醒 一作：不复醒)
-        古来圣贤皆寂寞，惟有饮者留其名。(古来 一作：自古；惟 通：唯)
-        陈王昔时宴平乐，斗酒十千恣欢谑。 主人何为言少钱，径须沽取对君酌。
-        五花马、千金裘，呼儿将出换美酒，与尔同销万古愁。
+        {{ list[tabIndex].description }}
       </div>
     </div>
     <div class="left">
       <div
-        v-for="(item, index) in 5"
+        v-for="(item, index) in list"
         :key="index"
         :class="[tabIndex == index ? 'optioned' : 'version']"
         @click="switchTab(index)"
       >
-        v1.08
+        {{ item.version }}
       </div>
     </div>
   </div>
@@ -100,7 +81,8 @@ function switchTab(index) {
     .middle {
       display: flex;
       .button {
-        width: 150px;
+        padding: 0 5px 0 5px;
+        min-width: 150px;
         height: 30px;
         text-align: center;
         line-height: 30px;
