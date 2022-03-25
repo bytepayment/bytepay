@@ -57,3 +57,12 @@ export interface DotpayTask {
   developer: GithubUser
   repository: GithubRepo
 }
+
+// NFT Releated
+export interface NFTClass {
+  meta: {
+    name: string,
+    desc: string
+  },
+  chain_key: string
+}

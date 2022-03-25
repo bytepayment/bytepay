@@ -71,7 +71,7 @@ function copy_address(className: string) {
   clipboard.on("error", (e) => {});
 }
 
-function switchTab(index) {
+function switchTab(index: number) {
   tabIndex.value = index;
   classId.value = classArr.value[index].class_id;
   getList();
