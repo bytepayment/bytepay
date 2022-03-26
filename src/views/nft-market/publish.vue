@@ -18,10 +18,10 @@ const version = ref("");
 const project = ref("");
 const total_supply = ref(null);
 const description = ref("");
-const fileList = ref([]);
 const address = ref("");
 const owner = ref("");
 const classid = ref("");
+const file_path = ref("")
 const uploadUrl = ref(`${cloud.fileBaseUrl}/public?auto=1`)
 // selectData
 const options = ref([]);
@@ -43,7 +43,7 @@ async function ok() {
   if (!total_supply.value) return ElMessage.warning("total_supply can not be null");
   if (!classid) return ElMessage.warning("classid can not be null");
   if (!description.value) return ElMessage.warning("description can not be null");
-  if (!fileList.value.length) return ElMessage.warning("Must upload a file")
+  if (!file_path.value) return ElMessage.warning("Must upload a file")
 
   const data = {
     title: title.value,
@@ -56,7 +56,7 @@ async function ok() {
     owner: owner.value,
     owner_address: address.value,
     classid: classid.value,
-    file_path: fileList.value[0],
+    file_path: file_path.value
   };
 
   const r = await cloud.invokeFunction("nft_mint", data);
@@ -90,6 +90,10 @@ function selectChange(e: any) {
 
 function gotoPage(url: string) {
   Router.replace(url);
+}
+
+function onFileUploadSuccess(res: any, uploadFile: any, uploadFiles: any) {
+  file_path.value = res.data.filename
 }
 </script>
 
@@ -125,7 +129,7 @@ function gotoPage(url: string) {
     </div>
 
     <div class="uploadBox">
-      <el-upload :action="uploadUrl" multiple :limit="5" :file-list="fileList">
+      <el-upload :action="uploadUrl" multiple :limit="1" :on-success="onFileUploadSuccess">
         <el-button class="upload" size="small" type="primary">Select Your File</el-button>
       </el-upload>
     </div>
