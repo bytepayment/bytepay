@@ -46,6 +46,7 @@ async function ok() {
   if (!file_path.value) return ElMessage.warning("Must upload a file")
 
   const data = {
+    id: getUser().id,
     title: title.value,
     price: Number(price.value),
     version: version.value,
@@ -60,7 +61,7 @@ async function ok() {
   };
 
   const r = await cloud.invokeFunction("nft_mint", data);
-  if (1 === r.code) ElMessage.warning(r.message);
+  if (0 !== r.code) ElMessage.warning(r.message);
   if (0 === r.code) {
     ElMessage.success(r.message);
     gotoPage("/market");
