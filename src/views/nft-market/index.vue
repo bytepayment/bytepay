@@ -6,6 +6,7 @@ import { useRouter } from "vue-router";
 
 import { ElMessage } from "element-plus";
 import { DocumentCopy } from "@element-plus/icons-vue";
+import { nft_get_bytechain_keyring, nft_get_bytechain_accountinfo } from "@/api/nft"
 import {
   get_polkadot_keyring,
   get_polka_account_info,
@@ -21,14 +22,15 @@ const classArr = ref([]);
 const classId = ref("");
 const list = ref([]);
 const address = ref("");
-const account = reactive({
-  data: {
+const account = reactive(
+  {data: {
     free: 0.0,
     reserved: 0.0,
     miscFrozen: 0.0,
     feeFrozen: 0.0,
-  },
-});
+    tokenName: 'BNX'
+}});
+const tokenName = ref("BNX")
 
 // =============== Functions ===============
 
@@ -50,13 +52,12 @@ async function getList() {
 }
 
 async function getAddress() {
-  const r = await get_polkadot_keyring();
+  const r = await nft_get_bytechain_keyring();
   if (r.error !== 0) return;
   address.value = r.data.address;
 
-  const ar = await get_polka_account_info();
-  if (ar.error !== 0) return;
-  account.data = ar.data;
+  account.data = await nft_get_bytechain_accountinfo(address.value);
+  tokenName.value = account.data.tokenName
 }
 
 function copy_address(className: string) {
@@ -100,13 +101,13 @@ function gotoPage(url: string, name: string, classid) {
         </div>
         <div class="detail">
           <span>Free:</span>
-          <span> {{ account.data.free }}DOT</span>
+          <span style="color: black;"> {{ account.data.free }} {{ tokenName }}</span>
           <span style="margin-left: 25px">Reserved:</span>
-          <span> {{ account.data.reserved }}DOT</span>
+          <span> {{ account.data.reserved }}{{ tokenName }}</span>
           <span style="margin-left: 25px">MiscFrozen:</span>
-          <span>{{ account.data.miscFrozen }} DOT</span>
+          <span>{{ account.data.miscFrozen }} {{ tokenName }}</span>
           <span style="margin-left: 25px">FeeFrozen:</span>
-          <span> {{ account.data.feeFrozen }} DOT</span>
+          <span> {{ account.data.feeFrozen }}{{ tokenName }}</span>
         </div>
       </div>
 
