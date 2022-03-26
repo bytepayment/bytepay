@@ -22,7 +22,7 @@ const fileList = ref([]);
 const address = ref("");
 const owner = ref("");
 const classid = ref("");
-
+const uploadUrl = ref(`${cloud.fileBaseUrl}/public?auto=1`)
 // selectData
 const options = ref([]);
 const value = ref("");
@@ -43,6 +43,7 @@ async function ok() {
   if (!total_supply.value) return ElMessage.warning("total_supply can not be null");
   if (!classid) return ElMessage.warning("classid can not be null");
   if (!description.value) return ElMessage.warning("description can not be null");
+  if (!fileList.value.length) return ElMessage.warning("Must upload a file")
 
   const data = {
     title: title.value,
@@ -55,7 +56,7 @@ async function ok() {
     owner: owner.value,
     owner_address: address.value,
     classid: classid.value,
-    file_path: fileList.value,
+    file_path: fileList.value[0],
   };
 
   const r = await cloud.invokeFunction("nft_mint", data);
@@ -75,15 +76,15 @@ async function getAddress() {
 async function getClass() {
   const res = await getClasses();
 
-  res.forEach((element) => {
-    const obj = {};
+  res.forEach((element: any) => {
+    let obj: any = {};
     obj.value = element.class_id;
     obj.label = element.meta.name;
     options.value.push(obj);
   });
 }
 
-function selectChange(e) {
+function selectChange(e: any) {
   classid.value = e;
 }
 
@@ -94,9 +95,7 @@ function gotoPage(url: string) {
 
 <template>
   <div class="box">
-    <div class="form-title">
-      Mint a NFT
-    </div>
+    <div class="form-title">Mint a NFT</div>
     <div class="input">
       <el-input v-model="title" placeholder="title"></el-input>
     </div>
@@ -118,27 +117,15 @@ function gotoPage(url: string) {
     </div>
 
     <el-select @change="selectChange" class="input" v-model="value" placeholder="class">
-      <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      >
-      </el-option>
+      <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
     </el-select>
 
     <div class="input">
-      <el-input type="textarea" :rows="5" placeholder="describe" v-model="description">
-      </el-input>
+      <el-input type="textarea" :rows="5" placeholder="describe" v-model="description"></el-input>
     </div>
 
     <div class="uploadBox">
-      <el-upload
-        action="https://f8e01ed1-af71-41f0-bb60-6a293ecc18e8.bytepay.online:8000"
-        multiple
-        :limit="5"
-        :file-list="fileList"
-      >
+      <el-upload :action="uploadUrl" multiple :limit="5" :file-list="fileList">
         <el-button class="upload" size="small" type="primary">Select Your File</el-button>
       </el-upload>
     </div>
