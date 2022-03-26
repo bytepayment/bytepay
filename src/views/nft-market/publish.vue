@@ -16,7 +16,7 @@ const title = ref("");
 const price = ref(null);
 const version = ref("");
 const project = ref("");
-const circulation = ref(null);
+const total_supply = ref(null);
 const description = ref("");
 const fileList = ref([]);
 const address = ref("");
@@ -40,16 +40,16 @@ async function ok() {
   if (!price.value) return ElMessage.warning("price can not be null");
   if (!version.value) return ElMessage.warning("version can not be null");
   if (!project.value) return ElMessage.warning("project can not be null");
-  if (!circulation.value) return ElMessage.warning("circulation can not be null");
+  if (!total_supply.value) return ElMessage.warning("total_supply can not be null");
   if (!classid) return ElMessage.warning("classid can not be null");
   if (!description.value) return ElMessage.warning("description can not be null");
 
   const data = {
     title: title.value,
-    price: price.value,
+    price: Number(price.value),
     version: version.value,
     project: project.value,
-    total_supply: circulation.value,
+    total_supply: total_supply.value,
     description: description.value,
     chanin_id: "",
     owner: owner.value,
@@ -94,6 +94,9 @@ function gotoPage(url: string) {
 
 <template>
   <div class="box">
+    <div class="form-title">
+      Mint a NFT
+    </div>
     <div class="input">
       <el-input v-model="title" placeholder="title"></el-input>
     </div>
@@ -111,7 +114,7 @@ function gotoPage(url: string) {
     </div>
 
     <div class="input">
-      <el-input type="number" v-model="circulation" placeholder="circulation"></el-input>
+      <el-input type="number" v-model="total_supply" placeholder="total_supply"></el-input>
     </div>
 
     <el-select @change="selectChange" class="input" v-model="value" placeholder="class">
@@ -136,7 +139,7 @@ function gotoPage(url: string) {
         :limit="5"
         :file-list="fileList"
       >
-        <el-button class="upload" size="small" type="primary">upload</el-button>
+        <el-button class="upload" size="small" type="primary">Select Your File</el-button>
       </el-upload>
     </div>
 
@@ -156,9 +159,11 @@ function gotoPage(url: string) {
     margin: 15px 0 0 0;
   }
   .uploadBox {
-    width: 40%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
     .upload {
-      width: 80px;
+      // width: 80px;
       height: 30px;
       font-size: 15px;
       margin: 15px 0 0 0;
