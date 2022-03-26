@@ -66,3 +66,24 @@ export interface NFTClass {
   },
   chain_key: string
 }
+
+export interface NFT {
+  _id: string,
+  title: string,
+  price: number,
+  version: string,
+  project: string,
+  total_supply: number,
+  left_amount: number,
+  description: string, 
+  chain_id: string,
+  owner: string,
+  owner_address: string,
+  class_id: string,
+  file_path: string,
+  file_hash: string,
+  file_cid: string,
+  buyer: Array<string>,
+  status: number,
+  created_time: string
+}
