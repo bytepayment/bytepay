@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted } from "vue";
 import { cloud } from "@/api/cloud";
-import Router from "@/router";
 import { useRouter } from "vue-router";
-
 import { ElMessage } from "element-plus";
 import { DocumentCopy } from "@element-plus/icons-vue";
-import { nft_get_bytechain_keyring, nft_get_bytechain_accountinfo } from "@/api/nft"
+import {
+  nft_get_bytechain_keyring,
+  nft_get_bytechain_accountinfo,
+} from "@/api/nft";
 import {
   get_polkadot_keyring,
   get_polka_account_info,
@@ -22,15 +23,16 @@ const classArr = ref([]);
 const classId = ref("");
 const list = ref([]);
 const address = ref("");
-const account = reactive(
-  {data: {
+const account = reactive({
+  data: {
     free: 0.0,
     reserved: 0.0,
     miscFrozen: 0.0,
     feeFrozen: 0.0,
-    tokenName: 'BNX'
-}});
-const tokenName = ref("BNX")
+    tokenName: "BNX",
+  },
+});
+const tokenName = ref("BNX");
 
 // =============== Functions ===============
 
@@ -47,7 +49,9 @@ async function getClass() {
 }
 
 async function getList() {
-  const r = await cloud.invokeFunction("nft_get_list", { classid: classId.value });
+  const r = await cloud.invokeFunction("nft_get_list", {
+    classid: classId.value,
+  });
   if (0 === r.code) list.value = r.data;
 }
 
@@ -57,7 +61,7 @@ async function getAddress() {
   address.value = r.data.address;
 
   account.data = await nft_get_bytechain_accountinfo(address.value);
-  tokenName.value = account.data.tokenName
+  tokenName.value = account.data.tokenName;
 }
 
 function copy_address(className: string) {
@@ -78,7 +82,7 @@ function switchTab(index: number) {
   getList();
 }
 
-function gotoPage(url: string, name: string, classid) {
+function gotoPage(url: string, name: string, classid: string) {
   router.push({
     path: url,
     query: {
@@ -101,7 +105,9 @@ function gotoPage(url: string, name: string, classid) {
         </div>
         <div class="detail">
           <span>Free:</span>
-          <span style="color: black;"> {{ account.data.free }} {{ tokenName }}</span>
+          <span style="color: black">
+            {{ account.data.free }} {{ tokenName }}</span
+          >
           <span style="margin-left: 25px">Reserved:</span>
           <span> {{ account.data.reserved }}{{ tokenName }}</span>
           <span style="margin-left: 25px">MiscFrozen:</span>
@@ -144,7 +150,8 @@ function gotoPage(url: string, name: string, classid) {
 .top {
   display: flex;
   .column-two {
-    width: 85%;
+    width: 80%;
+    margin: 0 0 0 3%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
