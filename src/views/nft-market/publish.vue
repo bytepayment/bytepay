@@ -108,7 +108,11 @@ function onFileUploadSuccess(res: any, uploadFile: any, uploadFiles: any) {
     <div class="input">
       <div class="label">Price:</div>
 
-      <el-input v-model="price" placeholder="price"></el-input>
+      <el-input
+        oninput="if(value>100)value=100;if(value.length>2)value=value.slice(0,3);if(value<0)value=0"
+        v-model="price"
+        placeholder="price"
+      ></el-input>
     </div>
 
     <div class="input">
@@ -126,7 +130,11 @@ function onFileUploadSuccess(res: any, uploadFile: any, uploadFiles: any) {
     <div class="input">
       <div class="label">Total_supply:</div>
 
-      <el-input v-model="total_supply" placeholder="total_supply"></el-input>
+      <el-input
+        oninput="if(value>100)value=100;if(value.length>2)value=value.slice(0,3);if(value<1)value=1"
+        v-model="total_supply"
+        placeholder="total_supply"
+      ></el-input>
     </div>
 
     <div class="input">
