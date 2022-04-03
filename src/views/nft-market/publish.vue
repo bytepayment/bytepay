@@ -5,6 +5,9 @@ import { ElMessage } from "element-plus";
 import Router from "@/router";
 import { getToken, getUser } from "@/utils/auth";
 import { get_polkadot_keyring, getClasses } from "@/api/user";
+import { TINYMCE_API_KEY } from '@/config/index'
+import Editor from '@tinymce/tinymce-vue';
+
 
 // =============== Datas ===============
 const title = ref("");
@@ -152,8 +155,12 @@ function onFileUploadSuccess(res: any, uploadFile: any, uploadFiles: any) {
 
     <div class="input">
       <div class="label">Describe:</div>
-
-      <el-input type="textarea" :rows="5" placeholder="describe" v-model="description"></el-input>
+      <editor :api-key='TINYMCE_API_KEY' :init="{
+        toolbar:
+        'undo redo | formatselect | bold italic | \
+        alignleft aligncenter alignright | \
+        bullist numlist outdent indent | help'
+      }" v-model="description" />
     </div>
 
     <div class="uploadBox">

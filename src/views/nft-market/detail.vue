@@ -51,7 +51,7 @@ function switchTab(index: number) {
 <template>
   <div class="box">
     <div class="right" v-if="list.length">
-      <div class="release">发布时间：{{curNFT.created_time}}</div>
+      <div class="release">Published Time: {{curNFT.created_time}}</div>
       <div class="title">
         {{ curNFT.title }}
       </div>
@@ -64,9 +64,7 @@ function switchTab(index: number) {
       <div class="middle">
         <el-button @click="centerDialogVisible = true" class="button">{{ curNFT.price }} BNX click to buy</el-button>
       </div>
-      <div class="detail">
-        {{ curNFT.description }}
-      </div>
+      <div class="detail" v-html="curNFT.description"></div>
     </div>
     <div class="left">
       <div class="version-title">Version List</div>
