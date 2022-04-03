@@ -19,7 +19,7 @@ const classid = ref("");
 const file_path = ref("");
 const uploadUrl = ref(`${cloud.fileBaseUrl}/public?auto=1`);
 // selectData
-const options = ref([]);
+const options: any = ref([]);
 const value = ref("");
 // =============== Functions ===============
 
@@ -153,24 +153,12 @@ function onFileUploadSuccess(res: any, uploadFile: any, uploadFiles: any) {
     <div class="input">
       <div class="label">Describe:</div>
 
-      <el-input
-        type="textarea"
-        :rows="5"
-        placeholder="describe"
-        v-model="description"
-      ></el-input>
+      <el-input type="textarea" :rows="5" placeholder="describe" v-model="description"></el-input>
     </div>
 
     <div class="uploadBox">
-      <el-upload
-        :action="uploadUrl"
-        multiple
-        :limit="1"
-        :on-success="onFileUploadSuccess"
-      >
-        <el-button class="upload" size="small" type="primary"
-          >Select Your File</el-button
-        >
+      <el-upload :action="uploadUrl" multiple :limit="1" :on-success="onFileUploadSuccess">
+        <el-button class="upload" size="small" type="primary">Select Your File</el-button>
       </el-upload>
     </div>
 

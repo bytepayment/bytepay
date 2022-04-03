@@ -19,9 +19,9 @@ import Clipboard from "clipboard";
 // =============== Datas ===============
 const router = useRouter();
 const tabIndex = ref(0);
-const classArr = ref([]);
+const classArr: any = ref([]);
 const classId = ref("");
-const list = ref([]);
+const list: any = ref([]);
 const address = ref("");
 const account = reactive({
   data: {
@@ -73,7 +73,7 @@ function copy_address(className: string) {
     });
     clipboard.destroy();
   });
-  clipboard.on("error", (e) => {});
+  clipboard.on("error", (e) => { });
 }
 
 function switchTab(index: number) {
@@ -105,19 +105,17 @@ function gotoPage(url: string, name: string, classid: string) {
         </div>
         <div class="detail">
           <span>Free:</span>
-          <span style="color: black">
-            {{ account.data.free }} {{ tokenName }}</span
-          >
+          <span style="color: black">{{ account.data.free }} {{ tokenName }}</span>
           <span style="margin-left: 25px">Reserved:</span>
-          <span> {{ account.data.reserved }}{{ tokenName }}</span>
+          <span>{{ account.data.reserved }}{{ tokenName }}</span>
           <span style="margin-left: 25px">MiscFrozen:</span>
           <span>{{ account.data.miscFrozen }} {{ tokenName }}</span>
           <span style="margin-left: 25px">FeeFrozen:</span>
-          <span> {{ account.data.feeFrozen }}{{ tokenName }}</span>
+          <span>{{ account.data.feeFrozen }}{{ tokenName }}</span>
         </div>
       </div>
 
-      <div @click="gotoPage('/publish')" class="button">publish</div>
+      <div @click="gotoPage('/publish', '', '')" class="button">publish</div>
     </div>
     <div class="classify">
       <div
@@ -125,9 +123,7 @@ function gotoPage(url: string, name: string, classid: string) {
         @click="switchTab(index)"
         :key="index"
         :class="[tabIndex == index ? 'optioned' : 'className']"
-      >
-        {{ item.meta.name }}
-      </div>
+      >{{ item.meta.name }}</div>
     </div>
     <div class="content">
       <div
