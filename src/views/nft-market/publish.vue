@@ -101,121 +101,91 @@ function onFileUploadSuccess(res: any, uploadFile: any, uploadFiles: any) {
 </script>
 
 <template>
-  <div class="box">
+  <el-card style="margin-top: 50px;">
     <div class="form-title">Mint a NFT</div>
-    <div class="input">
-      <div class="label">Title:</div>
-      <el-input v-model="title" placeholder="title"></el-input>
-    </div>
+    <el-form label-width="120px">
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="Title:">
+            <el-input v-model="title" placeholder="title"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="Price:">
+            <el-input
+              oninput="if(value>100)value=100;if(value.length>2)value=value.slice(0,3);if(value<0)value=0"
+              v-model="price"
+              placeholder="price"
+            />
+          </el-form-item>
+        </el-col>
+      </el-row>
 
-    <div class="input">
-      <div class="label">Price:</div>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="Version:">
+            <el-input v-model="version" placeholder="version"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="Project:">
+            <el-input v-model="project" placeholder="project"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
 
-      <el-input
-        oninput="if(value>100)value=100;if(value.length>2)value=value.slice(0,3);if(value<0)value=0"
-        v-model="price"
-        placeholder="price"
-      ></el-input>
-    </div>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="Total_supply:">
+            <el-input
+              oninput="if(value>100)value=100;if(value.length>2)value=value.slice(0,3);if(value<1)value=1"
+              v-model="total_supply"
+              placeholder="total_supply"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="Class:">
+            <el-select @change="selectChange" v-model="value" placeholder="class">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
 
-    <div class="input">
-      <div class="label">Version:</div>
+      <el-form-item label="Describe:">
+       <editor :api-key='TINYMCE_API_KEY' :init="{
+          toolbar:
+          'undo redo | formatselect | bold italic | \
+          alignleft aligncenter alignright | \
+          bullist numlist outdent indent | help'
+        }" v-model="description" />
+      </el-form-item>
 
-      <el-input v-model="version" placeholder="version"></el-input>
-    </div>
+      <el-form-item>
+        <el-upload :action="uploadUrl" multiple :limit="1" :on-success="onFileUploadSuccess">
+          <el-button class="upload" size="small" type="primary">Select Your File</el-button>
+        </el-upload>
+      </el-form-item>
 
-    <div class="input">
-      <div class="label">Project:</div>
-
-      <el-input v-model="project" placeholder="project"></el-input>
-    </div>
-
-    <div class="input">
-      <div class="label">Total_supply:</div>
-
-      <el-input
-        oninput="if(value>100)value=100;if(value.length>2)value=value.slice(0,3);if(value<1)value=1"
-        v-model="total_supply"
-        placeholder="total_supply"
-      ></el-input>
-    </div>
-
-    <div class="input">
-      <div class="label">Class:</div>
-
-      <el-select @change="selectChange" v-model="value" placeholder="class">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        ></el-option>
-      </el-select>
-    </div>
-
-    <div class="input">
-      <div class="label">Describe:</div>
-      <editor :api-key='TINYMCE_API_KEY' :init="{
-        toolbar:
-        'undo redo | formatselect | bold italic | \
-        alignleft aligncenter alignright | \
-        bullist numlist outdent indent | help'
-      }" v-model="description" />
-    </div>
-
-    <div class="uploadBox">
-      <el-upload :action="uploadUrl" multiple :limit="1" :on-success="onFileUploadSuccess">
-        <el-button class="upload" size="small" type="primary">Select Your File</el-button>
-      </el-upload>
-    </div>
-
-    <div @click="ok" class="ok">submit</div>
-  </div>
+      <el-form-item>
+        <el-button type="primary" size="normal" @click="ok">submit</el-button>
+      </el-form-item>
+    </el-form>
+  </el-card>
+ 
 </template>
 
 <style lang="scss" scoped>
-.box {
-  .form-title {
-    font-size: 18px;
-    font-weight: bold;
-  }
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 30px 0 0 0;
-  .input {
-    .label {
-      // width: 130px;
-      font-size: 16px;
-      font-weight: bold;
-      margin: 0 10px 0 0;
-    }
-    // display: flex;
-    line-height: 30px;
-    width: 30%;
-    margin: 15px 0 0 0;
-  }
-  .uploadBox {
-    width: 30%;
-    .upload {
-      height: 30px;
-      font-size: 15px;
-      margin: 15px 0 0 0;
-      background-color: #6667ab;
-      border-color: #6667ab;
-    }
-  }
-  .ok {
-    width: 80px;
-    height: 30px;
-    margin: 10px 0 0 0;
-    text-align: center;
-    line-height: 30px;
-    color: #ffffff;
-    background-color: #6667ab;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+.form-title {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
 }
 </style>

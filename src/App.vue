@@ -13,5 +13,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+
+  .el-button--primary {
+    background-color: #6667ab;
+    border-color: #6667ab;
+  }
+  .el-button--primary:hover {
+    background-color: #5a5c9e;
+    border-color: #5a5c9e;
+  }
 }
 </style>

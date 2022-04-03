@@ -94,7 +94,7 @@ function gotoPage(url: string, name: string, classid: string) {
 </script>
 
 <template>
-  <div>
+  <el-card style="margin-top: 50px;">
     <div class="top">
       <div class="column-two">
         <div class="address" :data-clipboard-text="address">
@@ -139,7 +139,7 @@ function gotoPage(url: string, name: string, classid: string) {
         <div class="name">price: {{ item.price }}</div>
       </div>
     </div>
-  </div>
+  </el-card>
 </template>
 
 <style lang="scss" scoped>
@@ -196,6 +196,7 @@ function gotoPage(url: string, name: string, classid: string) {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  padding-bottom: 50px;
   .item {
     width: 200px;
     height: 150px;

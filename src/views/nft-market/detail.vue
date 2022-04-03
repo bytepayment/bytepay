@@ -49,58 +49,61 @@ function switchTab(index: number) {
 </script>
 
 <template>
-  <div class="box">
-    <div class="right" v-if="list.length">
-      <div class="release">Published Time: {{curNFT.created_time}}</div>
-      <div class="title">
-        {{ curNFT.title }}
+  <el-card style="margin-top: 50px;">
+    <div class="box" >
+      <div class="right" v-if="list.length">
+        <div class="release">Published Time: {{curNFT.created_time}}</div>
+        <div class="title">
+          {{ curNFT.title }}
+        </div>
+        <el-descriptions>
+          <el-descriptions-item label="Project Name:">{{curNFT.project}}</el-descriptions-item>
+          <el-descriptions-item label="Left:">
+            <el-tag color="#6667ab" :hit="false" style="color: #fff;" size="small">{{ curNFT.left_amount }}</el-tag>
+          </el-descriptions-item>
+        </el-descriptions>
+        <div class="middle">
+          <el-button @click="centerDialogVisible = true" class="button">{{ curNFT.price }} BNX click to buy</el-button>
+        </div>
+        <div class="detail" v-html="curNFT.description"></div>
       </div>
-      <el-descriptions>
-        <el-descriptions-item label="Project Name:">{{curNFT.project}}</el-descriptions-item>
-        <el-descriptions-item label="Left:">
-          <el-tag color="#6667ab" :hit="false" style="color: #fff;" size="small">{{ curNFT.left_amount }}</el-tag>
-        </el-descriptions-item>
-      </el-descriptions>
-      <div class="middle">
-        <el-button @click="centerDialogVisible = true" class="button">{{ curNFT.price }} BNX click to buy</el-button>
-      </div>
-      <div class="detail" v-html="curNFT.description"></div>
-    </div>
-    <div class="left">
-      <div class="version-title">Version List</div>
-      <div
-        v-for="(item, index) in list"
-        :key="index"
-        class="version"
-        :class="[tabIndex == index ? 'optioned' : '']"
-        @click="switchTab(index)"
-      >
-        {{ item.version }}
-      </div>
-    </div>
-    <el-dialog v-model="centerDialogVisible" title="Confirm Buy" width="30%" center>
-    <span
-      >Confirm paid {{ curNFT.price }} BNX to buy this NFT</span
-    >
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="centerDialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="buy"
-          >Confirm</el-button
+      <div class="left">
+        <div class="version-title">Version List</div>
+        <div
+          v-for="(item, index) in list"
+          :key="index"
+          class="version"
+          :class="[tabIndex == index ? 'optioned' : '']"
+          @click="switchTab(index)"
         >
-      </span>
-    </template>
-  </el-dialog>
-  </div>
+          {{ item.version }}
+        </div>
+      </div>
+      <el-dialog v-model="centerDialogVisible" title="Confirm Buy" width="30%" center>
+        <span
+          >Confirm paid {{ curNFT.price }} BNX to buy this NFT</span
+        >
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="centerDialogVisible = false">Cancel</el-button>
+            <el-button type="primary" @click="buy"
+              >Confirm</el-button
+            >
+          </span>
+        </template>
+      </el-dialog>
+    </div>
+  </el-card>
 </template>
 
 <style lang="scss" scoped>
 .box {
   display: flex;
+  padding: 10px;
   .right {
     width: 70%;
     height: 500px;
-    padding-top: 80px;
+    margin-top: 30px;
     .release {
       font-size: 12px;
       letter-spacing: 2px;
@@ -125,15 +128,6 @@ function switchTab(index: number) {
     .middle {
       display: flex;
       .button {
-        // padding: 0 5px 0 5px;
-        // min-width: 150px;
-        // height: 30px;
-        // text-align: center;
-        // line-height: 30px;
-        // color: #ffffff;
-        // background-color: #6667ab;
-        // border-radius: 5px;
-        // cursor: pointer;
         background-color: #e5e6f8;
         border: 1px solid #6667ab;
         color: #6667ab;
@@ -155,9 +149,9 @@ function switchTab(index: number) {
     }
   }
   .left {
-    margin: 100px 0 0 80px;
+    margin: 30px 0 0 80px;
     // border: 1px solid #6667ab;
-    padding: 10px;
+    // padding: 10px;
     .version-title {
       font-size: 16px;
       font-weight: 600;
@@ -165,17 +159,16 @@ function switchTab(index: number) {
       margin-top: 0;
     }
     .version {
-      margin: 10px 0 10px;
+      margin: 20px 0;
       max-width: 80px;
-      height: 30px;
       color: black;
       text-align: center;
       font-weight: bold;
       cursor: pointer;
-      position: relative;
     }
     .optioned {
       color: #6667ab;
+      position: relative;
     }
     .optioned::after {
       content: '';
@@ -183,9 +176,9 @@ function switchTab(index: number) {
       position: absolute;
       background-color: #6667ab;
       width: 4px;
-      height: 50%;
-      left: -2px;
-      top: 40%;
+      height: 12px;
+      left: 6px;
+      top: 50%;
       transform: translateY(-50%);
     }
   }
