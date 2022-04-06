@@ -51,6 +51,7 @@ onMounted(() => {
               <span>Work Flow</span>
             </template>
             <el-menu-item index="2-1" @click="setActiveMDName('bytepay-userguide')">User Guide</el-menu-item>
+            <el-menu-item index="2-2" @click="setActiveMDName('bytepay-contract')">Ink! Contract</el-menu-item>
             <!-- <el-menu-item index="2-2" @click="setActiveMDName('issue')">Interact With Issue</el-menu-item>
             <el-menu-item index="2-3" @click="setActiveMDName('why-dotpay')">How Dot Pay works</el-menu-item>-->
           </el-sub-menu>
