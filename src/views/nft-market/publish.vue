@@ -160,14 +160,15 @@ function onFileUploadSuccess(res: any, uploadFile: any, uploadFiles: any) {
 
       <el-form-item label="Describe:">
        <editor :api-key='TINYMCE_API_KEY' :init="{
+          plugins: 'image',
           toolbar:
           'undo redo | formatselect | bold italic | \
           alignleft aligncenter alignright | \
-          bullist numlist outdent indent | help'
+          bullist numlist outdent indent | help | image'
         }" v-model="description" />
       </el-form-item>
 
-      <el-form-item>
+      <el-form-item label="File:">
         <el-upload :action="uploadUrl" multiple :limit="1" :on-success="onFileUploadSuccess">
           <el-button class="upload" size="small" type="primary">Select Your File</el-button>
         </el-upload>

@@ -94,7 +94,7 @@ function gotoPage(url: string, name: string, classid: string) {
 </script>
 
 <template>
-  <el-card style="margin-top: 50px;">
+  <el-card style="margin-top: 50px;margin-bottom: 20px;">
     <div class="top">
       <div class="column-two">
         <div class="address" :data-clipboard-text="address">
@@ -117,6 +117,8 @@ function gotoPage(url: string, name: string, classid: string) {
 
       <div @click="gotoPage('/publish', '', '')" class="button">publish</div>
     </div>
+  </el-card>
+  <el-card style="margin-bottom: 20px;">
     <div class="classify">
       <div
         v-for="(item, index) in classArr"
@@ -195,22 +197,25 @@ function gotoPage(url: string, name: string, classid: string) {
 .content {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-between;
   padding-bottom: 50px;
   .item {
-    width: 200px;
+    width: 220px;
     height: 150px;
     margin: 10px 0 0 0px;
     border-radius: 8px;
     box-shadow: 4px 6px 10px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     .name {
-      width: 200px;
       height: 20px;
       margin: 0px 0 5px 5px;
+      overflow: hidden;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
     }
     .topBox {
-      width: 200px;
+      width: 100%;
       height: 10px;
       border-radius: 5px 5px 0 0;
       background-color: #6667ab;
