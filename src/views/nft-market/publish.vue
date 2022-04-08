@@ -101,18 +101,28 @@ function onFileUploadSuccess(res: any, uploadFile: any, uploadFiles: any) {
 </script>
 
 <template>
-  <el-card style="margin-top: 50px;">
-    <div class="form-title">Mint a NFT</div>
-    <el-form label-width="120px">
+  <el-card class="wrap-card">
+    <div class="form-title">
+      <span>Mint a NFT</span>
+      <el-divider></el-divider>
+    </div>
+    <el-form label-width="80px" label-position="left">
       <el-row>
-        <el-col :span="12">
-          <el-form-item label="Title:">
-            <el-input v-model="title" placeholder="title"></el-input>
+        <el-col :span="10" :offset="1">
+          <el-form-item>
+            <template #label>
+              <span class="form-item-label">Title:</span>
+            </template>
+            <el-input v-model="title" :input-style="{height: '50px'}" placeholder="title"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item label="Price:">
+        <el-col :span="10" :offset="1">
+          <el-form-item>
+            <template #label>
+              <span class="form-item-label">Price:</span>
+            </template>
             <el-input
+            :input-style="{height: '50px'}"
               oninput="if(value>100)value=100;if(value.length>2)value=value.slice(0,3);if(value<0)value=0"
               v-model="price"
               placeholder="price"
@@ -122,31 +132,44 @@ function onFileUploadSuccess(res: any, uploadFile: any, uploadFiles: any) {
       </el-row>
 
       <el-row>
-        <el-col :span="12">
+        <el-col :span="10" :offset="1">
           <el-form-item label="Version:">
-            <el-input v-model="version" placeholder="version"></el-input>
+            <template #label>
+              <span class="form-item-label">Version:</span>
+            </template>
+            <el-input v-model="version" :input-style="{height: '50px'}" placeholder="version"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="10" :offset="1">
           <el-form-item label="Project:">
-            <el-input v-model="project" placeholder="project"></el-input>
+            <template #label>
+              <span class="form-item-label">Project:</span>
+            </template>
+            <el-input v-model="project" :input-style="{height: '50px'}" placeholder="project"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
 
       <el-row>
-        <el-col :span="12">
+        <el-col :span="10" :offset="1">
           <el-form-item label="Total_supply:">
+            <template #label>
+              <span class="form-item-label">Total:</span>
+            </template>
             <el-input
+            :input-style="{height: '50px'}"
               oninput="if(value>100)value=100;if(value.length>2)value=value.slice(0,3);if(value<1)value=1"
               v-model="total_supply"
               placeholder="total_supply"
             ></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="10" :offset="1">
           <el-form-item label="Class:">
-            <el-select @change="selectChange" v-model="value" placeholder="class">
+            <template #label>
+              <span class="form-item-label">Class:</span>
+            </template>
+            <el-select @change="selectChange" v-model="value" size="large" placeholder="class">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -158,33 +181,55 @@ function onFileUploadSuccess(res: any, uploadFile: any, uploadFiles: any) {
         </el-col>
       </el-row>
 
-      <el-form-item label="Describe:">
-       <editor :api-key='TINYMCE_API_KEY' :init="{
-          plugins: 'image',
-          toolbar:
-          'undo redo | formatselect | bold italic | \
-          alignleft aligncenter alignright | \
-          bullist numlist outdent indent | help | image'
-        }" v-model="description" />
-      </el-form-item>
+      <el-row>
+        <el-col :span="21" :offset="1">
+          <el-form-item label="Describe:">
+            <template #label>
+              <span class="form-item-label">Desc:</span>
+            </template>
+            <editor style="width: 100%; min-height: 500px;" :api-key='TINYMCE_API_KEY' :init="{
+              plugins: 'image',
+              toolbar:
+              'undo redo | formatselect | bold italic | \
+              alignleft aligncenter alignright | \
+              bullist numlist outdent indent | help | image'
+            }" v-model="description" />
+          </el-form-item>
+        </el-col>
+      </el-row>
 
-      <el-form-item label="File:">
-        <el-upload :action="uploadUrl" multiple :limit="1" :on-success="onFileUploadSuccess">
-          <el-button class="upload" size="small" type="primary">Select Your File</el-button>
-        </el-upload>
-      </el-form-item>
-
-      <el-form-item>
-        <el-button type="primary" size="normal" @click="ok">submit</el-button>
-      </el-form-item>
+      <el-row>
+        <el-col :span="20" :offset="1">
+          <el-form-item label="File:">
+            <template #label>
+              <span class="form-item-label">File:</span>
+            </template>
+            <el-upload :action="uploadUrl" multiple :limit="1" :on-success="onFileUploadSuccess">
+              <el-button class="upload" size="large" type="primary">Select Your File</el-button>
+            </el-upload>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <div style="text-align: center;margin: 30px 0;">
+        <el-button style="width: 200px;font-size: 20px;" type="primary" size="large" @click="ok">submit</el-button>
+      </div>
     </el-form>
   </el-card>
  
 </template>
 
 <style lang="scss" scoped>
-.form-title {
+.wrap-card {
+  margin-top: 50px;padding: 0 40px;margin-bottom: 40px;
+}
+.form-item-label{
+  height: 50px;
+  line-height: 50px;
   font-size: 18px;
+  font-weight: bold;
+}
+.form-title {
+  font-size: 36px;
   font-weight: bold;
   text-align: center;
   margin-bottom: 20px;
