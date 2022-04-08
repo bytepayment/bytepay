@@ -105,12 +105,12 @@ function gotoPage(url: string, name: string, classid: string) {
         </div>
         <div class="detail">
           <span>Free:</span>
-          <span style="color: black">{{ account.data.free }} {{ tokenName }}</span>
-          <span style="margin-left: 25px">Reserved:</span>
+          <span style="color: black;"> <span style="margin-right: 10px;">{{ account.data.free }}</span>{{ tokenName }}</span>
+          <span style="margin-left: 25px; margin-right: 10px;">Reserved:</span>
           <span>{{ account.data.reserved }}{{ tokenName }}</span>
-          <span style="margin-left: 25px">MiscFrozen:</span>
+          <span style="margin-left: 25px; margin-right: 10px;">MiscFrozen:</span>
           <span>{{ account.data.miscFrozen }} {{ tokenName }}</span>
-          <span style="margin-left: 25px">FeeFrozen:</span>
+          <span style="margin-left: 25px; margin-right: 10px;">FeeFrozen:</span>
           <span>{{ account.data.feeFrozen }}{{ tokenName }}</span>
         </div>
       </div>
@@ -133,12 +133,12 @@ function gotoPage(url: string, name: string, classid: string) {
         v-for="(item, index) in list"
         class="item"
       >
-        <div class="topBox"></div>
-        <div class="name">project: {{ item.project }}</div>
-        <div class="name">version: {{ item.version }}</div>
-        <div class="name">owner: {{ item.owner }}</div>
-        <div class="name">left: {{ item.left_amount }}</div>
-        <div class="name">price: {{ item.price }}</div>
+        <div class="name"><span class="label">Title:</span> {{ item.title }}</div>
+        <div class="name"><span class="label">Project:</span> {{ item.project }}</div>
+        <div class="name"><span class="label">Version:</span> {{ item.version }}</div>
+        <div class="name"><span class="label">Owner:</span> {{ item.owner }}</div>
+        <div class="name"><span class="label">Left:</span> {{ item.left_amount }}</div>
+        <div class="name"><span class="label">Price:</span> {{ item.price }}</div>
       </div>
     </div>
   </el-card>
@@ -197,29 +197,44 @@ function gotoPage(url: string, name: string, classid: string) {
 .content {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  // justify-content: space-between;
   padding-bottom: 50px;
   .item {
-    width: 220px;
-    height: 150px;
-    margin: 10px 0 0 0px;
+    position: relative;
+    width: 23%;
+    padding: 20px;
+    box-sizing: border-box;
+    margin: 15px 0;
+    margin-right: 2%;
     border-radius: 8px;
     box-shadow: 4px 6px 10px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     .name {
       height: 20px;
-      margin: 0px 0 5px 5px;
+      margin: 10px 0;
       overflow: hidden;
-
-    white-space: nowrap;
-    text-overflow: ellipsis;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      .label {
+        color: #6667ab;
+        font-weight: bold;
+        width: 60px;
+        display: inline-block;
+        // font-size: 12px;
+        margin-right: 5px;
+      }
     }
-    .topBox {
-      width: 100%;
-      height: 10px;
-      border-radius: 5px 5px 0 0;
-      background-color: #6667ab;
-    }
+  }
+  .item::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+   width: 100%;
+  height: 10px;
+  border-radius: 5px 5px 0 0;
+  background-color: #6667ab;
   }
 }
 </style>
