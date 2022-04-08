@@ -56,14 +56,33 @@ function switchTab(index: number) {
         <div class="title">
           {{ curNFT.title }}
         </div>
-        <el-descriptions>
+        <!-- <el-descriptions column="2">
+          <el-descriptions-item label="Owner:">{{curNFT.owner}}</el-descriptions-item>
           <el-descriptions-item label="Project Name:">{{curNFT.project}}</el-descriptions-item>
           <el-descriptions-item label="Left:">
-            <el-tag color="#6667ab" :hit="false" style="color: #fff;" size="small">{{ curNFT.left_amount }}</el-tag>
+            <el-tag color="#6667ab" :hit="false" style="color: #fff;font-size: 16px;" size="normal">{{ curNFT.left_amount }}</el-tag>
           </el-descriptions-item>
-        </el-descriptions>
+        </el-descriptions> -->
+        <div class="desc-items">
+          <div style="display: flex;align-items: center;">
+            <div class="desc-item">
+              <div class="desc-item-label">Owner:</div>
+              <div class="desc-item-value">{{curNFT.owner}}</div>
+            </div>
+            <div class="desc-item">
+              <div class="desc-item-label">Project Name:</div>
+              <div class="desc-item-value">{{curNFT.project}}</div>
+            </div>
+          </div>
+          </div>
         <div class="middle">
           <el-button @click="centerDialogVisible = true" class="button">{{ curNFT.price }} BNX click to buy</el-button>
+          <div class="desc-item">
+            <div class="desc-item-label">Left:</div>
+            <div class="desc-item-value">
+              <el-tag color="#6667ab" :hit="false" style="color: #fff;font-size: 16px;" size="normal">{{ curNFT.left_amount }}</el-tag>
+            </div>
+          </div>
         </div>
         <div class="detail" v-html="curNFT.description"></div>
       </div>
@@ -102,7 +121,6 @@ function switchTab(index: number) {
   padding: 10px;
   .right {
     width: 70%;
-    height: 500px;
     margin-top: 30px;
     .release {
       font-size: 12px;
@@ -120,6 +138,29 @@ function switchTab(index: number) {
       // text-align: center;
       margin: 10px 0 30px 0;
     }
+    .desc-items {
+      display: flex;
+      flex-direction: column;
+      .desc-item {
+        display: flex;
+        margin-bottom: 10px;
+        margin-right: 30px;
+        height: 30px;
+        .desc-item-label {
+          font-size: 14px;
+          font-weight: bold;
+          line-height: 30px;
+          color: #6667ab;
+          margin-right: 10px;
+          vertical-align: center;
+        }
+        .desc-item-value {
+          line-height: 30px;
+          font-size: 16px;
+          color: #333;
+        }
+      }
+    }
     .quantity {
       margin: 10px 0;
       height: 30px;
@@ -127,6 +168,7 @@ function switchTab(index: number) {
     }
     .middle {
       display: flex;
+      margin-top: 20px;
       .button {
         background-color: #e5e6f8;
         border: 1px solid #6667ab;
@@ -136,6 +178,26 @@ function switchTab(index: number) {
         font-size: 16px;
         border-radius: 0;
         padding: 0 25px;
+        margin-right: 40px;
+      }
+      .desc-item {
+        display: flex;
+        margin-bottom: 10px;
+        margin-right: 30px;
+        height: 30px;
+        .desc-item-label {
+          font-size: 14px;
+          font-weight: bold;
+          line-height: 30px;
+          color: #6667ab;
+          margin-right: 10px;
+          vertical-align: center;
+        }
+        .desc-item-value {
+          line-height: 30px;
+          font-size: 16px;
+          color: #333;
+        }
       }
       
       .owner {
@@ -146,6 +208,9 @@ function switchTab(index: number) {
     .detail {
       margin: 30px 0 0 0;
       width: 100%;
+      border: 1px solid #d1d7dd;
+      padding: 20px;
+      min-height: 500px;
     }
   }
   .left {
