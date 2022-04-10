@@ -48,3 +48,16 @@ Set your withdraw passwd, then:
 
 <br/>
 <br/>
+
+# Publish your NFT
+
+![image](https://user-images.githubusercontent.com/10041921/162606840-920b964e-b996-4224-9483-d72d73f33c01.png)
+
+Then you can see your published NFT in the list
+
+![image](https://user-images.githubusercontent.com/10041921/162606850-721cb742-47ea-475e-8638-8116bb6522a1.png)
+
+Click on your NFT to go to the details page
+
+![image](https://user-images.githubusercontent.com/10041921/162606988-588c86fe-3849-4504-a819-87c4fcf23105.png)
+
