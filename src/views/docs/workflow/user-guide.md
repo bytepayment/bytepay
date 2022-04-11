@@ -51,6 +51,8 @@ Set your withdraw passwd, then:
 
 # Publish your NFT
 
+Publish your open source project as NFT
+
 ![image](https://user-images.githubusercontent.com/10041921/162606840-920b964e-b996-4224-9483-d72d73f33c01.png)
 
 Then you can see your published NFT in the list
