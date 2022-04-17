@@ -1,8 +1,8 @@
-import { GithubUser } from "@/entity"
+import { GithubUser } from '@/entity'
 
-const kToken = "access_token"
-const kExpire = "token_expire"
-const kUser = "user"
+const kToken = 'access_token'
+const kExpire = 'token_expire'
+const kUser = 'user'
 
 export function getToken() {
   const token = localStorage.getItem(kToken)
@@ -20,7 +20,7 @@ export function getTokenExpire() {
 }
 
 // default expires at 2099-12-31 23:59:59
-export function setToken(token: string, expire: string = "4102415999000") {
+export function setToken(token: string, expire: string = '4102415999000') {
   localStorage.setItem(kExpire, expire)
   return localStorage.setItem(kToken, token)
 }

@@ -5,7 +5,7 @@ const {
   test_user_login,
   test_user_polka_address,
   test_bind_own_address,
-  test_recv_address,
+  test_recv_address
 } = require('../config')
 const request = require('../request')
 
@@ -36,7 +36,7 @@ describe('Polkadot Related API', function () {
 
   it('userinfo:get() should be ok', async function () {
     const r = await request.post('/get_github_user_info', {
-      token,
+      token
     })
     userinfo = r.data
     assert(r.status === 200)
@@ -57,7 +57,7 @@ describe('Polkadot Related API', function () {
 
   it('polkadot-account-info:get() should be ok', async function () {
     const r = await request.post('/get_polkadot_account_info', {
-      id: userinfo.id,
+      id: userinfo.id
     })
     assert(r.status === 200)
     const data = r.data.data
@@ -74,14 +74,14 @@ describe('Polkadot Related API', function () {
   it('developer:bind_own_address() should be ok', async function () {
     const r = await request.post('/bind_polka_address', {
       id: userinfo.id,
-      address: test_bind_own_address,
+      address: test_bind_own_address
     })
     assert(r.status === 200)
     assert(r.data.error === 0)
     assert(r.data.error_msg === 'success')
     // Get userinfo again to check
     const ru = await request.post('/get_github_user_info', {
-      token,
+      token
     })
     assert(ru.status === 200)
     assert(ru.data.own_polka_address === test_bind_own_address)
@@ -89,7 +89,7 @@ describe('Polkadot Related API', function () {
 
   it('polkadot-transfers-record:get() should be ok', async function () {
     const r = await request.post('/get_polkadot_tx_record', {
-      id: userinfo.id,
+      id: userinfo.id
     })
     assert(r.data.error === 0)
     assert(r.data.data.count > 7) // For test account, we have 8 transfer at least
@@ -102,7 +102,7 @@ describe('Polkadot Related API', function () {
     const r = await request.post('/polkadot_transfer_only_for_test', {
       pay_user_id: userinfo.id,
       recv_address: test_recv_address,
-      amount: 0.00001,
+      amount: 0.00001
     })
     assert(r.status === 200)
     const result = r.data
@@ -114,7 +114,7 @@ describe('Polkadot Related API', function () {
     // Wait 6 seconds to ensure transfer success
     await sleep(6000)
     const r = await request.post('/get_polkadot_account_info', {
-      id: userinfo.id,
+      id: userinfo.id
     })
     assert(r.status === 200)
     const newAccountInfo = r.data.data

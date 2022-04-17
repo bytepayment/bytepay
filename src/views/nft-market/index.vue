@@ -1,38 +1,38 @@
 <script lang="ts" setup>
-import { ref, reactive, onMounted } from "vue";
-import { cloud } from "@/api/cloud";
-import { useRouter } from "vue-router";
-import { ElMessage } from "element-plus";
-import { DocumentCopy } from "@element-plus/icons-vue";
+import { ref, reactive, onMounted } from 'vue';
+import { cloud } from '@/api/cloud';
+import { useRouter } from 'vue-router';
+import { ElMessage } from 'element-plus';
+import { DocumentCopy } from '@element-plus/icons-vue';
 import {
   nft_get_bytechain_keyring,
-  nft_get_bytechain_accountinfo,
-} from "@/api/nft";
+  nft_get_bytechain_accountinfo
+} from '@/api/nft';
 import {
   get_polkadot_keyring,
   get_polka_account_info,
   get_polkadot_tx_record,
-  getClasses,
-} from "@/api/user";
-import Clipboard from "clipboard";
+  getClasses
+} from '@/api/user';
+import Clipboard from 'clipboard';
 
 // =============== Datas ===============
 const router = useRouter();
 const tabIndex = ref(0);
 const classArr: any = ref([]);
-const classId = ref("");
+const classId = ref('');
 const list: any = ref([]);
-const address = ref("");
+const address = ref('');
 const account = reactive({
   data: {
     free: 0.0,
     reserved: 0.0,
     miscFrozen: 0.0,
     feeFrozen: 0.0,
-    tokenName: "BNX",
-  },
+    tokenName: 'BNX'
+  }
 });
-const tokenName = ref("BNX");
+const tokenName = ref('BNX');
 
 // =============== Functions ===============
 
@@ -49,8 +49,8 @@ async function getClass() {
 }
 
 async function getList() {
-  const r = await cloud.invokeFunction("nft_get_list", {
-    classid: classId.value,
+  const r = await cloud.invokeFunction('nft_get_list', {
+    classid: classId.value
   });
   if (0 === r.code) list.value = r.data;
 }
@@ -65,15 +65,15 @@ async function getAddress() {
 }
 
 function copy_address(className: string) {
-  const clipboard = new Clipboard("." + className);
-  clipboard.on("success", (e) => {
+  const clipboard = new Clipboard('.' + className);
+  clipboard.on('success', (e) => {
     ElMessage({
-      type: "success",
-      message: "Copied!",
+      type: 'success',
+      message: 'Copied!'
     });
     clipboard.destroy();
   });
-  clipboard.on("error", (e) => { });
+  clipboard.on('error', (e) => { });
 }
 
 function switchTab(index: number) {
@@ -87,8 +87,8 @@ function gotoPage(url: string, name: string, classid: string) {
     path: url,
     query: {
       name: name,
-      classid: classid,
-    },
+      classid: classid
+    }
   });
 }
 </script>
@@ -115,23 +115,25 @@ function gotoPage(url: string, name: string, classid: string) {
         </div>
       </div>
 
-      <div @click="gotoPage('/publish', '', '')" class="button">publish</div>
+      <div class="button" @click="gotoPage('/publish', '', '')">publish</div>
     </div>
   </el-card>
   <el-card style="margin-bottom: 20px;">
     <div class="classify">
       <div
         v-for="(item, index) in classArr"
-        @click="switchTab(index)"
         :key="index"
         :class="[tabIndex == index ? 'optioned' : 'className']"
-      >{{ item.meta.name }}</div>
+        @click="switchTab(index)"
+      >
+        {{ item.meta.name }}
+      </div>
     </div>
     <div class="content">
       <div
-        @click="gotoPage('/detail', item.project, item.classid)"
-        v-for="(item, index) in list"
+        v-for="item in list" :key="item._id"
         class="item"
+        @click="gotoPage('/detail', item.project, item.classid)"
       >
         <div class="name"><span class="label">Title:</span> {{ item.title }}</div>
         <div class="name"><span class="label">Project:</span> {{ item.project }}</div>

@@ -4,5 +4,5 @@ const API_BASE_URL =
 
 module.exports = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 15000,
+  timeout: 15000
 })

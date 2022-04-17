@@ -1,7 +1,7 @@
-import { defineConfig } from "vite"
-import vue from "@vitejs/plugin-vue"
-import Markdown from "vite-plugin-md"
-import path from "path"
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import Markdown from 'vite-plugin-md'
+import path from 'path'
 function resolve(dir: string): string {
   return path.join(__dirname, dir)
 }
@@ -9,21 +9,21 @@ function resolve(dir: string): string {
 export default defineConfig({
   plugins: [
     vue({
-      include: [/\.vue$/, /\.md$/], // <--
+      include: [/\.vue$/, /\.md$/] // <--
     }),
-    Markdown(),
+    Markdown()
   ],
   resolve: {
     alias: {
-      "@": resolve("src"),
-    },
+      '@': resolve('src')
+    }
   },
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: '@import "./src/assets/styles/global.scss";',
-      },
-    },
+        additionalData: '@import "./src/assets/styles/global.scss";'
+      }
+    }
   },
   server: {
     port: 10086

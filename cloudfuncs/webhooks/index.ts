@@ -1,5 +1,4 @@
 
-
 import cloud from '@/cloud-sdk'
 import axios from 'axios'
 import { CollectionReference } from './node_modules/database-ql'
@@ -20,7 +19,7 @@ interface Issue {
     html_url: string
     user: User
     author_association: string,
-    "number": number
+    'number': number
   },
   comment: {
     id: number
@@ -53,7 +52,6 @@ const PaidReg2 = new RegExp(/\/bytepay\s+pay\s+(.*)\s+([0-9]\d*\.?\d*)DOT$/)
 const BindReg = new RegExp(/\/bytepay\s+bind\s+(.*)/)
 const RobottToken = Config.CryptoPayLabBotToken
 const headers = { 'Accept': 'application/json', 'Authorization': `Bearer ${RobottToken}` }
-
 
 // Robot 自动回复Comment
 async function submitIssueComment(issue_loc: IssueLoc, body: string) {
@@ -187,7 +185,7 @@ async function PayTask(collTask: CollectionReference, issuePayload: Issue, issue
   const { issue, comment, repository, sender } = issuePayload
   let robot_comment = ''
   // 1. 查找该任务是否已创建
-  const { data: task} = await collTask.where({ issue_id: issue.id }).getOne()
+  const { data: task } = await collTask.where({ issue_id: issue.id }).getOne()
   if (!task) {
     robot_comment = '**No task under this issue.**'
     await submitIssueComment(issue_loc, robot_comment)
@@ -355,14 +353,14 @@ async function CloseIssueEvent(collTask: CollectionReference, issuePayload: Issu
   if (!task) return console.log(`Task not found for this issue: ${issue.html_url}`)
   // 2. 判断任务状态
   if (task.status === 'created') { // 无人申领，置为closed
-    return await collTask.where({ issue_id: issue.id }).update({ status: 'closed'})
+    return await collTask.where({ issue_id: issue.id }).update({ status: 'closed' })
   } else if (task.status === 'applied') { // 有人申领，尚未支付，置为closed-without-pay
     // 解冻金额
     const collUser = cloud.database().collection('user')
     const { data: author } = await collUser.where({ id: task.author.id }).getOne()
-    await collUser.where({id: author.id}).update({ frozenAmount: author.frozenAmount - task.pay, status: 'closed-without-pay' })
+    await collUser.where({ id: author.id }).update({ frozenAmount: author.frozenAmount - task.pay, status: 'closed-without-pay' })
   } else if (task.status === 'paid') { // 已支付, 置为closed
-    return await collTask.where({ issue_id: issue.id }).update({ status: 'closed'})
+    return await collTask.where({ issue_id: issue.id }).update({ status: 'closed' })
   } else {
     return console.log('Close event match nothing')
   }
@@ -373,7 +371,7 @@ async function BindDotAddress(collTask: CollectionReference, issuePayload: Issue
   const issue_content = comment.body
   const matchResult = issue_content.match(BindReg)
   const address = matchResult[1]
-  const { data: task} = await collTask.where({ issue_id: issue.id }).getOne()
+  const { data: task } = await collTask.where({ issue_id: issue.id }).getOne()
   // Check if Have Task - 检查任务是否已创建
   if (!task) return console.log('Task Not Found')
   // Check if Task Has Been Applied - 检查任务是否已申领
@@ -384,11 +382,11 @@ async function BindDotAddress(collTask: CollectionReference, issuePayload: Issue
     return await submitIssueComment(issue_loc, comment_content)
   }
   const collUser = cloud.database().collection('user')
-  const {data: user} = await collUser.where({ id: sender.id }).getOne()
+  const { data: user } = await collUser.where({ id: sender.id }).getOne()
   // 如未授权我们平台，则绑定至该任务下个人地址
   if (!user) {
     console.log(address)
-    await collTask.where({ issue_id: issue.id }).update({ "developer.address": address })
+    await collTask.where({ issue_id: issue.id }).update({ 'developer.address': address })
     // 提醒开发者使用我们的平台
     const comment_content = `**Bytepay: @${sender.login}, address bind success, please visit ${CryptoPayLabUrl} to check your task.**`
     return await submitIssueComment(issue_loc, comment_content)

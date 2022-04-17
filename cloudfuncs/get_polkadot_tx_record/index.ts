@@ -1,5 +1,4 @@
 
-
 import cloud from '@/cloud-sdk'
 import axios from 'axios'
 
@@ -17,7 +16,7 @@ exports.main = async function (ctx: FunctionContext) {
   const f = await collUser.where({ id }).getOne()
   if (!f.data) return { error: 1, error_msg: 'no user' }
   try {
-    let address = f.data.polka.address
+    const address = f.data.polka.address
     // 如果绑定了自己的账户，则查询自己账户的信息
     // if (f.data.own_polka_address) address = f.data.own_polka_address
     const r = await axios({

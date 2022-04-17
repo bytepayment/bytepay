@@ -10,7 +10,7 @@ describe('Github Public Userinfo', function () {
   })
   it('get() should be ok', async function () {
     const r = await request.post('/get_github_user_info', {
-      token,
+      token
     })
     assert(r.status === 200)
     assert(r.data.id === test_user_id)

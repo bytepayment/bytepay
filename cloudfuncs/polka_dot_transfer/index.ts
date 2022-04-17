@@ -1,5 +1,4 @@
 
-
 import cloud from '@/cloud-sdk'
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { Keyring } from '@polkadot/keyring'
@@ -25,14 +24,13 @@ export async function main (ctx: FunctionContext) {
   // Sign and Send the transaction
   try {
     const hash = await api.tx.balances
-        .transfer(recv_address, amount_dot)
-        .signAndSend(pair);
-    return { error: 0, data: { hash: hash.toHex() }}
+      .transfer(recv_address, amount_dot)
+      .signAndSend(pair);
+    return { error: 0, data: { hash: hash.toHex() } }
   } catch (error) {
     console.log(error)
     return { error: 5, error_msg: error }
   }
   
 }
-
 

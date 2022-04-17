@@ -1,29 +1,28 @@
 <script lang="ts" setup>
-import { ref, onMounted } from "vue";
-import { cloud } from "@/api/cloud";
-import { ElMessage } from "element-plus";
-import Router from "@/router";
-import { getToken, getUser } from "@/utils/auth";
-import { get_polkadot_keyring, getClasses } from "@/api/user";
+import { ref, onMounted } from 'vue';
+import { cloud } from '@/api/cloud';
+import { ElMessage } from 'element-plus';
+import Router from '@/router';
+import { getToken, getUser } from '@/utils/auth';
+import { get_polkadot_keyring, getClasses } from '@/api/user';
 import { TINYMCE_API_KEY } from '@/config/index'
 import Editor from '@tinymce/tinymce-vue';
 
-
 // =============== Datas ===============
-const title = ref("");
+const title = ref('');
 const price = ref(null);
-const version = ref("");
-const project = ref("");
+const version = ref('');
+const project = ref('');
 const total_supply = ref(null);
-const description = ref("");
-const address = ref("");
-const owner = ref("");
-const classid = ref("");
-const file_path = ref("");
+const description = ref('');
+const address = ref('');
+const owner = ref('');
+const classid = ref('');
+const file_path = ref('');
 const uploadUrl = ref(`${cloud.fileBaseUrl}/public?auto=1`);
 // selectData
 const options: any = ref([]);
-const value = ref("");
+const value = ref('');
 // =============== Functions ===============
 
 onMounted(() => {
@@ -34,16 +33,16 @@ onMounted(() => {
 });
 
 async function ok() {
-  if (!title.value) return ElMessage.warning("title can not be null");
-  if (!price.value) return ElMessage.warning("price can not be null");
-  if (!version.value) return ElMessage.warning("version can not be null");
-  if (!project.value) return ElMessage.warning("project can not be null");
+  if (!title.value) return ElMessage.warning('title can not be null');
+  if (!price.value) return ElMessage.warning('price can not be null');
+  if (!version.value) return ElMessage.warning('version can not be null');
+  if (!project.value) return ElMessage.warning('project can not be null');
   if (!total_supply.value)
-    return ElMessage.warning("total_supply can not be null");
-  if (!classid) return ElMessage.warning("classid can not be null");
+    return ElMessage.warning('total_supply can not be null');
+  if (!classid.value) return ElMessage.warning('classid can not be null');
   if (!description.value)
-    return ElMessage.warning("description can not be null");
-  if (!file_path.value) return ElMessage.warning("Must upload a file");
+    return ElMessage.warning('description can not be null');
+  if (!file_path.value) return ElMessage.warning('Must upload a file');
 
   const data = {
     id: getUser().id,
@@ -53,20 +52,20 @@ async function ok() {
     project: project.value,
     total_supply: total_supply.value,
     description: description.value,
-    chanin_id: "",
+    chanin_id: '',
     owner: owner.value,
     owner_address: address.value,
     classid: classid.value,
-    file_path: file_path.value,
+    file_path: file_path.value
   };
 
-  console.log(data, "上传数据");
+  console.log(data, '上传数据');
 
-  const r = await cloud.invokeFunction("nft_mint", data);
+  const r = await cloud.invokeFunction('nft_mint', data);
   if (0 !== r.code) ElMessage.warning(r.message);
   if (0 === r.code) {
     ElMessage.success(r.message);
-    gotoPage("/market");
+    gotoPage('/market');
   }
 }
 
@@ -104,7 +103,7 @@ function onFileUploadSuccess(res: any, uploadFile: any, uploadFiles: any) {
   <el-card class="wrap-card">
     <div class="form-title">
       <span>Mint a NFT</span>
-      <el-divider></el-divider>
+      <el-divider />
     </div>
     <el-form label-width="80px" label-position="left">
       <el-row>
@@ -113,7 +112,7 @@ function onFileUploadSuccess(res: any, uploadFile: any, uploadFiles: any) {
             <template #label>
               <span class="form-item-label">Title:</span>
             </template>
-            <el-input v-model="title" :input-style="{height: '50px'}" placeholder="title"></el-input>
+            <el-input v-model="title" :input-style="{height: '50px'}" placeholder="title" />
           </el-form-item>
         </el-col>
         <el-col :span="10" :offset="1">
@@ -122,9 +121,9 @@ function onFileUploadSuccess(res: any, uploadFile: any, uploadFiles: any) {
               <span class="form-item-label">Price:</span>
             </template>
             <el-input
-            :input-style="{height: '50px'}"
-              oninput="if(value>100)value=100;if(value.length>2)value=value.slice(0,3);if(value<0)value=0"
               v-model="price"
+              :input-style="{height: '50px'}"
+              oninput="if(value>100)value=100;if(value.length>2)value=value.slice(0,3);if(value<0)value=0"
               placeholder="price"
             />
           </el-form-item>
@@ -137,7 +136,7 @@ function onFileUploadSuccess(res: any, uploadFile: any, uploadFiles: any) {
             <template #label>
               <span class="form-item-label">Version:</span>
             </template>
-            <el-input v-model="version" :input-style="{height: '50px'}" placeholder="version"></el-input>
+            <el-input v-model="version" :input-style="{height: '50px'}" placeholder="version" />
           </el-form-item>
         </el-col>
         <el-col :span="10" :offset="1">
@@ -145,7 +144,7 @@ function onFileUploadSuccess(res: any, uploadFile: any, uploadFiles: any) {
             <template #label>
               <span class="form-item-label">Project:</span>
             </template>
-            <el-input v-model="project" :input-style="{height: '50px'}" placeholder="project"></el-input>
+            <el-input v-model="project" :input-style="{height: '50px'}" placeholder="project" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -157,11 +156,11 @@ function onFileUploadSuccess(res: any, uploadFile: any, uploadFiles: any) {
               <span class="form-item-label">Total:</span>
             </template>
             <el-input
-            :input-style="{height: '50px'}"
-              oninput="if(value>100)value=100;if(value.length>2)value=value.slice(0,3);if(value<1)value=1"
               v-model="total_supply"
+              :input-style="{height: '50px'}"
+              oninput="if(value>100)value=100;if(value.length>2)value=value.slice(0,3);if(value<1)value=1"
               placeholder="total_supply"
-            ></el-input>
+            />
           </el-form-item>
         </el-col>
         <el-col :span="10" :offset="1">
@@ -169,13 +168,13 @@ function onFileUploadSuccess(res: any, uploadFile: any, uploadFiles: any) {
             <template #label>
               <span class="form-item-label">Class:</span>
             </template>
-            <el-select @change="selectChange" v-model="value" size="large" placeholder="class">
+            <el-select v-model="value" size="large" placeholder="class" @change="selectChange">
               <el-option
                 v-for="item in options"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
-              ></el-option>
+              />
             </el-select>
           </el-form-item>
         </el-col>
@@ -187,13 +186,15 @@ function onFileUploadSuccess(res: any, uploadFile: any, uploadFiles: any) {
             <template #label>
               <span class="form-item-label">Desc:</span>
             </template>
-            <editor style="width: 100%; min-height: 500px;" :api-key='TINYMCE_API_KEY' :init="{
-              plugins: 'image',
-              toolbar:
-              'undo redo | formatselect | bold italic | \
+            <editor
+              v-model="description" style="width: 100%; min-height: 500px;" :api-key="TINYMCE_API_KEY" :init="{
+                plugins: 'image',
+                toolbar:
+                  'undo redo | formatselect | bold italic | \
               alignleft aligncenter alignright | \
               bullist numlist outdent indent | help | image'
-            }" v-model="description" />
+              }"
+            />
           </el-form-item>
         </el-col>
       </el-row>
@@ -215,7 +216,6 @@ function onFileUploadSuccess(res: any, uploadFile: any, uploadFiles: any) {
       </div>
     </el-form>
   </el-card>
- 
 </template>
 
 <style lang="scss" scoped>

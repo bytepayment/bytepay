@@ -1,5 +1,4 @@
 
-
 import cloud from '@/cloud-sdk'
 import { Keyring } from '@polkadot/keyring'
 import { mnemonicGenerate } from '@polkadot/util-crypto';

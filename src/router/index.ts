@@ -1,13 +1,13 @@
-import { createRouter, createWebHistory } from "vue-router"
-import NProgress from "nprogress" // progress bar
-import "nprogress/nprogress.css" // progress bar style
-import { getToken } from "@/utils/auth"
-import { routes, whiteList } from "./routes"
+import { createRouter, createWebHistory } from 'vue-router'
+import NProgress from 'nprogress' // progress bar
+import 'nprogress/nprogress.css' // progress bar style
+import { getToken } from '@/utils/auth'
+import { routes, whiteList } from './routes'
 const history = createWebHistory()
-const SiteName = "Bytepay"
+const SiteName = 'Bytepay'
 const router = createRouter({
   history,
-  routes,
+  routes
 })
 
 router.beforeEach(async (to, from, next) => {
@@ -16,13 +16,13 @@ router.beforeEach(async (to, from, next) => {
   // determine whether the user has logged in
   const hasToken = getToken()
   if (hasToken) {
-    if (to.path === "/login") {
+    if (to.path === '/login') {
       // if is logged in, redirect to the home page
-      next({ path: "/" })
-      document.title = (SiteName + " - " + to.meta.title) as string
+      next({ path: '/' })
+      document.title = (SiteName + ' - ' + to.meta.title) as string
       NProgress.done() // hack: https://github.com/PanJiaChen/vue-element-admin/pull/2939
     } else {
-      document.title = (SiteName + " - " + to.meta.title) as string
+      document.title = (SiteName + ' - ' + to.meta.title) as string
       next()
     }
   } else {
@@ -30,12 +30,12 @@ router.beforeEach(async (to, from, next) => {
     if (whiteList.indexOf(to.path) !== -1) {
       // console.log('token not found', to)
       // in the free login whitelist, go directly
-      document.title = (SiteName + " - " + to.meta.title) as string
+      document.title = (SiteName + ' - ' + to.meta.title) as string
       next()
     } else {
       // other pages that do not have permission to access are redirected to the login page.
       next(`/login?redirect=${to.path}`)
-      document.title = SiteName + " - " + "Login"
+      document.title = SiteName + ' - ' + 'Login'
       NProgress.done()
     }
   }

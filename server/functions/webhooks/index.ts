@@ -1,5 +1,4 @@
 
-
 import cloud from '@/cloud-sdk'
 import axios from 'axios'
 import { CollectionReference } from './node_modules/database-ql'
@@ -21,7 +20,7 @@ interface Issue {
     html_url: string
     user: User
     author_association: string,
-    "number": number
+    'number': number
   },
   comment: {
     id: number
@@ -203,7 +202,7 @@ async function PayTask(collTask: CollectionReference, issuePayload: Issue, issue
   const { issue, sender } = issuePayload
   let robot_comment = ''
   // 1. 查找该任务是否已创建
-  const { data: task} = await collTask.where({ issue_id: issue.id }).getOne()
+  const { data: task } = await collTask.where({ issue_id: issue.id }).getOne()
   if (!task) {
     robot_comment = '**No task under this issue.**'
     await submitIssueComment(issue_loc, robot_comment)
@@ -235,7 +234,7 @@ async function PayTask(collTask: CollectionReference, issuePayload: Issue, issue
   // 5. 检查是否满足支付条件
   const { error: eb, data: rb } = await Funcs.getPolkaAccountInfoFunc(address)
   const { error: eo, data: ob } = await Funcs.getPolkaAccountInfoFunc(owner.polka.address)
-  if (eb != 0|| eo != 0) {
+  if (eb !== 0|| eo !== 0) {
     robot_comment = `**Bytepay: Get ${address} and ${owner.polka.address} account info error.**`
     submitIssueComment(issue_loc, robot_comment)
     return console.log(robot_comment)
@@ -263,7 +262,7 @@ async function PayTask(collTask: CollectionReference, issuePayload: Issue, issue
   }
   // 7. 更新数据库 - 任务状态修改未已支付；支付账户减去冻结金额
   await collTask.where({ issue_id: issue.id }).update({ status: 'paid' })
-  await collUser.where({ id: owner.id }).update({frozenAmount: owner.frozenAmount - task.pay})
+  await collUser.where({ id: owner.id }).update({ frozenAmount: owner.frozenAmount - task.pay })
   // 8. Robot 发布 comment
   robot_comment = `
   \r\n**@${task.developer.login}:**\r\n
@@ -316,9 +315,9 @@ async function OtherPayTask(collTask: CollectionReference, issuePayload: Issue, 
   }
   let address = receiver.polka.address
   if (receiver.own_polka_address) address = receiver.own_polka_address
-    // 5. 检查是否满足支付条件
+  // 5. 检查是否满足支付条件
   const { error: eb, data: rb } = await Funcs.getPolkaAccountInfoFunc(address)
-  if (eb != 0) {
+  if (eb !== 0) {
     robot_comment = `**Bytepay: Get ${address} account info error.**`
     submitIssueComment(issue_loc, robot_comment)
     return console.log(robot_comment)
@@ -359,14 +358,14 @@ async function CloseIssueEvent(collTask: CollectionReference, issuePayload: Issu
   if (!task) return console.log(`Task not found for this issue: ${issue.html_url}`)
   // 2. 判断任务状态
   if (task.status === 'created') { // 无人申领，置为closed
-    return await collTask.where({ issue_id: issue.id }).update({ status: 'closed'})
+    return await collTask.where({ issue_id: issue.id }).update({ status: 'closed' })
   } else if (task.status === 'applied') { // 有人申领，尚未支付，置为closed-without-pay
     // 解冻金额
     const collUser = cloud.database().collection('user')
     const { data: author } = await collUser.where({ id: task.author.id }).getOne()
-    await collUser.where({id: author.id}).update({ frozenAmount: author.frozenAmount - task.pay, status: 'closed-without-pay' })
+    await collUser.where({ id: author.id }).update({ frozenAmount: author.frozenAmount - task.pay, status: 'closed-without-pay' })
   } else if (task.status === 'paid') { // 已支付, 置为closed
-    return await collTask.where({ issue_id: issue.id }).update({ status: 'closed'})
+    return await collTask.where({ issue_id: issue.id }).update({ status: 'closed' })
   } else {
     return console.log('Close event match nothing')
   }

@@ -10,7 +10,8 @@
     "docker-build-app": "docker build -t sulnong/bytepay:app-v2 .",
     "docker-push-app": "docker push sulnong/bytepay:app-v2",
     "docker-build-server": "cd server && docker build -t sulnong/bytepay:server-v1 .",
-    "docker-push-server": "cd server && docker push sulnong/bytepay:server-v1"
+    "docker-push-server": "cd server && docker push sulnong/bytepay:server-v1",
+    "lint": "eslint . --fix"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^0.2.4",

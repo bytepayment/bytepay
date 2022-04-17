@@ -1,89 +1,89 @@
-import { RouteRecordRaw } from "vue-router"
-import Layout from "@/layout/index.vue"
+import { RouteRecordRaw } from 'vue-router'
+import Layout from '@/layout/index.vue'
 
 export const routes: Array<RouteRecordRaw> = [
   {
-    path: "/",
+    path: '/',
     meta: {
-      title: "Bytepay",
+      title: 'Bytepay'
     },
     component: Layout,
-    redirect: "/property",
+    redirect: '/property',
     children: [
       {
-        path: "property",
-        name: "property",
+        path: 'property',
+        name: 'property',
         meta: {
-          title: "Property",
+          title: 'Property'
         },
-        component: () => import("@/views/properties/properties.vue"),
+        component: () => import('@/views/properties/properties.vue')
       },
       {
-        path: "task",
-        name: "task",
+        path: 'task',
+        name: 'task',
         meta: {
-          title: "Task",
+          title: 'Task'
         },
-        component: () => import("@/views/task/task.vue"),
+        component: () => import('@/views/task/task.vue')
       },
       {
-        path: "bind",
-        name: "bind",
+        path: 'bind',
+        name: 'bind',
         meta: {
-          title: "Bind Repository",
+          title: 'Bind Repository'
         },
-        component: () => import("@/views/task/bind.vue"),
+        component: () => import('@/views/task/bind.vue')
       },
       {
-        path: "docs/:name",
-        name: "docs",
+        path: 'docs/:name',
+        name: 'docs',
         meta: {
-          title: "Docs",
+          title: 'Docs'
         },
-        component: () => import("@/views/docs/docs.vue"),
+        component: () => import('@/views/docs/docs.vue')
       },
       {
-        path: "settings/:setting",
-        name: "settings",
+        path: 'settings/:setting',
+        name: 'settings',
         meta: {
-          title: "Settings",
+          title: 'Settings'
         },
-        component: () => import("@/views/settings/settings.vue"),
+        component: () => import('@/views/settings/settings.vue')
       },
       {
-        path: "market",
-        name: "market",
+        path: 'market',
+        name: 'market',
         meta: {
-          title: "market",
+          title: 'market'
         },
-        component: () => import("@/views/nft-market/index.vue"),
+        component: () => import('@/views/nft-market/index.vue')
       },
       {
-        path: "detail",
-        name: "detail",
+        path: 'detail',
+        name: 'detail',
         meta: {
-          title: "detail",
+          title: 'detail'
         },
-        component: () => import("@/views/nft-market/detail.vue"),
+        component: () => import('@/views/nft-market/detail.vue')
       },
       {
-        path: "publish",
-        name: "publish",
+        path: 'publish',
+        name: 'publish',
         meta: {
-          title: "publish",
+          title: 'publish'
         },
-        component: () => import("@/views/nft-market/publish.vue"),
+        component: () => import('@/views/nft-market/publish.vue')
       }
-    ],
+    ]
   },
   {
-    path: "/login",
-    name: "login",
+    path: '/login',
+    name: 'login',
     meta: {
-      title: "Login",
+      title: 'Login'
     },
-    component: () => import("@/views/auth-github/auth-github.vue"),
-  },
+    component: () => import('@/views/auth-github/auth-github.vue')
+  }
 ]
 
-export const whiteList = ["/login", "/sign-up", "/docs/bytepay-overview", "/docs/bytepay-userguide"] // no redirect whitelist
+export const whiteList = ['/login', '/sign-up', '/docs/bytepay-overview', '/docs/bytepay-userguide'] // no redirect whitelist

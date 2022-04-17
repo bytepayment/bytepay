@@ -1,5 +1,4 @@
 
-
 import cloud from '@/cloud-sdk'
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import * as crypto from 'crypto'
@@ -26,7 +25,7 @@ const Config = {
   SubscanApiKey: '9b13dfb5b92bab46d30dab14fb28fac8', // Subscan Api Key
   SubscanApiBaseUrl: 'https://westend.api.subscan.io', // Subscan Api Base Url, Now is Westend,
   SubscanBaseUrl: 'https://westend.subscan.io', // Subscan Api Base Url, Now is Westend,
-  ExistentailDepositDocUrl: 'https://wiki.polkadot.network/docs/build-protocol-info#existential-deposit',
+  ExistentailDepositDocUrl: 'https://wiki.polkadot.network/docs/build-protocol-info#existential-deposit'
 }
 
 const createPolkaApiFunc = async function () {
@@ -49,8 +48,8 @@ const getPolkaAccountInfoFunc = async function (address: string) {
   try {
     const queryResult = await api.query.system.account(address);
     const data = reduceUnitFunc(queryResult.data)
-    return { error: 0, data}
-  } catch(error) {
+    return { error: 0, data }
+  } catch (error) {
     return { error: 2, error_msg: 'Internal Server Error' }
   }
 }

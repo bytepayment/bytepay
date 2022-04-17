@@ -13,7 +13,7 @@ describe('Get Tasks From Bytepay', function () {
 
   it('dev_task:get() should be ok', async function () {
     const r = await request.post('/get_dev_tasks', {
-      dev_id: test_dev_id,
+      dev_id: test_dev_id
     })
     assert(r.status === 200)
     const tasks = r.data
@@ -28,7 +28,7 @@ describe('Get Tasks From Bytepay', function () {
 
   it('author_task:get() should be ok', async function () {
     const r = await request.post('/get_tasks', {
-      repo_id: test_repo_id,
+      repo_id: test_repo_id
     })
     assert(r.status === 200)
     const tasks = r.data

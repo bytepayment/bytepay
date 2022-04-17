@@ -1,5 +1,4 @@
 
-
 import cloud from '@/cloud-sdk'
 import axios from 'axios'
 
@@ -34,7 +33,7 @@ exports.main = async function (ctx: FunctionContext) {
       headers,
       data
     })
-    if (r.status != 201) {
+    if (r.status !== 201) {
       return { error: 2, error_msg: r.data }
     }
     // Add into our own database
@@ -44,12 +43,12 @@ exports.main = async function (ctx: FunctionContext) {
     await col.add(addData)
     return { error: 0, data: r.data }
   } catch (error) {
-    let error_msg_r = error?.response?.data?.errors || ''
+    const error_msg_r = error?.response?.data?.errors || ''
     if (error_msg_r) {
       const error_msg = error_msg_r.map(i => i.message).join(';')
-      return { error: 3, error_msg}
+      return { error: 3, error_msg }
     }
-    return { error: 3, error_msg: 'request github caught error...'}
+    return { error: 3, error_msg: 'request github caught error...' }
   }
 
 }

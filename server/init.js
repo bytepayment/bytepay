@@ -1,10 +1,10 @@
-const fs = require("fs");
-const path = require("path");
-const ts = require("typescript");
-const mongodb = require("mongodb");
+const fs = require('fs');
+const path = require('path');
+const ts = require('typescript');
+const mongodb = require('mongodb');
 
 class FunctionLoader {
-  rootPath = path.join(__dirname, "functions");
+  rootPath = path.join(__dirname, 'functions');
 
   /**
    * Get directory list of functions
@@ -36,10 +36,10 @@ class FunctionLoader {
    * @returns
    */
   loadFunction(func_path) {
-    const codePath = path.join(func_path, "index.ts");
+    const codePath = path.join(func_path, 'index.ts');
     const code = this.loadFunctionCode(codePath);
 
-    const metaPath = path.join(func_path, "meta.json");
+    const metaPath = path.join(func_path, 'meta.json');
     const func = this.loadFunctionMeta(metaPath);
     const data = {
       name: func.name,
@@ -47,7 +47,7 @@ class FunctionLoader {
       label: func.label || func.name,
       hash: func.hash,
       tags: func.tags || [],
-      description: func.description || "",
+      description: func.description || '',
       enableHTTP: func.enableHTTP || false,
       status: func.status || 0,
       triggers: func.triggers,
@@ -58,7 +58,7 @@ class FunctionLoader {
       created_by: undefined,
       compiledCode: this.compileTs2js(code),
       appid: undefined,
-      _id: undefined,
+      _id: undefined
     };
     return data;
   }
@@ -68,7 +68,7 @@ class FunctionLoader {
    * @param {Promise<string>} file_path
    */
   loadFunctionCode(file_path) {
-    const data = fs.readFileSync(file_path, "utf-8");
+    const data = fs.readFileSync(file_path, 'utf-8');
     return data;
   }
 
@@ -77,7 +77,7 @@ class FunctionLoader {
    * @param {string} file_path
    */
   loadFunctionMeta(file_path) {
-    const data = fs.readFileSync(file_path, "utf-8");
+    const data = fs.readFileSync(file_path, 'utf-8');
     return JSON.parse(data);
   }
 
@@ -85,7 +85,7 @@ class FunctionLoader {
     const jscode = ts.transpile(source, {
       module: ts.ModuleKind.CommonJS,
       target: ts.ScriptTarget.ES2017,
-      removeComments: true,
+      removeComments: true
     });
 
     return jscode;
@@ -98,7 +98,7 @@ async function save(data) {
   await conn.connect();
   const db = conn.db();
 
-  const res = await db.collection("__published__functions").insertMany(data);
+  const res = await db.collection('__published__functions').insertMany(data);
 
   return res;
 }

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { ref, onMounted, Ref, reactive } from "vue";
+import { ref, onMounted, Ref, reactive } from 'vue';
 import { ElMessage } from 'element-plus'
 import dayjs from 'dayjs'
-import { useRoute } from "vue-router";
-import { nft_get_detail, nft_buy } from "@/api/nft"
+import { useRoute } from 'vue-router';
+import { nft_get_detail, nft_buy } from '@/api/nft'
 import { NFT } from '@/entity'
 
 // =============== Datas ===============
@@ -26,15 +26,14 @@ onMounted(async () => {
   curNFT.value = list.value[0]
 });
 
-
 async function buy() {
   const nft_id = curNFT.value._id
   const r = await nft_buy(nft_id)
   console.log('Buy result:', r)
   if (r.error !== 0) {
-     return ElMessage({
+    return ElMessage({
       message: `Buy error: ${r.error_msg}`,
-      type: 'error',
+      type: 'error'
     })
   }
   ElMessage({ message: 'Buy success', type: 'success' })
@@ -50,9 +49,9 @@ function switchTab(index: number) {
 
 <template>
   <el-card style="margin-top: 50px;">
-    <div class="box" >
-      <div class="right" v-if="list.length">
-        <div class="release">Published Time: {{curNFT.created_time}}</div>
+    <div class="box">
+      <div v-if="list.length" class="right">
+        <div class="release">Published Time: {{ curNFT.created_time }}</div>
         <div class="title">
           {{ curNFT.title }}
         </div>
@@ -67,16 +66,16 @@ function switchTab(index: number) {
           <div style="display: flex;align-items: center;">
             <div class="desc-item">
               <div class="desc-item-label">Owner:</div>
-              <div class="desc-item-value">{{curNFT.owner}}</div>
+              <div class="desc-item-value">{{ curNFT.owner }}</div>
             </div>
             <div class="desc-item">
               <div class="desc-item-label">Project Name:</div>
-              <div class="desc-item-value">{{curNFT.project}}</div>
+              <div class="desc-item-value">{{ curNFT.project }}</div>
             </div>
           </div>
-          </div>
+        </div>
         <div class="middle">
-          <el-button @click="centerDialogVisible = true" class="button">{{ curNFT.price }} BNX click to buy</el-button>
+          <el-button class="button" @click="centerDialogVisible = true">{{ curNFT.price }} BNX click to buy</el-button>
           <div class="desc-item">
             <div class="desc-item-label">Left:</div>
             <div class="desc-item-value">
@@ -84,7 +83,7 @@ function switchTab(index: number) {
             </div>
           </div>
         </div>
-        <div class="detail" v-html="curNFT.description"></div>
+        <div class="detail" v-html="curNFT.description" />
       </div>
       <div class="left">
         <div class="version-title">Version List</div>
@@ -99,15 +98,11 @@ function switchTab(index: number) {
         </div>
       </div>
       <el-dialog v-model="centerDialogVisible" title="Confirm Buy" width="30%" center>
-        <span
-          >Confirm paid {{ curNFT.price }} BNX to buy this NFT</span
-        >
+        <span>Confirm paid {{ curNFT.price }} BNX to buy this NFT</span>
         <template #footer>
           <span class="dialog-footer">
             <el-button @click="centerDialogVisible = false">Cancel</el-button>
-            <el-button type="primary" @click="buy"
-              >Confirm</el-button
-            >
+            <el-button type="primary" @click="buy">Confirm</el-button>
           </span>
         </template>
       </el-dialog>

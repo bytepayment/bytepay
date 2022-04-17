@@ -1,5 +1,4 @@
 
-
 import cloud from '@/cloud-sdk'
 
 exports.main = async function (ctx: FunctionContext) {
@@ -8,7 +7,7 @@ exports.main = async function (ctx: FunctionContext) {
 
   // 数据库操作
   const db = cloud.database()
-  const r = await db.collection('user').where({id: 37979965}).getOne()
+  const r = await db.collection('user').where({ id: 37979965 }).getOne()
 
   return r.data.token
 }

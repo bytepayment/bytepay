@@ -7,5 +7,5 @@ import BytepayContract from './workflow/bytepay-ink!-contract.md'
 export default new Map<string, any>([
   ['bytepay-overview', BytepayOverview],
   ['bytepay-userguide', BytepayUserguide],
-  ['bytepay-contract', BytepayContract],
+  ['bytepay-contract', BytepayContract]
 ])

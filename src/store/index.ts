@@ -1,11 +1,11 @@
-import { createStore } from "vuex"
-import { getToken, getUser } from "@/utils/auth"
-import { actions } from "./actions"
+import { createStore } from 'vuex'
+import { getToken, getUser } from '@/utils/auth'
+import { actions } from './actions'
 
 const store = createStore({
   state: {
     token: getToken(),
-    user: getUser(),
+    user: getUser()
   },
   mutations: {
     SET_TOKEN(state, payload) {
@@ -13,10 +13,10 @@ const store = createStore({
     },
     UPDATE_USER_INFO(state, payload) {
       state.user = payload
-    },
+    }
   },
   actions,
-  modules: {},
+  modules: {}
 })
 
 export default store

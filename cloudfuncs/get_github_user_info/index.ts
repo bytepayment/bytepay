@@ -1,5 +1,4 @@
 
-
 import cloud from '@/cloud-sdk'
 import axios from 'axios'
 
@@ -38,7 +37,7 @@ exports.main = async function (ctx: FunctionContext) {
   } catch (error) {
     console.log(error?.response || 'caught error')
     if (error?.response?.status === 400 || error?.response?.status === 401) {
-      return { error: 1, error_msg: 'token was revoked'}
+      return { error: 1, error_msg: 'token was revoked' }
     }
   }
 

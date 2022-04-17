@@ -1,5 +1,4 @@
 
-
 import cloud from '@/cloud-sdk'
 import * as crypto from 'crypto'
 
