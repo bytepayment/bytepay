@@ -97,6 +97,11 @@ function gotoMyNft() {
     path: '/nft-market/mine'
   });
 }
+function gotoPublishedNft() {
+  router.push({
+    path: '/nft-market/published'
+  });
+}
 </script>
 
 <template>
@@ -122,7 +127,8 @@ function gotoMyNft() {
       </div>
 
       <div class="button" @click="gotoPage('/publish', '', '')">publish</div>
-      <div class="button" @click="gotoMyNft">my nft</div>
+      <div class="button" @click="gotoPublishedNft">published nft</div>
+      <div class="button" @click="gotoMyNft">bought nft</div>
     </div>
   </el-card>
   <el-card style="margin-bottom: 20px;">
@@ -166,10 +172,10 @@ function gotoMyNft() {
     color: #b7b8b7;
   }
   .button {
-    width: 80px;
-    height: 30px;
+    width: 130px;
+    height: 40px;
     text-align: center;
-    line-height: 30px;
+    line-height: 40px;
     color: #ffffff;
     background-color: #6667ab;
     border-radius: 5px;

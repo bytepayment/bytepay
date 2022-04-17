@@ -1,9 +1,13 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
 import dayjs from 'dayjs'
+import { useStore } from 'vuex'
 import { cloud } from '@/api/cloud';
 
 const list: any = ref([]);
+
+const store = useStore()
+const user = store.state.user
 
 onMounted(() => {
   getList();
@@ -11,7 +15,7 @@ onMounted(() => {
 
 async function getList() {
   const r = await cloud.invokeFunction('nft_get_mine', {
-    id: 10041921
+    id: user.id
   });
   if (0 === r.code) list.value = r.data.map((_: any) => ({
     ..._,
@@ -47,7 +51,7 @@ function download(url: string, filename: string) {
 <template>
   <el-card style="margin: 40px 0 40px;">
     <div class="header">
-      <span>MY NFT</span>
+      <span>BOUGHT NFT</span>
     </div>
     <div class="content">
       <div v-for="item in list" :key="item._id" class="item">
