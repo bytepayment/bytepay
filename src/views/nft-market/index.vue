@@ -91,6 +91,12 @@ function gotoPage(url: string, name: string, classid: string) {
     }
   });
 }
+
+function gotoMyNft() {
+  router.push({
+    path: '/nft-market/mine'
+  });
+}
 </script>
 
 <template>
@@ -116,6 +122,7 @@ function gotoPage(url: string, name: string, classid: string) {
       </div>
 
       <div class="button" @click="gotoPage('/publish', '', '')">publish</div>
+      <div class="button" @click="gotoMyNft">my nft</div>
     </div>
   </el-card>
   <el-card style="margin-bottom: 20px;">
@@ -167,7 +174,7 @@ function gotoPage(url: string, name: string, classid: string) {
     background-color: #6667ab;
     border-radius: 5px;
     cursor: pointer;
-    margin: 30px 0 0 0;
+    margin: 30px 30px 0 0;
   }
 }
 .classify {

@@ -80,3 +80,12 @@ export async function nft_mint() {
 export async function nft_upload() {
   return await cloud.invokeFunction('nft_upload', {})
 }
+
+/**
+ * 
+ * @param params get my nft order list
+ * @returns 
+ */
+export async function nft_get_mine(params: any) {
+  return await cloud.invokeFunction('nft_get_mine', params)
+}

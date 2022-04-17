@@ -73,6 +73,14 @@ export const routes: Array<RouteRecordRaw> = [
           title: 'publish'
         },
         component: () => import('@/views/nft-market/publish.vue')
+      },
+      {
+        path: '/nft-market/mine',
+        name: 'my-nft',
+        meta: {
+          title: 'my-nft'
+        },
+        component: () => import('@/views/nft-market/mine.vue')
       }
     ]
   },
