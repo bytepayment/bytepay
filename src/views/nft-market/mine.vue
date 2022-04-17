@@ -51,7 +51,7 @@ function download(url: string, filename: string) {
 <template>
   <el-card style="margin: 40px 0 40px;">
     <div class="header">
-      <span>BOUGHT NFT</span>
+      <span>PURCHASED NFT</span>
     </div>
     <div class="content">
       <div v-for="item in list" :key="item._id" class="item">

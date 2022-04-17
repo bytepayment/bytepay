@@ -128,7 +128,7 @@ function gotoPublishedNft() {
 
       <div class="button" @click="gotoPage('/publish', '', '')">publish</div>
       <div class="button" @click="gotoPublishedNft">published nft</div>
-      <div class="button" @click="gotoMyNft">bought nft</div>
+      <div class="button" @click="gotoMyNft">purchased nft</div>
     </div>
   </el-card>
   <el-card style="margin-bottom: 20px;">
