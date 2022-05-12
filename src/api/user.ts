@@ -146,6 +146,11 @@ export async function get_polkadot_tx_record() {
   })
 }
 
+export async function get_acala_tx_record() {
+  const user = getUser()
+  return await cloud.invokeFunction('get_acala_tx_record',{id: user.id})
+}
+
 /**
   * Withdraw polka account, transfer dot actually
   */

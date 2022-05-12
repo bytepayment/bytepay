@@ -6,13 +6,15 @@ import Clipboard from 'clipboard'
 import moment from 'moment'
 import QrcodeVue from 'qrcode.vue'
 import remainUrl from '@/assets/jiaoyishuju.png'
-import { get_polkadot_keyring, get_polka_account_info, get_polkadot_tx_record } from '@/api/user'
+import { get_polkadot_keyring, get_polka_account_info, get_polkadot_tx_record, get_acala_tx_record} from '@/api/user'
 import Router from '@/router'
+import TransactionRecords from './components/TransactionRecords.vue'
 const subscanBaseUrl = import.meta.env.VITE_SUBSCAN_BASE_URL
 const address = ref('')
 const centerDialogVisible = ref(false)
 const txs = ref([])
 const txsCount = ref(0)
+const acalaTxs = ref([])
 const account = reactive({
   data: {
     free: 0.0,
@@ -37,6 +39,9 @@ onBeforeMount(async () => {
   }
   txs.value = transferResult.data.transfers
   txsCount.value = transferResult.data.count
+
+  const acalaTransferResult = await get_acala_tx_record() 
+  acalaTxs.value = acalaTransferResult.data.transfers
 })
 function copy_address(className: string) {
   console.log('copy', address.value)
@@ -54,9 +59,6 @@ function copy_address(className: string) {
 }
 function gotoWithdraw() {
   Router.push('/settings/withdraw')
-}
-function addressFormat(address: string) {
-  return address.substring(0, 7) + '...' + address.substring(address.length - 5, address.length)
 }
 function dotFormat(dot: number) {
   return dot.toFixed(2)
@@ -104,7 +106,7 @@ function dotFormat(dot: number) {
       </div>
     </el-card>
     <!-- Line 3 txs text-->
-    <el-row class="txs-text">
+    <!-- <el-row class="txs-text">
       <el-col :span="6" class="title">Transaction Records</el-col>
       <el-col :span="6" class="info">
         <span>
@@ -116,55 +118,17 @@ function dotFormat(dot: number) {
         </span>
       </el-col>
       <el-col :span="12"></el-col>
-    </el-row>
+    </el-row> -->
     <!-- Line 4 txs -->
-    <el-card class="txs">
-      <el-table :data="txs" stripe style="width: 100%" height="450">
-        <el-table-column prop="extrinsic_index" label="Extrinsic Index" width="150" />
-        <el-table-column prop="block_num" label="Block" width="120" />
-        <el-table-column prop="block_timestamp" label="Time" width="140">
-          <template #default="scope">{{ moment.unix(scope.row.block_timestamp).fromNow() }}</template>
-        </el-table-column>
-        <el-table-column label="From">
-          <template #default="scope">
-            <a
-              v-if="scope.row.from !== address"
-              :href="`${subscanBaseUrl}/account/${scope.row.from}`"
-              target="_blank"
-            >{{ addressFormat(scope.row.from) }}</a>
-            <span v-else>{{ addressFormat(scope.row.from) }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="To">
-          <template #default="scope">
-            <a
-              v-if="scope.row.to !== address"
-              :href="`${subscanBaseUrl}/account/${scope.row.to}`"
-              target="_blank"
-            >{{ addressFormat(scope.row.to) }}</a>
-            <span v-else>{{ addressFormat(scope.row.to) }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="Status" width="100">
-          <template #default="scope">
-            <el-tag v-if="scope.row.success" type="success">Success</el-tag>
-            <el-tag v-else type="danger">Failed</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column label="Amount" width="120">
-          <template #default="scope">{{ scope.row.amount }} DOT</template>
-        </el-table-column>
-        <el-table-column label="Hash">
-          <template #default="scope">
-            <a
-              :href="`${subscanBaseUrl}/extrinsic/${scope.row.hash}`"
-              target="_blank"
-            >{{ addressFormat(scope.row.hash) }}</a>
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-card>
-
+    <el-tabs type="border-card" class="demo-tabs" style="margin-top:20px">
+    <el-tab-pane label="Dot Transaction Records">
+      <TransactionRecords :txs="txs" :address="address"/>
+    </el-tab-pane>
+    <el-tab-pane label="Aclca Transaction Records">
+      <TransactionRecords :txs="acalaTxs" :address="address"/>
+    </el-tab-pane>
+  </el-tabs>
+    
     <!-- QR Code -->
     <el-dialog v-model="centerDialogVisible" title="Recharge" width="40%" center>
       <div class="recharge-dialog">
