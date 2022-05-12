@@ -19,7 +19,7 @@ async function bindAddress() {
 // =============== Hooks ===============
 onMounted(async () => {
   const userInfo = await get_user_info(getToken() as any)
-  own_address.value = userInfo.own_polka_address
+  own_address.value = userInfo.own_acala_address
 })
 </script>
 
