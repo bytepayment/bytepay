@@ -168,3 +168,17 @@ export async function polkadot_withdraw(address: string, password: string, amoun
 export async function getClasses() {
   return await cloud.invokeFunction('nft_get_classes', {})
 }
+
+
+/**
+ * Developer Bind His Own Polka Account
+ * @param address acala address
+ * @returns
+ */
+export async function bind_own_acala_address(address: string) {
+  const user = getUser()
+  return await cloud.invokeFunction('bind_acala_address', {
+    id: user.id,
+    address
+  })
+}

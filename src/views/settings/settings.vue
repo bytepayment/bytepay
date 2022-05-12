@@ -1,12 +1,13 @@
 <script lang="ts" setup>
+import Password from './password.vue'
+import ProlkaAddress from './recv-address.vue'
+import Withdraw from './withdraw.vue'
+import AcalaAddress from './acala-bind-address.vue'
 import { ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import Router from '@/router'
 const activeSetting = ref('password')
-import Password from './password.vue'
-import Address from './recv-address.vue'
-import Withdraw from './withdraw.vue'
 const user = useStore().state.user
 onMounted(() => {
   activeSetting.value = useRoute().params.setting as any
@@ -14,11 +15,13 @@ onMounted(() => {
 function getComponent() {
   if (activeSetting.value === 'password') {
     return Password
-  } else if (activeSetting.value === 'address') {
-    return Address
+  } else if (activeSetting.value === 'prolkaAddress') {
+    return ProlkaAddress
   } else if (activeSetting.value === 'withdraw') {
     return Withdraw
-  } else {
+  }else if(activeSetting.value === 'acalaAddress'){
+    return AcalaAddress
+  }else {
     console.log('not found')
   }
 }
@@ -42,7 +45,8 @@ function setActiveSetting(settingName: string) {
         <div class="setting-item" style="font-weight: 600;">Account Settings</div>
         <div class="setting-item" @click="setActiveSetting('password')">Password</div>
         <div class="setting-item" @click="setActiveSetting('withdraw')">Withdraw</div>
-        <div class="setting-item last-item" @click="setActiveSetting('address')">Polka Address</div>
+        <div class="setting-item" @click="setActiveSetting('prolkaAddress')">Polka Address</div>
+        <div class="setting-item last-item" @click="setActiveSetting('acalaAddress')">Acala Address</div>
       </div>
     </el-col>
     <el-col :span="17" class="content-area">
