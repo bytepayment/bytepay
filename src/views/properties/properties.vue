@@ -5,6 +5,7 @@ import { ElMessage } from 'element-plus'
 import Clipboard from 'clipboard'
 import QrcodeVue from 'qrcode.vue'
 import remainUrl from '@/assets/jiaoyishuju.png'
+import acalaImgUrl from '@/assets/acalaImg.png'
 import { get_polkadot_keyring, get_polka_account_info, get_polkadot_tx_record, get_acala_tx_record} from '@/api/user'
 import Router from '@/router'
 import TransactionRecords from './components/TransactionRecords.vue'
@@ -114,7 +115,7 @@ function dotFormat(dot: number) {
       <div class="remain-card">
         <!-- logo -->
         <div style="width: 100px; height: 100px; margin-left: 20px">
-          <el-image :src="remainUrl" fit="fill"></el-image>
+          <el-image :src="acalaImgUrl" fit="fill" ></el-image>
         </div>
         <div class="column-one">
           <span>Free</span>
