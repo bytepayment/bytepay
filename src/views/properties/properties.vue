@@ -3,7 +3,6 @@ import { onBeforeMount, ref, reactive } from 'vue'
 import { DocumentCopy } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import Clipboard from 'clipboard'
-import moment from 'moment'
 import QrcodeVue from 'qrcode.vue'
 import remainUrl from '@/assets/jiaoyishuju.png'
 import { get_polkadot_keyring, get_polka_account_info, get_polkadot_tx_record, get_acala_tx_record} from '@/api/user'
@@ -16,14 +15,7 @@ const txs = ref([])
 const txsCount = ref(0)
 const acalaTxs = ref([])
 const AUSDaddress = ref('')
-const account = reactive({
-  data: {
-    free: 0.0,
-    reserved: 0.0,
-    miscFrozen: 0.0,
-    feeFrozen: 0.0,
-  },
-});
+const account = ref();
 onBeforeMount(async () => {
   // Get Polka Address
   const r = await get_polkadot_keyring();
@@ -35,7 +27,9 @@ onBeforeMount(async () => {
   // Get Polka Account Balance
   const ar = await get_polka_account_info();
   if (ar.error !== 0) return;
-  account.data = ar.data;
+  account.value = ar.data;
+
+  console.log('账户',ar.data)
   // Get Polka Account Transfers
   const transferResult = await get_polkadot_tx_record();
   if (transferResult.error !== 0) {
@@ -45,12 +39,11 @@ onBeforeMount(async () => {
   txsCount.value = transferResult.data.count
 
   const acalaTransferResult = await get_acala_tx_record() 
-  console.log('交易记录',acalaTransferResult);
+  console.log('交易记录-acala',acalaTransferResult);
   
   acalaTxs.value = acalaTransferResult.data.transfers
 })
 function copy_address(className: string) {
-  console.log("copy", address.value);
   const clipboard = new Clipboard("." + className);
   clipboard.on("success", (e) => {
     ElMessage({
@@ -96,7 +89,7 @@ function dotFormat(dot: number) {
         </div>
         <div class="column-one">
           <span>Free</span>
-          <span>{{ account.data.free?.toFixed(2) }} DOT</span>
+          <span>{{ account?.polka.free?.toFixed(2) }} DOT</span>
         </div>
         <div class="column-two">
           <div class="address" :data-clipboard-text="address">
@@ -107,17 +100,46 @@ function dotFormat(dot: number) {
           </div>
           <div class="detail">
             <span>Reserved:</span>
-            <span>{{ account.data.reserved }} DOT</span>
+            <span>{{ account?.polka.reserved ?? 0 }} DOT</span>
             <span style="margin-left: 25px">MiscFrozen:</span>
-            <span>{{ account.data.miscFrozen }} DOT</span>
+            <span>{{ account?.polka.miscFrozen ?? 0 }} DOT</span>
             <span style="margin-left: 25px">FeeFrozen:</span>
-            <span>{{ account.data.feeFrozen }} DOT</span>
+            <span>{{ account?.polka.feeFrozen ?? 0 }} DOT</span>
+          </div>
+        </div>
+      </div>
+    </el-card>
+
+    <el-card style="margin-top: 15px">
+      <div class="remain-card">
+        <!-- logo -->
+        <div style="width: 100px; height: 100px; margin-left: 20px">
+          <el-image :src="remainUrl" fit="fill"></el-image>
+        </div>
+        <div class="column-one">
+          <span>Free</span>
+          <span>{{ account?.acala.free?.toFixed(2) }} AUSD</span>
+        </div>
+        <div class="column-two">
+          <div class="AUSDaddress" :data-clipboard-text="AUSDaddress">
+            {{ AUSDaddress }}
+            <el-icon @click="copy_address('AUSDaddress')">
+              <document-copy />
+            </el-icon>
+          </div>
+          <div class="detail">
+            <span>Reserved:</span>
+            <span>{{ account?.acala.reserved ?? 0 }} AUSD</span>
+            <!-- <span style="margin-left: 25px">MiscFrozen:</span>
+            <span>{{ account?.acala.miscFrozen ?? 0 }} AUSD</span> -->
+            <span style="margin-left: 25px">Frozen:</span>
+            <span>{{ account?.acala.feeFrozen ?? 0 }} AUSD</span>
           </div>
         </div>
       </div>
     </el-card>
     <!-- Line 3 txs text-->
-    <!-- <el-row class="txs-text">
+    <el-row class="txs-text">
       <el-col :span="6" class="title">Transaction Records</el-col>
       <el-col :span="6" class="info">
         <span>
@@ -128,14 +150,14 @@ function dotFormat(dot: number) {
         </span>
       </el-col>
       <el-col :span="12"></el-col>
-    </el-row> -->
+    </el-row>
     <!-- Line 4 txs -->
     <el-tabs type="border-card" class="demo-tabs" style="margin-top:20px">
     <el-tab-pane label="Dot Transaction Records">
-      <TransactionRecords :txs="txs" :address="address"/>
+      <TransactionRecords :txs="txs" :address="address" :platform="'DOT'"/>
     </el-tab-pane>
-    <el-tab-pane label="Aclca Transaction Records">
-      <TransactionRecords :txs="acalaTxs" :address="AUSDaddress"/>
+    <el-tab-pane label="AUSD Transaction Records">
+      <TransactionRecords :txs="acalaTxs" :address="AUSDaddress" :platform="'AUSD'"/>
     </el-tab-pane>
   </el-tabs>
     

@@ -154,13 +154,14 @@ export async function get_acala_tx_record() {
 /**
   * Withdraw polka account, transfer dot actually
   */
-export async function polkadot_withdraw(address: string, password: string, amount: number) {
+export async function polkadot_withdraw(address: string, password: string, amount: number,cm: string) {
   const user = getUser()
   return await cloud.invokeFunction('withdraw_polkadot', {
     id: user.id,
     address,
     password,
-    amount
+    amount,
+    cm
   })
 }
 

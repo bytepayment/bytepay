@@ -12,16 +12,19 @@ const ruleFormRef = ref<InstanceType<typeof ElForm>>()
 const withdrawForm = reactive({
   address: '',
   password: '',
-  amount: 0
+  amount: 0,
+  cm:''
 })
 const rules = reactive({
   address: [{ type: 'string', required: true, trigger: 'blur', message: 'Please input polka address you want to withdraw' }, { min: 40, max: 50, message: 'length should be 40 to 50' }],
   amount: [{ trigger: 'blur', required: true }],
+  cm:[{trigger: 'blur', required: true}],
   password: [{ type: 'string', required: true, trigger: 'blur', message: 'Please input password you had set or set a password first' }, { min: 6, max: 16, message: 'length should be 6 to 16' }],
 })
 // =============== Functions ===============
 async function withdraw() {
-  const r = await polkadot_withdraw(withdrawForm.address, Md5.hashStr(withdrawForm.password), withdrawForm.amount)
+  console.log('转装参数',withdrawForm)
+  const r = await polkadot_withdraw(withdrawForm.address, Md5.hashStr(withdrawForm.password), withdrawForm.amount,withdrawForm.cm)
   if (r.error !== 0) {
     return ElMessage({ type: 'error', message: r.error_msg })
   }
@@ -41,6 +44,12 @@ async function withdraw() {
         </el-form-item>
         <el-form-item label="Amount:" label-width="180px" prop="amount">
           <el-input v-model="withdrawForm.amount" style="width: 500px;" type="number" />
+        </el-form-item>
+        <el-form-item label="Token:" label-width="180px" prop="cm">
+          <el-select v-model="withdrawForm.cm" placeholder="">
+            <el-option  :label="DOT" value="DOT"></el-option>
+            <el-option  :label="AUSD" value="AUSD"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="Password:" label-width="180px" prop="password">
           <el-input

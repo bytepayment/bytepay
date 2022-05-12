@@ -9,6 +9,9 @@ const props = defineProps({
   },
   address: {
     type: String
+  },
+  platform: {
+    type: String
   }
 })
 function addressFormat(address: string) {
@@ -51,7 +54,7 @@ function addressFormat(address: string) {
           </template>
         </el-table-column>
         <el-table-column label="Amount" width="120">
-          <template #default="scope">{{ scope.row.amount }} DOT</template>
+          <template #default="scope">{{ scope.row.amount }} {{platform}}</template>
         </el-table-column>
         <el-table-column label="Hash">
           <template #default="scope">
