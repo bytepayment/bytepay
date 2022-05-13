@@ -1,9 +1,7 @@
 <script lang="ts" setup>
-import { defineProps } from 'vue'
 import moment from 'moment'
-
-const subscanBaseUrl = import.meta.env.VITE_SUBSCAN_BASE_URL
-const props = defineProps({
+const baseUrl = import.meta.env.VITE_SUBSCAN_BASE_URL
+defineProps({
   txs: {
     type: Array
   },
@@ -31,7 +29,7 @@ function addressFormat(address: string) {
           <template #default="scope">
             <a
               v-if="scope.row.from !== address"
-              :href="`${subscanBaseUrl}/account/${scope.row.from}`"
+              :href="`${baseUrl}/account/${scope.row.from}`"
               target="_blank"
             >{{ addressFormat(scope.row.from) }}</a>
             <span v-else>{{ addressFormat(scope.row.from) }}</span>
@@ -41,7 +39,7 @@ function addressFormat(address: string) {
           <template #default="scope">
             <a
               v-if="scope.row.to !== address"
-              :href="`${subscanBaseUrl}/account/${scope.row.to}`"
+              :href="`${baseUrl}/account/${scope.row.to}`"
               target="_blank"
             >{{ addressFormat(scope.row.to) }}</a>
             <span v-else>{{ addressFormat(scope.row.to) }}</span>
@@ -59,7 +57,7 @@ function addressFormat(address: string) {
         <el-table-column label="Hash">
           <template #default="scope">
             <a
-              :href="`${subscanBaseUrl}/extrinsic/${scope.row.hash}`"
+              :href="`${baseUrl}/extrinsic/${scope.row.hash}`"
               target="_blank"
             >{{ addressFormat(scope.row.hash) }}</a>
           </template>
