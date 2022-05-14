@@ -48,7 +48,7 @@ async function withdraw() {
         <el-form-item label="Token:" label-width="180px" prop="cm">
           <el-select v-model="withdrawForm.cm" placeholder="">
             <el-option  :label="'DOT'" value="DOT"></el-option>
-            <el-option  :label="'AUSD'" value="AUSD"></el-option>
+            <el-option  :label="'ACA'" value="ACA"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="Password:" label-width="180px" prop="password">

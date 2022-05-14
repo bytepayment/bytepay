@@ -15,14 +15,14 @@ const centerDialogVisible = ref(false)
 const txs = ref([])
 const txsCount = ref(0)
 const acalaTxs = ref([])
-const AUSDaddress = ref('')
+const ACAaddress = ref('')
 const account = ref();
 onBeforeMount(async () => {
   // Get Polka Address
   const r = await get_polkadot_keyring();
   if (r.error !== 0) return;
   address.value = r.data.polka.address;
-  AUSDaddress.value = r.data.acala.address;
+  ACAaddress.value = r.data.acala.address;
   console.log(r.data, "啥地址");
 
   // Get Polka Account Balance
@@ -119,22 +119,22 @@ function dotFormat(dot: number) {
         </div>
         <div class="column-one">
           <span>Free</span>
-          <span>{{ account?.acala.free?.toFixed(2) }} AUSD</span>
+          <span>{{ account?.acala.free?.toFixed(2) }} ACA</span>
         </div>
         <div class="column-two">
-          <div class="AUSDaddress" :data-clipboard-text="AUSDaddress">
-            {{ AUSDaddress }}
-            <el-icon @click="copy_address('AUSDaddress')">
+          <div class="ACAaddress" :data-clipboard-text="ACAaddress">
+            {{ ACAaddress }}
+            <el-icon @click="copy_address('ACAaddress')">
               <document-copy />
             </el-icon>
           </div>
           <div class="detail">
             <span>Reserved:</span>
-            <span>{{ account?.acala.reserved ?? 0 }} AUSD</span>
+            <span>{{ account?.acala.reserved ?? 0 }} ACA</span>
             <!-- <span style="margin-left: 25px">MiscFrozen:</span>
-            <span>{{ account?.acala.miscFrozen ?? 0 }} AUSD</span> -->
+            <span>{{ account?.acala.miscFrozen ?? 0 }} ACA</span> -->
             <span style="margin-left: 25px">Frozen:</span>
-            <span>{{ account?.acala.feeFrozen ?? 0 }} AUSD</span>
+            <span>{{ account?.acala.feeFrozen ?? 0 }} ACA</span>
           </div>
         </div>
       </div>
@@ -157,8 +157,8 @@ function dotFormat(dot: number) {
     <el-tab-pane label="Dot Transaction Records">
       <TransactionRecords :txs="txs" :address="address" :platform="'DOT'"/>
     </el-tab-pane>
-    <el-tab-pane label="AUSD Transaction Records">
-      <TransactionRecords :txs="acalaTxs" :address="AUSDaddress" :platform="'AUSD'"/>
+    <el-tab-pane label="ACA Transaction Records">
+      <TransactionRecords :txs="acalaTxs" :address="ACAaddress" :platform="'ACA'"/>
     </el-tab-pane>
   </el-tabs>
     
@@ -175,8 +175,8 @@ function dotFormat(dot: number) {
           <qrcode-vue :value="address" :size="300" level="H" />
         </div>
         <div>
-          <div class="recharge-title">AUSD</div>
-          <qrcode-vue :value="AUSDaddress" :size="300" level="H" />
+          <div class="recharge-title">ACA</div>
+          <qrcode-vue :value="ACAaddress" :size="300" level="H" />
         </div>
       </div>
 
