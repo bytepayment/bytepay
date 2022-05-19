@@ -26,8 +26,8 @@ export class Api {
     /**
      * 交易记录
      */
-    public static async transactionRecord(request: TransactionRequest): Promise<Array<any>> {
-        const response = await cloud.invokeFunction<Response<Array<any>>>('api-transaction-record', request)
+    public static async transactionRecord(request: TransactionRequest): Promise<TransactionRecordResponse> {
+        const response = await cloud.invokeFunction<Response<TransactionRecordResponse>>('api-transaction-record', request)
         return Response.checkData(response)
     }
 
@@ -55,10 +55,10 @@ export class Api {
 
 }
 
-enum Blockchain {
+export enum Blockchain {
     ACALA = 'acala',
     POLKA = 'polka',
-    NEAR = 'near'
+    // NEAR = 'near'
 }
 
 export interface AccountBindRequest {
@@ -71,23 +71,50 @@ export interface AccountInfoRequest {
     id: number
 }
 
-export type AccountInfo = Record<Blockchain, AccountBaseInfo | BalanceInfo>
+export type AccountInfo = {
+    account: Record<Blockchain, { address: string, type: string, publicKey: object }>
+    balance: Record<Blockchain, PolkaAccount>
+}
 
-export type AccountBaseInfo = PolkaAccount | AcalaAccount
+export interface TransactionRecordResponse {
+    count: number
+    transfers: Array<TransactionRecordItem>
+}
 
-export type BalanceInfo = any
+export interface TransactionRecordItem {
+    amount: string
+    amount_v2: string
+    asset_symbol: string
+    asset_type: string
+    block_num: number
+    block_timestamp: number
+    event_idx: number
+    extrinsic_index: string
+    fee: string
+    from: string
+    from_account_display: RecordAccountDisplay,
+    hash: string
+    module: string
+    nonce: number
+    success: boolean
+    to: string
+    to_account_display: RecordAccountDisplay
+}
+
+export interface RecordAccountDisplay {
+    account_index: string
+    address: string
+    display: string
+    identity: boolean
+    judgements: null
+    parent: null
+}
 
 interface PolkaAccount {
     free: number,
     reserved: number,
     miscFrozen?: number,
     feeFrozen?: number,
-}
-
-interface AcalaAccount {
-    free: number,
-    reserved: number,
-    frozen: number,
 }
 
 export interface TransactionRequest {
@@ -119,7 +146,7 @@ const CurrencyMapping: Record<string, Blockchain> = {
     'DOT': Blockchain.POLKA,
     'AUSD': Blockchain.ACALA,
     // TODO: near 单位定义
-    'XXX': Blockchain.NEAR,
+    // 'XXX': Blockchain.NEAR,
 }
 
 export class Response<D> {
