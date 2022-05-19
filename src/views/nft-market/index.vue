@@ -1,30 +1,22 @@
 <script lang="ts" setup>
-import { ref, reactive, onMounted } from 'vue';
-import { cloud } from '@/api/cloud';
-import { useRouter } from 'vue-router';
-import { ElMessage } from 'element-plus';
-import { DocumentCopy } from '@element-plus/icons-vue';
-import {
-  nft_get_bytechain_keyring,
-  nft_get_bytechain_accountinfo
-} from '@/api/nft';
-import {
-  get_polkadot_keyring,
-  get_polka_account_info,
-  get_polkadot_tx_record,
-  getClasses
-} from '@/api/user';
-import Clipboard from 'clipboard';
+import { cloud } from '@/api/cloud'
+import { nft_get_bytechain_accountinfo, nft_get_bytechain_keyring } from '@/api/nft'
+import { getClasses } from '@/api/user'
+import { DocumentCopy } from '@element-plus/icons-vue'
+import Clipboard from 'clipboard'
+import { ElMessage } from 'element-plus'
+import { onMounted, reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 // =============== Datas ===============
-const router = useRouter();
-const tabIndex = ref(0);
-const classArr: any = ref([]);
-const classId = ref('');
-const list: any = ref([]);
-const address = ref('');
+const router = useRouter()
+const tabIndex = ref(0)
+const classArr: any = ref([])
+const classId = ref('')
+const list: any = ref([])
+const address = ref('')
 const account = reactive({
-  data: {
+    data: {
     free: 0.0,
     reserved: 0.0,
     miscFrozen: 0.0,

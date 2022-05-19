@@ -97,9 +97,6 @@ export async function goto_task_page() {
   })
 }
 
-// ========================================================================================
-// ======================================== Polkadot ======================================
-// ========================================================================================
 
 /**
  * Get polkdot keyring
@@ -112,81 +109,6 @@ export async function get_polkadot_keyring() {
   })
 }
 
-/**
- * Developer Bind His Own Polka Account
- * @param address polka address
- * @returns
- * @deprecated 弃用
- */
-export async function bind_own_polka_address(address: string) {
-  const user = getUser()
-  return await cloud.invokeFunction('bind_polka_address', {
-    id: user.id,
-    address
-  })
-}
-
-/**
- * Get Polka Account Info
- * @returns polka account balance
- * @deprecated 弃用
- */
-export async function get_polka_account_info() {
-  const user = getUser()
-  return await cloud.invokeFunction('get_polkadot_account_info', {
-    id: user.id
-  })
-}
-
-/**
- * Get Polka Transfer Record
- * @returns polka account transfer record
- * @deprecated 弃用
- */
-export async function get_polkadot_tx_record() {
-  const user = getUser()
-  return await cloud.invokeFunction('get_polkadot_tx_record', {
-    id: user.id
-  })
-}
-
-/**
- * @deprecated 弃用
- */
-export async function get_acala_tx_record() {
-  const user = getUser()
-  return await cloud.invokeFunction('get_acala_tx_record',{id: user.id})
-}
-
-/**
- * Withdraw polka account, transfer dot actually
- * @deprecated 弃用
- */
-export async function polkadot_withdraw(address: string, password: string, amount: number,cm: string) {
-  const user = getUser()
-  return await cloud.invokeFunction('withdraw_polkadot', {
-    id: user.id,
-    address,
-    password,
-    amount,
-    cm
-  })
-}
-
 export async function getClasses() {
   return await cloud.invokeFunction('nft_get_classes', {})
-}
-
-/**
- * Developer Bind His Own Polka Account
- * @param address acala address
- * @returns
- * @deprecated 弃用
- */
-export async function bind_own_acala_address(address: string) {
-  const user = getUser()
-  return await cloud.invokeFunction('bind_acala_address', {
-    id: user.id,
-    address
-  })
 }
