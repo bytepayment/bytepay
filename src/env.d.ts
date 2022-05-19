@@ -1,4 +1,5 @@
 /// <reference types="vite/client" />
+import { RuleItem } from 'async-validator'
 
 declare module '*.vue' {
   import { DefineComponent } from 'vue'
@@ -26,3 +27,8 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv
 }
+
+/**
+ * 表单验证规则
+ */
+type FormValidationRules<T> = Partial<Record<keyof T, Array<RuleItem>>>
