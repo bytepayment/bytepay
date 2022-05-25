@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import acalaImgUrl from '@/assets/acalaImg.png'
 import remainUrl from '@/assets/jiaoyishuju.png'
+import nearImgUrl from '@/assets/nearimg.png'
 import AccountInfo from '@/views/properties/components/AccountInfo.vue'
 import RechargeDialog from '@/views/properties/components/RechargeDialog.vue'
 import { SUBSCAN_BASE_URL, useProperties } from '@/views/properties/useProperties'
@@ -16,6 +17,10 @@ const {
     polkaBalance,
     polkaRecordIsLoading,
     recordData,
+    nearaAddress,
+    nearaBalance,
+    nearRecordIsLoading
+ 
 } = useProperties()
 
 </script>
@@ -30,6 +35,7 @@ const {
             <RechargeDialog :list="[
                 { address: acalaAddress, unit: 'ACA' },
                 { address: polkaAddress, unit: 'DOT' },
+                { address: nearaAddress, unit: 'Near' },
             ]" />
             <el-button @click="gotoWithdraw">Withdraw</el-button>
         </el-col>
@@ -38,6 +44,7 @@ const {
     <!-- 账户信息卡片 -->
     <AccountInfo v-loading="accountIsLoading" :address="polkaAddress" :balance="polkaBalance" :logo="remainUrl" unit="DOT" />
     <AccountInfo v-loading="accountIsLoading" :address="acalaAddress" :balance="acalaBalance" :logo="acalaImgUrl" unit="ACA" />
+    <AccountInfo v-loading="accountIsLoading" :address="nearaAddress" :balance="nearaBalance" :logo="nearImgUrl" unit="Near" />
 
     <!-- 交易记录 -->
     <el-row class="txs-text">
@@ -57,6 +64,9 @@ const {
         </el-tab-pane>
         <el-tab-pane label="ACA Transaction Records">
             <TransactionRecords v-loading="acalaRecordIsLoading" :address="acalaAddress" :list="recordData.acala?.transfers" :platform="'ACA'" />
+        </el-tab-pane>
+         <el-tab-pane label="Near Transaction Records">
+            <TransactionRecords v-loading="nearRecordIsLoading" :address="nearaAddress" :list="recordData.near?.transfers" :platform="'Near'" />
         </el-tab-pane>
     </el-tabs>
 </div>

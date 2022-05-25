@@ -21,7 +21,7 @@ const isShow = ref(false)
 <template>
 <el-button color="#6667AB" style="color: white; margin-right: 15px" @click="isShow = true">Recharge</el-button>
 
-<el-dialog v-model="isShow" center title="Recharge" width="40%">
+<el-dialog v-model="isShow" center title="Recharge" width="60%">
     <div class="recharge-dialog">
         <div v-for="item in list">
             <div class="recharge-title">{{ item.unit }}</div>

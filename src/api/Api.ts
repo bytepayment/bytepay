@@ -55,10 +55,11 @@ export class Api {
 
 }
 
+
 export enum Blockchain {
     ACALA = 'acala',
     POLKA = 'polka',
-    // NEAR = 'near'
+    NEAR = "near"
 }
 
 export interface AccountBindRequest {
@@ -145,6 +146,7 @@ export interface WithdrawRequest {
 const CurrencyMapping: Record<string, Blockchain> = {
     'DOT': Blockchain.POLKA,
     'AUSD': Blockchain.ACALA,
+    'TODO':Blockchain.NEAR
     // TODO: near 单位定义
     // 'XXX': Blockchain.NEAR,
 }

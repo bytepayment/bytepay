@@ -3,6 +3,7 @@ import Password from './password.vue'
 import ProlkaAddress from './recv-address.vue'
 import Withdraw from './withdraw.vue'
 import AcalaAddress from './acala-bind-address.vue'
+import NearAddress from './near-address.vue'
 import { ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
@@ -21,7 +22,10 @@ function getComponent() {
     return Withdraw
   }else if(activeSetting.value === 'acalaAddress'){
     return AcalaAddress
-  }else {
+  }else if (activeSetting.value === 'nearAddress') {
+    return NearAddress
+  }
+  else {
     console.log('not found')
   }
 }
@@ -46,7 +50,8 @@ function setActiveSetting(settingName: string) {
         <div class="setting-item" @click="setActiveSetting('password')">Password</div>
         <div class="setting-item" @click="setActiveSetting('withdraw')">Withdraw</div>
         <div class="setting-item" @click="setActiveSetting('prolkaAddress')">Polka Address</div>
-        <div class="setting-item last-item" @click="setActiveSetting('acalaAddress')">Acala Address</div>
+        <div class="setting-item " @click="setActiveSetting('acalaAddress')">Acala Address</div>
+        <div class="setting-item last-item" @click="setActiveSetting('nearAddress')">Near Address</div>
       </div>
     </el-col>
     <el-col :span="17" class="content-area">
