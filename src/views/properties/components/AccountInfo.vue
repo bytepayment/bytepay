@@ -25,7 +25,7 @@ defineProps<{
         </div>
         <div class="column-one">
             <span>Free</span>
-            <span>{{ balance.free ?? 0 }} DOT</span>
+            <span>{{ balance.free ?? 0 }} {{unit}}</span>
         </div>
         <div class="column-two">
             <div :data-clipboard-text="address" class="address">{{ address }}

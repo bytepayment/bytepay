@@ -50,7 +50,7 @@ async function withdraw() {
     <el-divider></el-divider>
     <div class="form-container">
         <el-form ref="ruleFormRef" :model="withdrawForm" :rules="rules" class="demo-form-inline">
-            <el-form-item label="Polka Address" label-width="180px" prop="address">
+            <el-form-item label="Address" label-width="180px" prop="address">
                 <el-input v-model="withdrawForm.address" clearable style="width: 500px;" />
             </el-form-item>
             <el-form-item label="Amount:" label-width="180px" prop="amount">
