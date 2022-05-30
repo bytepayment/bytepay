@@ -23,6 +23,8 @@ const {
  
 } = useProperties()
 
+
+
 </script>
 
 <template>
@@ -32,11 +34,11 @@ const {
         <el-col :span="6">My Accounts</el-col>
         <el-col :span="12"></el-col>
         <el-col :span="6" class="buttons">
-            <RechargeDialog :list="[
+            <!-- <RechargeDialog :list="[
                 { address: acalaAddress, unit: 'ACA' },
                 { address: polkaAddress, unit: 'DOT' },
                 { address: nearaAddress, unit: 'Near' },
-            ]" />
+            ]" /> -->
             <el-button @click="gotoWithdraw">Withdraw</el-button>
         </el-col>
     </el-row>
@@ -69,6 +71,7 @@ const {
             <TransactionRecords v-loading="nearRecordIsLoading" :address="nearaAddress" :list="recordData.near?.transfers" :platform="'Near'" />
         </el-tab-pane>
     </el-tabs>
+
 </div>
 </template>
 
@@ -157,5 +160,6 @@ const {
       margin-top: 20px;
     }
   }
+
 }
 </style>
