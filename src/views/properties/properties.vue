@@ -6,6 +6,7 @@ import AccountInfo from '@/views/properties/components/AccountInfo.vue'
 import RechargeDialog from '@/views/properties/components/RechargeDialog.vue'
 import { SUBSCAN_BASE_URL, useProperties } from '@/views/properties/useProperties'
 import TransactionRecords from './components/TransactionRecords.vue'
+import TransactionRecordsnear from './components/TransactionRecordsnear.vue'
 
 const {
     acalaAddress,
@@ -23,6 +24,7 @@ const {
  
 } = useProperties()
 
+console.log(recordData.near,'这个是什么')
 
 
 </script>
@@ -34,11 +36,11 @@ const {
         <el-col :span="6">My Accounts</el-col>
         <el-col :span="12"></el-col>
         <el-col :span="6" class="buttons">
-            <!-- <RechargeDialog :list="[
+            <RechargeDialog :list="[
                 { address: acalaAddress, unit: 'ACA' },
                 { address: polkaAddress, unit: 'DOT' },
                 { address: nearaAddress, unit: 'Near' },
-            ]" /> -->
+            ]" />
             <el-button @click="gotoWithdraw">Withdraw</el-button>
         </el-col>
     </el-row>
@@ -68,7 +70,7 @@ const {
             <TransactionRecords v-loading="acalaRecordIsLoading" :address="acalaAddress" :list="recordData.acala?.transfers" :platform="'ACA'" />
         </el-tab-pane>
          <el-tab-pane label="Near Transaction Records">
-            <TransactionRecords v-loading="nearRecordIsLoading" :address="nearaAddress" :list="recordData.near?.transfers" :platform="'Near'" />
+            <TransactionRecordsnear v-loading="nearRecordIsLoading" :address="nearaAddress" :list="recordData.near?.transfers" :platform="'Near'" />
         </el-tab-pane>
     </el-tabs>
 
