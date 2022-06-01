@@ -11,7 +11,7 @@ use ink_lang as ink;
 
 #[ink::contract]
 pub mod bytepay {
-    use ink_storage::{traits::SpreadAllocate, Mapping};
+    use ink_storage::{Mapping, traits::SpreadAllocate};
 
     /// Bytepay storage
     /// Save owner, balances map and whitelist vector
@@ -151,10 +151,10 @@ pub mod bytepay {
     #[cfg(not(feature = "ink-experimental-engine"))]
     #[cfg(test)]
     mod tests {
-        use super::*;
-
         use ink_env::{call, test};
         use ink_lang as ink;
+
+        use super::*;
 
         #[ink::test]
         fn contract_init_works() {
