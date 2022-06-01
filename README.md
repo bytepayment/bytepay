@@ -98,7 +98,7 @@ Since [canvas-ui](https://paritytech.github.io/canvas-ui/#/instantiate) could no
 we provide off-chain test.
 
 ```bash
-cd smart-contract
+cd contract/polka
 cargo +nightly test
 ```
 

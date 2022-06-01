@@ -1,0 +1,20 @@
+{
+    "name": "near-contract",
+    "version": "1.0.0",
+    "description": "略",
+    "main": "index.js",
+    "scripts": {
+        "build": "near-sdk build",
+        "test": "ava"
+    },
+    "dependencies": {
+        "near-api-js": "^0.44.2",
+        "near-sdk-js": "^0.2.0"
+    },
+    "devDependencies": {
+        "ava": "^4.2.0",
+        "near-workspaces": "^2.0.0"
+    },
+    "author": "",
+    "license": "ISC"
+}
