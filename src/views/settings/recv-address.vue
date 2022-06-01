@@ -5,7 +5,7 @@ import BindAddress from '@/views/settings/components/BindAddress.vue'</script>
 <template>
 <BindAddress :chain="Blockchain.POLKA">
     <template #title>
-        Polka Account
+        AccountID
     </template>
     <template #body>
         <span>

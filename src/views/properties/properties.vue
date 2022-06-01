@@ -6,6 +6,7 @@ import AccountInfo from '@/views/properties/components/AccountInfo.vue'
 import RechargeDialog from '@/views/properties/components/RechargeDialog.vue'
 import { SUBSCAN_BASE_URL, useProperties } from '@/views/properties/useProperties'
 import TransactionRecords from './components/TransactionRecords.vue'
+import TransactionRecordsnear from './components/TransactionRecordsnear.vue'
 
 const {
     acalaAddress,
@@ -22,6 +23,9 @@ const {
     nearRecordIsLoading
  
 } = useProperties()
+
+console.log(recordData.near,'这个是什么')
+
 
 </script>
 
@@ -66,9 +70,10 @@ const {
             <TransactionRecords v-loading="acalaRecordIsLoading" :address="acalaAddress" :list="recordData.acala?.transfers" :platform="'ACA'" />
         </el-tab-pane>
          <el-tab-pane label="Near Transaction Records">
-            <TransactionRecords v-loading="nearRecordIsLoading" :address="nearaAddress" :list="recordData.near?.transfers" :platform="'Near'" />
+            <TransactionRecordsnear v-loading="nearRecordIsLoading" :address="nearaAddress" :list="recordData.near?.transfers" :platform="'Near'" />
         </el-tab-pane>
     </el-tabs>
+
 </div>
 </template>
 
@@ -157,5 +162,6 @@ const {
       margin-top: 20px;
     }
   }
+
 }
 </style>

@@ -60,6 +60,7 @@ async function withdraw() {
                 <el-select v-model="withdrawForm.cm" placeholder="">
                     <el-option :label="'DOT'" value="DOT"></el-option>
                     <el-option :label="'ACA'" value="ACA"></el-option>
+                    <el-option :label="'Near'" value="Near"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="Password:" label-width="180px" prop="password">
