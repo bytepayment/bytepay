@@ -5,6 +5,7 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
+    "deploy:prod": "yarn run build && rsync -rvtP ./dist/  ssh bytepay:/root/workspace/dot-pay-client/dist",
     "test": "mocha tests/*/*.test.js",
     "build-test": "vue-tsc --noEmit && vite build --mode test",
     "docker-build-app": "docker build -t sulnong/bytepay:app-v2 .",
