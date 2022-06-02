@@ -65,7 +65,7 @@ const {
             <TransactionRecords v-loading="acalaRecordIsLoading" :address="acalaAddress" :list="recordData.acala?.transfers" :platform="'ACA'" />
         </el-tab-pane>
          <el-tab-pane label="Near Transaction Records">
-             <TransactionRecordsNear v-loading="nearRecordIsLoading" :address="nearaAddress" :list="recordData.near?.list" :platform="'Near'" />
+             <TransactionRecordsNear v-loading="nearRecordIsLoading" :address="nearaAddress" :list="(recordData?.near && recordData?.near?.list) ?? []" :platform="'Near'" />
         </el-tab-pane>
     </el-tabs>
 

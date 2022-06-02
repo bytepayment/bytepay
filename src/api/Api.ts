@@ -79,7 +79,8 @@ export type AccountInfo = {
 
 export interface TransactionRecordResponse {
     count: number
-    transfers: Array<TransactionRecordItem>
+    transfers: Array<TransactionRecordItem>,
+    list: any
 }
 
 export interface TransactionRecordItem {
@@ -99,7 +100,7 @@ export interface TransactionRecordItem {
     nonce: number
     success: boolean
     to: string
-    to_account_display: RecordAccountDisplay
+    to_account_display: RecordAccountDisplay,
 }
 
 export interface RecordAccountDisplay {
