@@ -1,10 +1,6 @@
 <script lang="ts" setup>
 import QrcodeVue from 'qrcode.vue'
 import { ref } from 'vue'
-import { SUBSCAN_BASE_URL, useProperties } from '@/views/properties/useProperties'
-import acalaImgUrl from '@/assets/acalaImg.png'
-import remainUrl from '@/assets/jiaoyishuju.png'
-import nearImgUrl from '@/assets/nearimg.png'
 
 /**
  * RechargeDialog
@@ -19,14 +15,7 @@ defineProps<{
 }>()
 
 const isShow = ref(false)
-const{
-    acalaAddress,
-    polkaAddress,
-    nearaAddress
-    
-}= useProperties()
-
-const currentIndex = ref(0);
+const current = ref<'ACA' | 'DOT' | 'Near' | string>('ACA')
 
 </script>
 
@@ -35,26 +24,21 @@ const currentIndex = ref(0);
 
 <el-dialog v-model="isShow" center title="Recharge" width="352px">
     <div class="icon">
-    <div @click="currentIndex=0" style="cursor:pointer;" ><img class="img" src="@/assets/acalaImg.png" alt=""></div>
-    <div @click="currentIndex=1" style="cursor:pointer;;margin-left: 20px;"><img class="img" src="@/assets/jiaoyishuju.png" alt=""></div>
-    <div @click="currentIndex=2" style="cursor:pointer;;margin-left: 20px;"><img class="img" src="@/assets/nearimg.png" alt=""></div>
+        <div style="cursor:pointer;" @click="current = 'ACA' ">
+            <img alt="" class="img" src="@/assets/acalaImg.png">
+        </div>
+        <div style="cursor:pointer;;margin-left: 20px;" @click="current = 'DOT' ">
+            <img alt="" class="img" src="@/assets/jiaoyishuju.png">
+        </div>
+        <div style="cursor:pointer;;margin-left: 20px;" @click="current = 'Near' ">
+            <img alt="" class="img" src="@/assets/nearimg.png">
+        </div>
     </div>
- 
-
-    <div class="recharge-dialog" >
-        <div class="code" v-show="currentIndex==0" >
-            <div style="margin-bottom: 10px;" >ACA</div>
-            <qrcode-vue  :size="300" :value="acalaAddress" level="H" />
+    <div class="recharge-dialog">
+        <div v-for="item in list" v-show="current === item.unit" class="code">
+            <div style="margin-bottom: 10px;">{{ item.unit }}</div>
+            <qrcode-vue :size="300" :value="item.address" level="H" />
         </div>
-         <div class="code" v-show="currentIndex==1">
-            <div style="margin-bottom: 10px;" >DOT</div>
-            <qrcode-vue :size="300" :value="polkaAddress" level="H" />
-        </div>
-         <div class="code" v-show="currentIndex==2">
-            <div style="margin-bottom: 10px;" >Near</div>
-            <qrcode-vue :size="300" :value="nearaAddress" level="H" />
-        </div>
-  
     </div>
     <template #footer>
         <span class="dialog-footer">

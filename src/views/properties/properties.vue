@@ -20,12 +20,7 @@ const {
     nearaAddress,
     nearaBalance,
     nearRecordIsLoading
- 
 } = useProperties()
-
-console.log(recordData.near,'这个是什么')
-
-
 </script>
 
 <template>
@@ -69,7 +64,7 @@ console.log(recordData.near,'这个是什么')
             <TransactionRecords v-loading="acalaRecordIsLoading" :address="acalaAddress" :list="recordData.acala?.transfers" :platform="'ACA'" />
         </el-tab-pane>
          <el-tab-pane label="Near Transaction Records">
-            <TransactionRecordsnear v-loading="nearRecordIsLoading" :address="nearaAddress" :list="recordData.near?.transfers" :platform="'Near'" />
+            <TransactionRecords v-loading="nearRecordIsLoading" :address="nearaAddress" :list="recordData.near?.list" :platform="'Near'" />
         </el-tab-pane>
     </el-tabs>
 

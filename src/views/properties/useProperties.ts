@@ -58,8 +58,6 @@ export function useProperties() {
         polkaBalance: computed(() => account.value.balance?.polka ?? {}),
         nearaAddress: computed(() => account.value.account?.near?.address || ''),
         nearaBalance: computed(() => account.value.balance?.near ?? {}),
-
-
         gotoWithdraw() {
             // noinspection JSIgnoredPromiseFromCall
             Router.push('/settings/withdraw')
