@@ -16,7 +16,7 @@ defineProps({
 
 function addressFormat(address: string) {
     if (!address) {
-        return '不存在'
+        return '-'
     }
     return address.substring(0, 7) + '...' + address.substring(address.length - 5, address.length)
 }
