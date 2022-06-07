@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { Api, Blockchain } from '@/api/Api'
 import { get_user_info } from '@/api/user'
-import { FormValidationRules } from '@/env'
+import { FormValidationRules } from '@/shims-vue'
 import { getToken } from '@/utils/auth'
 import { ElMessage } from 'element-plus'
 import { reactive, ref } from 'vue'

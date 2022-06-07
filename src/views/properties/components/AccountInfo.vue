@@ -9,7 +9,7 @@ import { DocumentCopy } from '@element-plus/icons-vue'
  **/
 defineProps<{
     address: string,
-    balance: object,
+    balance: any,
     unit: string,
     logo: string
 }>()
