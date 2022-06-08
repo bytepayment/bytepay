@@ -11,6 +11,7 @@ use ink_lang as ink;
 
 #[ink::contract]
 pub mod bytepay {
+    use ink_env::AccountId;
     use ink_storage::{Mapping, traits::SpreadAllocate};
 
     /// Bytepay storage
@@ -151,7 +152,7 @@ pub mod bytepay {
     #[cfg(not(feature = "ink-experimental-engine"))]
     #[cfg(test)]
     mod tests {
-        use ink_env::{call, test};
+        use ink_env::{AccountId, call, Environment, test};
         use ink_lang as ink;
 
         use super::*;

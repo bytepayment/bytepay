@@ -1,5 +1,5 @@
 pub mod bytepay_near {
-    use near_sdk::{AccountId, Balance, env, near_bindgen};
+    use near_sdk::{AccountId, Balance, env, log, near_bindgen, Promise};
     use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
     use near_sdk::collections::LookupMap;
 
@@ -13,13 +13,13 @@ pub mod bytepay_near {
         /// 余额
         pub balances: LookupMap<AccountId, Balance>,
         /// 白名单
-        pub whitelist: LookupMap<(AccountId, AccountId), String>,
+        pub whitelist: LookupMap<(AccountId, AccountId), Balance>,
     }
 
     impl Default for BytePayNearContract {
         fn default() -> Self {
             Self {
-                owner: String::from("琉璃"),
+                owner: env::current_account_id(),
                 balances: LookupMap::new(b"b".to_vec()),
                 whitelist: LookupMap::new(b"w".to_vec()),
             }
@@ -29,15 +29,6 @@ pub mod bytepay_near {
     /// 实现
     #[near_bindgen]
     impl BytePayNearContract {
-        pub fn set_state(&mut self, msg: &Balance) {
-            let account_id: AccountId = env::signer_account_id();
-            self.balances.insert(&account_id, &msg);
-        }
-
-        pub fn get_msg(&self) -> Option<Balance> {
-            self.balances.get(&env::signer_account_id())
-        }
-
         /// 获取合约所有者
         pub fn get_owner(&self) -> AccountId {
             self.owner.clone()
@@ -53,29 +44,63 @@ pub mod bytepay_near {
             self.balances.get(account)
         }
 
-        /// 冻结金额 定金
-        pub fn deposit(&self) {
-            println!("暂未实现")
+        /// 查看指定账户的白名单限制
+        pub fn get_whitelist(&self, account: AccountId) -> Option<Balance> {
+            self.whitelist.get(&(env::signer_account_id(), account))
         }
 
-        /// 转账
-        pub fn withdraw(&self, amount: Balance) {
-            let balance = match self.balances.get(&env::signer_account_id()) {
-                None => {
-                    println!("没有余额");
-                    // 权宜之策
-                    return;
-                }
-                Some(b) => b
-            };
+        /// 充值
+        pub fn recharge(&mut self, amount: Balance) -> &'static str {
+            let signer_account = env::signer_account_id();
+            let balance = self.balances.get(&signer_account).unwrap_or_default();
 
-            if balance < amount {
-                println!("余额不足");
-                return;
+            Promise::new(env::current_account_id()).transfer(amount);
+            self.balances.insert(&signer_account, &(amount + balance));
+
+            "END"
+        }
+
+        /// 设置 / 更新 白名单
+        pub fn set_whitelist(&mut self, account: AccountId, amount: Balance) -> &'static str {
+            let signer_account = env::signer_account_id();
+            let balances = self.balances.get(&signer_account).unwrap_or_default();
+
+            if amount > balances {
+                log!("INSUFFICIENT_BALANCE");
+                return "INSUFFICIENT_BALANCE";
+            }
+            let key = (signer_account, account);
+            let old = self.whitelist.get(&key).unwrap_or_default();
+            self.whitelist.insert(&key, &(old + amount));
+
+            "END"
+        }
+
+        /// 在白名单的限制下, 合约管理者发起转账
+        pub fn transfer(&mut self, from: AccountId, to: AccountId, amount: Balance) -> &'static str {
+            let call = env::signer_account_id();
+            let current = env::current_account_id();
+            if call != current {
+                log!("PERMISSION_DENIED");
+                return "PERMISSION_DENIED";
             }
 
-            // TODO:: 转账
-            // env::promise_batch_action_transfer()
+            let key = (from.clone(), to.clone());
+            let limit = self.whitelist.get(&key).unwrap_or_default();
+
+            let zero = Balance::from('0');
+            if amount < zero || (limit == zero && amount > limit) {
+                log!("EXCEED_THE_LIMIT");
+                return "EXCEED_THE_LIMIT";
+            }
+
+            // 发起交易
+            Promise::new(to).transfer(amount);
+
+            let balance = self.balances.get(&from).unwrap_or_default();
+            self.balances.insert(&from, &(balance - amount));
+
+            "END"
         }
     }
 
@@ -92,14 +117,14 @@ pub mod bytepay_near {
 
         fn get_context(input: Vec<u8>, is_view: bool) -> VMContext {
             VMContext {
-                current_account_id: "alice_near".to_string(),
-                signer_account_id: "bob_near".to_string(),
+                current_account_id: String::from("合约拥有者账户"),
+                signer_account_id: String::from("签名账户"),
                 signer_account_pk: vec![0, 1, 2],
-                predecessor_account_id: "carol_near".to_string(),
+                predecessor_account_id: String::from("前任账户"),
                 input,
                 block_index: 0,
                 block_timestamp: 0,
-                account_balance: 0,
+                account_balance: 1000000,
                 account_locked_balance: 0,
                 storage_usage: 0,
                 attached_deposit: 0,
@@ -111,19 +136,46 @@ pub mod bytepay_near {
             }
         }
 
+        /// 测试充值
         #[test]
-        fn test() {
+        fn test_recharge() {
             let context = get_context(vec![], false);
             testing_env!(context);
             let mut contract = BytePayNearContract::default();
+            // --------------------------------------------------------------------------
+            let msg = contract.recharge(233);
+            println!("回执消息: {}", msg);
+            let balance = contract.get_balance().unwrap_or_default();
+            assert_eq!(balance, 233);
+        }
 
-            let string = 233333333333;
+        /// 测试设置白名单
+        #[test]
+        fn test_set_whitelist() {
+            let context = get_context(vec![], false);
+            testing_env!(context);
+            let mut contract = BytePayNearContract::default();
+            // --------------------------------------------------------------------------
 
-            contract.set_state(&string);
+            let limit = 0;
+            let msg = contract.set_whitelist(AccountId::from("test-account.near.org"), limit);
+            println!("设置白名单回执消息: {}", msg);
+            assert_eq!(msg, "END");
 
-            assert_eq!(string, contract.get_msg().unwrap());
+            let option = contract.get_whitelist(AccountId::from("test-account.near.org"));
+            assert_eq!(option.unwrap_or_default(), limit)
+        }
 
-            println!("测试通过 {}", contract.get_msg().unwrap())
+        /// 测试转账
+        #[test]
+        fn test_transfer() {
+            let context = get_context(vec![], false);
+            testing_env!(context);
+            let mut contract = BytePayNearContract::default();
+            // --------------------------------------------------------------------------
+
+            let msg = contract.transfer(env::current_account_id(), AccountId::from("test-account.near.org"), 233);
+            println!("回执: {}", msg)
         }
     }
 }
