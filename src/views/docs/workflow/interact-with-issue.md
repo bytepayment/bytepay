@@ -1,41 +1,48 @@
-# Interact With Github Issue Comment
+# 与 Github 问题评论互动
 
-## 1. Create A Task
+## 1. 创建任务
 
-1) First at all, you need create a issue, give it a title, and describe the task detail.
-2) Then comment in specfied format like below:
+1) 首先，您需要创建一个问题，给它一个标题，并描述任务细节。
+2) 然后以指定的格式进行评论，如下所示：
 
 ```bash
-Dotpay: /pay number DOT # eg. Dotpay: /pay 10 DOT
+# 例如: 
+# /bytepay task 1.01 NEAR
+# /bytepay task 10 DOT
+/bytepay task <金额> <货币单位>
 ```
 
-3) After that, if following conditions are met, we would create a task.
-  - You are owner of the repository
-  - Your account balance is beyond than the number you want pay
-  - This issue has not been created task
+3) 之后，如果满足以下条件，我们将创建一个任务。
 
-## 2. Apply A Task
+- 您是存储库的所有者
+- 您的帐户余额超出了您要支付的金额
+- 此问题尚未创建任务
 
-1) After the author publishes the task, the developer can apply for the task.
-2) Comment in specified format like below:
+## 2. 应用任务
+
+1) 作者发布任务后，开发者即可申请任务。
+2) 以指定格式评论如下：
 
 ```bash
-Dotpay: /apply task
-```
-3) If no other developer applied this task, then we would assign this task to developer who
-comment in above format
-
-## 3. Finsh A Task
-```bash
-Dotpay: /finish task
+/bytepay apply
 ```
 
-## 4. Pay For A Task
+3) 如果没有其他开发人员应用此任务，那么我们会将此任务分配给开发人员
+   以上述格式发表评论
+
+## 3. 为任务付费
+
 ```bash
-Dotpay: /paid task
+/bytepay pay
+# 或
+/bytepay pay <Github用户名> <金额> <货币单位> # 例: /bytepay pay bob-name 10 DOT
 ```
 
-## 5. Bind Address
+## 4. 绑定地址
+
 ```bash
-Dotpay: /bind 5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE
+# 例如:
+# /bytepay bind near xxxxxxxx.near.org
+# /bytepay bind acala xxxxxx
+/bytepay bind <账号类型> <账号地址>
 ```

@@ -2,23 +2,15 @@ import Router from '@/router/index'
 import { computed, ref, Ref } from 'vue'
 import { useRoute } from 'vue-router'
 import BytepayOverview from './overview/bytepay-overview.md'
-import BytepayOverview_zh from './overview/bytepay-overview_zh.md'
 import BytepayContract from './workflow/bytepay-ink!-contract.md'
-import BytepayContract_zh from './workflow/bytepay-ink!-contract_zh.md'
 import BytepayUserGuide from './workflow/user-guide.md'
-import BytepayUserGuide_zh from './workflow/user-guide_zh.md'
 import InteractWithIssue from './workflow/interact-with-issue.md'
-import InteractWithIssue_zh from './workflow/interact-with-issue_zh.md'
 
 const fileMapping = {
     BytepayOverview,
     BytepayUserGuide,
     BytepayContract,
-    BytepayOverview_zh,
-    BytepayContract_zh,
-    BytepayUserGuide_zh,
     InteractWithIssue,
-    InteractWithIssue_zh,
 }
 
 type FileKey = keyof typeof fileMapping
@@ -46,7 +38,9 @@ export const pageConfig: Array<DocItem> = [
         id: '10',
         title: 'Work Flow',
         children: [
-            {id: '11', title: 'User Guide', page: 'BytepayUserGuide'},
+            {id: '11', title: 'User Guide For Polka', page: 'BytepayUserGuide'},
+            // {id: '13', title: 'User Guide For Acala', page: 'BytepayUserGuide'},
+            {id: '14', title: 'User Guide For Near', page: 'BytepayUserGuide'},
             {id: '12', title: 'Ink! Contract', page: 'BytepayContract'},
         ],
     },

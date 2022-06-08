@@ -24,8 +24,8 @@ const {component, language} = page
         <component :is="component"></component>
     </el-col>
 </el-row>
-<!--TODO: 仅测试-->
-<el-switch v-model="language" active-text="中文" active-value="_zh" class="language-fixed" inactive-text="英文" inactive-value="" />
+<!--仅测试-->
+<!--<el-switch v-model="language" active-text="中文" active-value="_zh" class="language-fixed" inactive-text="English" inactive-value="" />-->
 </template>
 
 <style lang="scss" scoped>
