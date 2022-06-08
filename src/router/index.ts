@@ -27,14 +27,13 @@ router.beforeEach(async (to, from, next) => {
     }
   } else {
     /* has no token*/
-    if (whiteList.indexOf(to.path) !== -1) {
-      // console.log('token not found', to)
+    if (whiteList.some(i => i.test(to.path))) {
       // in the free login whitelist, go directly
       document.title = (SiteName + ' - ' + to.meta.title) as string
       next()
     } else {
       // other pages that do not have permission to access are redirected to the login page.
-      next(`/login?redirect=${to.path}`)
+      next(`/login?redirect=${ to.path }`)
       document.title = SiteName + ' - ' + 'Login'
       NProgress.done()
     }

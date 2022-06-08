@@ -30,23 +30,31 @@ export const routes: Array<RouteRecordRaw> = [
         path: 'bind',
         name: 'bind',
         meta: {
-          title: 'Bind Repository'
+          title: 'Bind Repository',
         },
-        component: () => import('@/views/task/bind.vue')
+        component: () => import('@/views/task/bind.vue'),
       },
       {
         path: 'docs/:name',
         name: 'docs',
         meta: {
-          title: 'Docs'
+          title: 'Docs',
         },
-        component: () => import('@/views/docs/docs.vue')
+        component: () => import('@/views/docs/docs.vue'),
+      },
+      {
+        path: 'docs',
+        name: 'docs',
+        meta: {
+          title: 'Docs',
+        },
+        component: () => import('@/views/docs/docs.vue'),
       },
       {
         path: 'settings/:setting',
         name: 'settings',
         meta: {
-          title: 'Settings'
+          title: 'Settings',
         },
         component: () => import('@/views/settings/settings.vue')
       },
@@ -96,10 +104,10 @@ export const routes: Array<RouteRecordRaw> = [
     path: '/login',
     name: 'login',
     meta: {
-      title: 'Login'
+      title: 'Login',
     },
-    component: () => import('@/views/auth-github/auth-github.vue')
-  }
+    component: () => import('@/views/auth-github/auth-github.vue'),
+  },
 ]
 
-export const whiteList = ['/login', '/sign-up', '/docs/bytepay-overview', '/docs/bytepay-userguide'] // no redirect whitelist
+export const whiteList = [new RegExp('/login'), new RegExp('/sign-up'), new RegExp('^/docs/.*')] // no redirect whitelist
