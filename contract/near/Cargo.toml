@@ -1,10 +1,12 @@
 [package]
-name = "bytepay-near"
+name = "bytepay-contract-near"
 version = "0.1.0"
-authors = ["略"]
+authors = ["test@emain.cn"]
 edition = "2021"
 
 # 在以下位置查看更多键及其定义 https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 serde = { version = "*", features = ["derive"] }
