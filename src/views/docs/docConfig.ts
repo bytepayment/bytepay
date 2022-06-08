@@ -7,6 +7,8 @@ import BytepayContract from './workflow/bytepay-ink!-contract.md'
 import BytepayContract_zh from './workflow/bytepay-ink!-contract_zh.md'
 import BytepayUserGuide from './workflow/user-guide.md'
 import BytepayUserGuide_zh from './workflow/user-guide_zh.md'
+import InteractWithIssue from './workflow/interact-with-issue.md'
+import InteractWithIssue_zh from './workflow/interact-with-issue_zh.md'
 
 const fileMapping = {
     BytepayOverview,
@@ -15,6 +17,8 @@ const fileMapping = {
     BytepayOverview_zh,
     BytepayContract_zh,
     BytepayUserGuide_zh,
+    InteractWithIssue,
+    InteractWithIssue_zh,
 }
 
 type FileKey = keyof typeof fileMapping
@@ -35,6 +39,7 @@ export const pageConfig: Array<DocItem> = [
         title: 'Overview',
         children: [
             {id: '01', title: 'Overview', page: 'BytepayOverview'},
+            {id: '02', title: 'Interact with Issue', page: 'InteractWithIssue'},
         ],
     },
     {
