@@ -6,7 +6,6 @@ const {component, language} = page
 </script>
 
 <template>
-<el-switch v-model="language" active-text="中文" active-value="_zh" inactive-text="英文" inactive-value="" />
 <el-row>
     <el-col :span="5" class="menu-bar">
         <el-menu :default-openeds="AllDocItemId" class="el-menu-vertical-demo" default-active="2">
@@ -25,9 +24,17 @@ const {component, language} = page
         <component :is="component"></component>
     </el-col>
 </el-row>
+<!--TODO: 仅测试-->
+<el-switch v-model="language" active-text="中文" active-value="_zh" class="language-fixed" inactive-text="英文" inactive-value="" />
 </template>
 
 <style lang="scss" scoped>
+.language-fixed {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
 // Override element-plus default style
 .el-menu {
   border-right: 0 solid black;
