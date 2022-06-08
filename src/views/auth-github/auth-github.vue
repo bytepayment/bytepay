@@ -63,9 +63,13 @@ function authGithub() {
   justify-content: center;
   .card-container {
     opacity: 0.7;
-    margin-top: 20vh;
+    //margin-top: 20vh;
     width: 500px;
     height: 400px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
