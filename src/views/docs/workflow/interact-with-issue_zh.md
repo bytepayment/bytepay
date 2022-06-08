@@ -6,7 +6,10 @@
 2) 然后以指定的格式进行评论，如下所示：
 
 ```bash
-Dotpay: /pay number DOT # 例如: Dotpe：支付 10 点
+# 例如: 
+# /bytepay task 1.01 NEAR
+# /bytepay task 10 DOT
+/bytepay task <金额> <货币单位>
 ```
 
 3) 之后，如果满足以下条件，我们将创建一个任务。
@@ -21,26 +24,25 @@ Dotpay: /pay number DOT # 例如: Dotpe：支付 10 点
 2) 以指定格式评论如下：
 
 ```bash
-Dotpay: /apply task
+/bytepay apply
 ```
 
 3) 如果没有其他开发人员应用此任务，那么我们会将此任务分配给开发人员
    以上述格式发表评论
 
-## 3. 完成一项任务
-
-```bash
-Dotpay: /finish task
-```
-
 ## 4. 为任务付费
 
 ```bash
-Dotpay: /paid task
+/bytepay pay
+# 或
+/bytepay pay <Github用户名> <金额> <货币单位>
 ```
 
 ## 5. 绑定地址
 
 ```bash
-Dotpay: /bind 5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE
+# 例如:
+# /bytepay bind near xxxxxxxx.near.org
+# /bytepay bind acala xxxxxx
+/bytepay bind <账号类型> <账号地址>
 ```
