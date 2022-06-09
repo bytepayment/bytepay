@@ -181,8 +181,8 @@ Note:
 | to     | AccountId | payee       |
 | amount | Balance   | money       |
 
-使用 `near-cli` 调用示例:
+use `near-cli` call example:
 
 ```shell
-near view <合约账户> get_balance '{"account": "account.testnet"}'
+near view <contract_account> get_balance '{"account": "account.testnet"}'
 ```
