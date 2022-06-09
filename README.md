@@ -25,12 +25,14 @@ Open http://localhost:10086
 ## How To Run Test
 
 ### Method 1 - By docker
+
 ```bash
 docker pull sulnong/bytepay:test
 docker run --rm sulnong/bytepay:test
 ```
 
 ### Method 2 - By local environment
+
 ```bash
 git clone git@github.com:bytepayment/bytepaytest.git
 cd bytepay/test
@@ -94,7 +96,8 @@ Please visit https://github.com/bytepayment/bytepaytest/issues/4 check this full
 
 **Notice**:
 
-Since [canvas-ui](https://paritytech.github.io/canvas-ui/#/instantiate) could not upload contract now, visit [opened issue](https://github.com/substrate-developer-hub/substrate-docs/issues/789) for detail,
+Since [canvas-ui](https://paritytech.github.io/canvas-ui/#/instantiate) could not upload contract now,
+visit [opened issue](https://github.com/substrate-developer-hub/substrate-docs/issues/789) for detail,
 we provide off-chain test.
 
 ```bash
@@ -104,20 +107,82 @@ cargo +nightly test
 
 Above command would failed because deposit doesn't works. see [opened issue](https://github.com/paritytech/ink/issues/1117) for detail.
 
-
 ## Run all in local mode
+
 ```bash
 docker-compose up
 ```
 
 Above command would start three containers:
+
 1. mongo - local database
 2. web - our bytepay frontend web
 3. app-server - bytepay backend server
 
+Note:
 
-Note: 
 - backend app server is based on [lafyun/app-service](https://registry.hub.docker.com/r/lafyun/app-service), which is a http-backend-server runtime.
 - Check [Dockerfile](https://github.com/bytepayment/bytepay/blob/main/server/Dockerfile) to know how we build.
 - All our backend implementation is in directory [server/functions](https://github.com/bytepayment/bytepay/tree/main/server/functions).
-- [This script - init.js](https://github.com/bytepayment/bytepay/blob/main/server/init.js) integrated our backend implementation with [lafyun/app-service](https://registry.hub.docker.com/r/lafyun/app-service)
+- [This script - init.js](https://github.com/bytepayment/bytepay/blob/main/server/init.js) integrated our backend implementation
+  with [lafyun/app-service](https://registry.hub.docker.com/r/lafyun/app-service)
+
+# contract
+
+## near
+
+### view method
+
+#### View contract owner: `get_owner`
+
+#### Check balance: `get_balance`
+
+**Parameter:**
+
+| name    | type      |
+|---------|-----------|
+| account | AccountId |
+
+#### View whitelist restrictions for a specified account: `get_whitelist`
+
+**Parameter:**
+
+| name    | type      | description  |
+|---------|-----------|--------------|
+| current | AccountId | current user |
+| account | AccountId | target users |
+
+### change method
+
+#### Recharge: `recharge`
+
+**Parameter:**
+
+| name   | type    | 
+|--------|---------|
+| amount | Balance |
+
+#### Set up a whitelist: `set_whitelist`
+
+**Parameter:**
+
+| name    | type      | description       |
+|---------|-----------|-------------------|
+| account | AccountId | target users      |
+| amount  | Balance   | target user quota |
+
+#### The contract administrator initiates a transfer transaction: `transfer`
+
+**Parameter:**
+
+| name   | type      | description |
+|--------|-----------|-------------|
+| from   | AccountId | payer       |
+| to     | AccountId | payee       |
+| amount | Balance   | money       |
+
+使用 `near-cli` 调用示例:
+
+```shell
+near view <合约账户> get_balance '{"account": "account.testnet"}'
+```
