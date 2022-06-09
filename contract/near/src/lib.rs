@@ -35,18 +35,13 @@ pub mod bytepay_near {
         }
 
         /// 获取调用者余额
-        pub fn get_balance(&self) -> Option<Balance> {
-            self.balances.get(&env::signer_account_id())
-        }
-
-        /// 获取指定账号余额
-        pub fn get_account_balance(&self, account: &AccountId) -> Option<Balance> {
-            self.balances.get(account)
+        pub fn get_balance(&self, account: &AccountId) -> Option<Balance> {
+            self.balances.get(&account)
         }
 
         /// 查看指定账户的白名单限制
-        pub fn get_whitelist(&self, account: AccountId) -> Option<Balance> {
-            self.whitelist.get(&(env::signer_account_id(), account))
+        pub fn get_whitelist(&self, current: AccountId, account: AccountId) -> Option<Balance> {
+            self.whitelist.get(&(current, account))
         }
 
         /// 充值
@@ -145,7 +140,7 @@ pub mod bytepay_near {
             // --------------------------------------------------------------------------
             let msg = contract.recharge(233);
             println!("回执消息: {}", msg);
-            let balance = contract.get_balance().unwrap_or_default();
+            let balance = contract.get_balance(&AccountId::from("签名账户")).unwrap_or_default();
             assert_eq!(balance, 233);
         }
 
@@ -162,7 +157,7 @@ pub mod bytepay_near {
             println!("设置白名单回执消息: {}", msg);
             assert_eq!(msg, "END");
 
-            let option = contract.get_whitelist(AccountId::from("test-account.near.org"));
+            let option = contract.get_whitelist(AccountId::from("签名账户"), AccountId::from("test-account.near.org"));
             assert_eq!(option.unwrap_or_default(), limit)
         }
 
