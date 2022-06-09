@@ -1,4 +1,5 @@
 
+
 import cloud from '@/cloud-sdk'
 
 exports.main = async function (ctx: FunctionContext) {
@@ -7,7 +8,7 @@ exports.main = async function (ctx: FunctionContext) {
   const { id } = body // github user id, unique
   // 数据库操作
   const db = cloud.database()
-  const r = await db.collection('repos').where({ owner_id: id }).get()
+  const r = await db.collection('repos').where({owner_id: id}).get()
   console.log(r)
 
   return r.data

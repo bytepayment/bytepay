@@ -1,0 +1,1 @@
+{"name":"nft_get_bytechain_keyring","label":"获取NFT账户地址","hash":"3ce6a94de3c31f619742e247e77dedf2","tags":["NFT"],"description":"Get user bytechain address, if no address, create one for him","enableHTTP":true,"status":1,"triggers":[],"debugParams":"{\"id\":99471309}","version":9}
