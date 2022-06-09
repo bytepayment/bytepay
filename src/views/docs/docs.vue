@@ -9,11 +9,11 @@ const {component, language} = page
 <el-row>
     <el-col :span="5" class="menu-bar">
         <el-menu :default-openeds="AllDocItemId" class="el-menu-vertical-demo" default-active="2">
-            <el-sub-menu v-for="item in pageConfig" :index="item.id">
+            <el-sub-menu v-for="item in pageConfig" :index="item.id" :key="item.id">
                 <template #title>
                     {{ item.title }}
                 </template>
-                <el-menu-item v-for="childItem in item.children" :index="childItem.id" @click="page.setActiveName(childItem.page)">
+                <el-menu-item :key="childItem.id" v-for="childItem in item.children" :index="childItem.id" @click="(page.setActiveName(childItem.page))">
                     {{ childItem.title }}
                 </el-menu-item>
             </el-sub-menu>

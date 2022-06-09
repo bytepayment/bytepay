@@ -68,8 +68,8 @@ export class DocPage {
         this.activeMdName.value = useRoute().params.name as FileKey ?? 'BytepayOverview'
     }
 
-    public setActiveName(name: FileKey) {
-        this.activeMdName.value = name
+    public setActiveName(name?: FileKey) {
+        this.activeMdName.value = name!
         // noinspection JSIgnoredPromiseFromCall
         Router.push({name: 'docs', params: {name}})
     }
