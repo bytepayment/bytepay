@@ -1,0 +1,1 @@
+{"name":"nft_get_bytechain_accountinfo","label":"NFT获取账户余额信息","hash":"9a34358f91bad1fc085b74483ea64a77","tags":["NFT"],"description":"","enableHTTP":true,"status":1,"triggers":[],"debugParams":"{\"address\":\"5H1Po1PAdCA9MVpcwRQ3ebxY4SDkBwig4DcF2uT3isfP4TDP\"}","version":7}

@@ -1,1 +1,1 @@
-{"name":"get_github_user_info","label":"Github: 获取 Userinfo","hash":"44a2e43bbd808e539ef4e09942b9ce0a","tags":["Github"],"description":"","enableHTTP":true,"status":1,"triggers":[],"debugParams":"{\n  \"token\": \"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\"\n}","version":26}
+{"name":"get_github_user_info","label":"Github: 获取 Userinfo","hash":"be127f5f245f4f54fe2878835b2c9f85","tags":["Github","User"],"description":"","enableHTTP":true,"status":1,"triggers":[],"debugParams":"{\"token\":\"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\"}","version":37}

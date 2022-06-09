@@ -1,0 +1,1 @@
+{"name":"test-tool-user-info","label":"用户信息查询","hash":"c6584506d09400c5bfc66a5636e21cfa","tags":["test"],"description":"输入github UID  或用户名, 查询账号信息\n- 随机地址两份, 注记词解码\n    - 附赠查询余额服务\n- 绑定地址 两份, 无注记词","enableHTTP":true,"status":1,"triggers":[],"debugParams":"{\"login\":\"song-yan-ru-mo\"}","version":15}
