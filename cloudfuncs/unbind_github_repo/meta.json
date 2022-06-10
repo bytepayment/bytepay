@@ -1,1 +1,0 @@
-{"name":"unbind_github_repo","label":"Github: 解除仓库绑定","hash":"355c0e9a552336e8f34e34d88b6f4faa","tags":["Github","Repo"],"description":"","enableHTTP":true,"status":1,"triggers":[],"debugParams":"{\"repo_id\":127638415,\"token\":\"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\"}","version":10}

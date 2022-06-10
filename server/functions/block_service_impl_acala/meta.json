@@ -1,0 +1,1 @@
+{"name":"block_service_impl_acala","label":"初始化acala服务","hash":"e2a91276d0fa8785d45531e568f7e7a0","tags":["初始化"],"description":"","enableHTTP":false,"status":1,"triggers":[],"debugParams":"{\"apiKey\":\"9b13dfb5b92bab46d30dab14fb28fac8\",\"apiBaseUrl\":\"https://acala-testnet.api.subscan.io\"}","version":55}

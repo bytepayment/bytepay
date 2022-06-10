@@ -1,4 +1,5 @@
 
+
 import cloud from '@/cloud-sdk'
 import { Keyring } from '@polkadot/keyring'
 import { mnemonicGenerate } from '@polkadot/util-crypto';
@@ -30,5 +31,5 @@ exports.main = async function (ctx: FunctionContext) {
   }
   await collUser.add(new_user)
   console.log('add success')
-
+  return new_user
 }

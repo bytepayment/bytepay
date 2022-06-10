@@ -16,6 +16,7 @@ exports.main = async function (ctx: FunctionContext) {
   console.log(body)
   const { code } = body
   const data = { client_id, client_secret, code }
+  console.log(data)
   const tokenRes = await axios({
     url: tokenUrl,
     data,

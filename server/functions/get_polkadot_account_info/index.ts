@@ -1,7 +1,10 @@
 
+
 import cloud from '@/cloud-sdk'
 const Funcs = cloud.shared.get('funcs')
 const createPolkaApi = Funcs.createPolkaApiFunc
+const reducedUnit = Funcs.reducedUnitFunc
+
 interface PolkaAccount {
   free: number,
   reserved: number,
@@ -21,22 +24,12 @@ export async function main(ctx: FunctionContext) {
   try {
     const address = f.data.polka.address
     const queryResult = await api.query.system.account(address);
+    console.log(queryResult.data)
     const data = reducedUnit(queryResult.data)
-    return { error: 0, data }
+    return { error: 0, data}
   } catch (error) {
     console.log(error)
     return { error: 2, error_msg: 'Internal Server Error' }
   }
 
 }
-
-function reducedUnit(account: PolkaAccount) {
-  const unit = 1000 * 1000 * 1000 * 1000
-  return {
-    free : account.free / unit,
-    reserved : account.reserved / unit,
-    miscFrozen : account.miscFrozen / unit,
-    feeFrozen : account.feeFrozen / unit
-  }
-}
-

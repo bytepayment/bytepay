@@ -1,9 +1,11 @@
 
+
 import cloud from '@/cloud-sdk'
 import * as crypto from 'crypto'
 
 const Funcs = cloud.shared.get('funcs')
 const createPolkaApi = Funcs.createPolkaApiFunc
+const reducedUnit = Funcs.reducedUnitFunc
 
 interface PolkaAccount {
   free: number,
@@ -48,12 +50,3 @@ function hash(content: string) {
   return crypto.createHash('sha256').update(privateKey + content).digest('hex')
 }
 
-function reducedUnit(account: PolkaAccount) {
-  const unit = 1000 * 1000 * 1000 * 1000
-  return {
-    free: account.free / unit,
-    reserved: account.reserved / unit,
-    miscFrozen: account.miscFrozen / unit,
-    feeFrozen: account.feeFrozen / unit
-  }
-}

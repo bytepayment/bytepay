@@ -1,18 +1,27 @@
 
+
 import cloud from '@/cloud-sdk'
 import * as crypto from 'crypto'
 
 const Funcs = cloud.shared.get('funcs')
 const hash = Funcs.hashFunc
 
+
 exports.main = async function (ctx: FunctionContext) {
+  const uid = ctx.auth?.uid
+    if (!uid) {
+        return {
+            error: 1,
+            msg: "Unauthorized",
+        }
+    }
   // body, query 为请求参数, auth 是授权对象
   const { body } = ctx
   const { id, password_form } = body
   console.log(password_form)
   const coll = cloud.database().collection('user')
   const f = await coll.where({ id }).getOne()
-  if (!f.data) return { error: 1, error_msg: 'user not found' }
+  if (!f.data) return { error: 1, error_msg: 'user not found'}
   // 设置新密码
   if (!f.data.isSetPass) {
     const password = hash(password_form.new_pass)
@@ -32,6 +41,6 @@ exports.main = async function (ctx: FunctionContext) {
     return { error: 0, error_msg: 'success' }
   // 校验失败
   } else {
-    return { error: 5, error_msg: 'user submit content error' }
+    return { error: 5, error_msg: 'user submit content error'}
   }
 }

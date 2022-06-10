@@ -1,9 +1,17 @@
 
+
 import cloud from '@/cloud-sdk'
 import axios from 'axios'
 
 // Bind a repo, means add a webhook
 exports.main = async function (ctx: FunctionContext) {
+  const uid = ctx.auth?.uid
+    if (!uid) {
+        return {
+            error: 1,
+            msg: "Unauthorized",
+        }
+    }
   // body, query 为请求参数, auth 是授权对象
   const { body } = ctx
   const { token, repo_id } = body
@@ -24,10 +32,10 @@ exports.main = async function (ctx: FunctionContext) {
     const r = await axios({
       url: `https://api.github.com/repos/${owner}/${repo}/hooks/${hook_id}`,
       method: 'DELETE',
-      headers
+      headers,
     })
-    console.log(r)
-    if (r.status !== 204) {
+    console.log('delete repo',r)
+    if (r.status != 204) {
       return { error: 2, error_msg: r.data }
     }
     // Delete from our database
@@ -38,12 +46,13 @@ exports.main = async function (ctx: FunctionContext) {
       await coll.where({ repo_id }).remove()
       return { error: 0, data: 'success' }
     }
-    const error_msg_r = error?.response?.data?.errors || ''
+    let error_msg_r = error?.response?.data?.errors || ''
+    console.log('error_msg_r',error_msg_r)
     if (error_msg_r) {
       const error_msg = error_msg_r.map(i => i.message).join(';')
-      return { error: 3, error_msg }
+      return { error: 3, error_msg}
     }
-    return { error: 3, error_msg: 'request github caught error...' }
+    return { error: 3, error_msg: 'request github caught error...'}
   }
 
 }

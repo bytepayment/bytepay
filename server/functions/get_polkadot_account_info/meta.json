@@ -1,1 +1,1 @@
-{"name":"get_polkadot_account_info","label":"获取Polka账户信息","hash":"d295746f01cecd946eea0c7036b39a1e","tags":["Polkadot"],"description":"","enableHTTP":true,"status":1,"triggers":[],"debugParams":"{\"id\":37979965}","version":23}
+{"name":"get_polkadot_account_info","label":"获取Polka账户信息","hash":"8426eb23764e88eaa3d52a13115e7735","tags":["Polkadot"],"description":"","enableHTTP":true,"status":1,"triggers":[],"debugParams":"{\"id\":94216827}","version":27}
