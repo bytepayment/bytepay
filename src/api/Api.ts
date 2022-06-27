@@ -39,6 +39,14 @@ export class Api {
         return Response.checkData(response)
     }
 
+    /**
+     * 查询可用(可提现)余额
+     */
+    public static async withdrawnAmount(chain: Blockchain) {
+        const res = await cloud.invokeFunction<Response<string>>('api-withdrawn-amount', {chain, id: this.getUserId()})
+        return Response.checkData(res)
+    }
+
     private static setUserId<T>(t: T): T & { id: number } {
         if (!t) {
             return {id: this.getUserId()} as any
@@ -55,11 +63,10 @@ export class Api {
 
 }
 
-
 export enum Blockchain {
     ACALA = 'acala',
     POLKA = 'polka',
-    NEAR = "near"
+    NEAR = 'near'
 }
 
 export interface AccountBindRequest {
@@ -147,9 +154,7 @@ export interface WithdrawRequest {
 const CurrencyMapping: Record<string, Blockchain> = {
     'DOT': Blockchain.POLKA,
     'AUSD': Blockchain.ACALA,
-    'TODO':Blockchain.NEAR
-    // TODO: near 单位定义
-    // 'XXX': Blockchain.NEAR,
+    'NEAR': Blockchain.NEAR,
 }
 
 export class Response<D> {
