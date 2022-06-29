@@ -200,3 +200,6 @@ near call 'lafyun.testnet' set_whitelist '{"account": "hankeke.testnet","amount"
 near call 'lafyun.testnet' transfer '{"from": "hankeke.testnet","to":"lafyun.testnet","amount":0.1 }' --accountId lafyun.testnet  
 
 ```
+// 发布生产
+1.修改near创建账户逻辑
+2.修改波卡的单位换算
