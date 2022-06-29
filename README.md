@@ -185,4 +185,18 @@ use `near-cli` call example:
 
 ```shell
 near view <contract_account> get_balance '{"account": "account.testnet"}'
+
+// 查询合约的部署账号
+near view lafyun.testnet get_owner
+// 查询余额
+near view lafyun.testnet get_balance '{"account": "lafyun.testnet"}'
+// 充值
+near call 'lafyun.testnet' recharge '{"amount":1 }' --accountId lafyun.testnet 
+// 设置白名单
+near call 'lafyun.testnet' set_whitelist '{"account": "hankeke.testnet","amount":1 }' 
+--accountId lafyun.testnet  
+
+// 转账
+near call 'lafyun.testnet' transfer '{"from": "hankeke.testnet","to":"lafyun.testnet","amount":0.1 }' --accountId lafyun.testnet  
+
 ```

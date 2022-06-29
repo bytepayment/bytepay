@@ -10,7 +10,7 @@ const {formData, formRef, availableBalance, formIsLoading, formSubmit, fillInWit
     <h1>Withdraw</h1>
     <el-divider></el-divider>
     <div class="form-container">
-        <el-form :ref="el => formRef = el" v-loading="formIsLoading" :model="formData" :rules="rules" class="demo-form-inline" label-suffix=":">
+        <el-form :ref="el => formRef = (el) as any " v-loading="formIsLoading" :model="formData" :rules="rules"  label-suffix=":">
             <el-form-item label="Address" label-width="180px" prop="address">
                 <el-input v-model="formData.address" clearable style="width: 500px;" />
             </el-form-item>
