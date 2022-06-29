@@ -63,7 +63,10 @@ export class Withdraw {
             .catch(err => ElMessage.error('ERROR:' + err?.message))
     }
 
-    public fillInWithOneClick = () => this.formData.amount = parseFloat(this.availableBalance.value)
+    /**
+     * 魔法值 0.04 -> 转账交易手续费预留
+     */
+    public fillInWithOneClick = () => this.formData.amount = parseFloat(this.availableBalance.value) - 0.04
 
     /**
      * 表单提交: 提现
