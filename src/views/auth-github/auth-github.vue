@@ -20,13 +20,13 @@ import { useRouter, useRoute } from "vue-router";
 import { useStore } from "vuex";
 import { ElLoading, ElMessage } from "element-plus";
 import logoUrl from "@/assets/GitHub.png";
-const client_id = "Iv1.6a149edf7464a721";
+const client_id = import.meta.env.VITE_GITHUB_OAUTH_CLIENT_ID;
 const Router = useRouter();
 const store = useStore();
 // check if redirect back
 onMounted(async () => {
   const code = (useRoute().query?.code as any) || "";
-  console.log(code, "---------------------");
+  console.log(code, "");
 
   if (!code) return;
   console.log("Github Redirect Back, request access_token by temp code from github...");
@@ -50,8 +50,6 @@ onMounted(async () => {
 // oauth github
 const authUrl = `https://github.com/login/oauth/authorize?client_id=${client_id}&scope=read:user,admin:repo_hook`;
 function authGithub() {
-  console.log("重定向", authUrl);
-
   window.location.href = authUrl;
 }
 </script>
