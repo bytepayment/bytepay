@@ -15,41 +15,44 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, nextTick } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import { useStore } from 'vuex'
-import { ElLoading, ElMessage } from "element-plus"
-import logoUrl from '@/assets/GitHub.png'
-const client_id = import.meta.env.VITE_GITHUB_OAUTH_CLIENT_ID
-const Router = useRouter()
-const store = useStore()
+import { onMounted, nextTick } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { useStore } from "vuex";
+import { ElLoading, ElMessage } from "element-plus";
+import logoUrl from "@/assets/GitHub.png";
+const client_id = "Iv1.6a149edf7464a721";
+const Router = useRouter();
+const store = useStore();
 // check if redirect back
 onMounted(async () => {
-  const code = (useRoute().query?.code as any) || ''
-  if (!code) return
-  console.log('Github Redirect Back, request access_token by temp code from github...')
-  const loadingInstance = ElLoading.service({ fullscreen: true })
+  const code = (useRoute().query?.code as any) || "";
+  console.log(code, "---------------------");
+
+  if (!code) return;
+  console.log("Github Redirect Back, request access_token by temp code from github...");
+  const loadingInstance = ElLoading.service({ fullscreen: true });
   try {
-    await store.dispatch('login', code)
-    await store.dispatch('get_user_info')
+    await store.dispatch("login", code);
+    await store.dispatch("get_user_info");
     nextTick(() => {
-      loadingInstance.close()
-    })
-    Router.push("/")
+      loadingInstance.close();
+    });
+    Router.push("/");
   } catch (error) {
-    console.log(error)
-    ElMessage.error("Oops, get github token failed, please retry...")
+    console.log(error);
+    ElMessage.error("Oops, get github token failed, please retry...");
     nextTick(() => {
-      loadingInstance.close()
-    })
+      loadingInstance.close();
+    });
   }
-})
+});
 
 // oauth github
-const authUrl =
-  `https://github.com/login/oauth/authorize?client_id=${client_id}&scope=read:user,admin:repo_hook`
+const authUrl = `https://github.com/login/oauth/authorize?client_id=${client_id}&scope=read:user,admin:repo_hook`;
 function authGithub() {
-  window.location.href = authUrl
+  console.log("重定向", authUrl);
+
+  window.location.href = authUrl;
 }
 </script>
 
@@ -69,7 +72,7 @@ function authGithub() {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
     align-items: center;
