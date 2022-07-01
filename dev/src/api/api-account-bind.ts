@@ -15,6 +15,11 @@ const SERVICE: BlockchainDispatch = cloud.shared.get('blockchain_service')
  */
 // @ts-ignore
 exports.main = async function (ctx: FunctionContext) {
+    const uid = ctx.auth?.uid
+    if (!uid) {
+        return {error: 1, msg: 'Unauthorized',}
+    }
+
     const {chain, address, id} = ctx.body as Body
     try {
         await SERVICE.bindAccount(chain, id, address)
