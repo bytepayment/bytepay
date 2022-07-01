@@ -1,0 +1,51 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "useDefineForClassFields": true,
+        "module": "esnext",
+        "jsx": "preserve",
+        "esModuleInterop": true,
+        // 生成相应的“.d.ts”文件
+        "declaration": true,
+        // 为每个对应的“.d.ts”文件生成一个源映射。
+        "declarationMap": true,
+        // 生成相应的“.map”文件。
+        "sourceMap": true,
+        "resolveJsonModule": true,
+        "allowSyntheticDefaultImports": true,
+        "moduleResolution": "node",
+        "forceConsistentCasingInFileNames": true,
+        // 没有隐式返回
+        "noImplicitReturns": true,
+        // 抑制隐式索引
+        "suppressImplicitAnyIndexErrors": true,
+        "allowJs": true,
+        "skipLibCheck": true,
+        // 实验装饰器
+        "experimentalDecorators": true,
+        // 严格,
+        "strict": true,
+        // TS6133 禁止没有使用的定义
+        "noUnusedLocals": false,
+        // TS2564 严格的属性初始化
+        "strictPropertyInitialization": false,
+        "lib": [
+            "esnext",
+            "dom"
+        ],
+        "paths": {
+            "@/*": [
+                "./src/*",
+                "./src_2/*"
+            ]
+        }
+    },
+    "include": [
+        "src/**/*.ts",
+        "src_2/**/*.ts",
+        "src/**/*.d.ts",
+        "src/**/*.tsx",
+        "src/**/*.vue",
+        "src/**/*.md"
+    ]
+}
