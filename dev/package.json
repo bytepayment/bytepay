@@ -11,12 +11,18 @@
     "dependencies": {
         "@acala-network/api": "^4.1.1",
         "@polkadot/api": "^8.3.2",
+        "@polkadot/keyring": "^9.7.1",
+        "@polkadot/util-crypto": "^9.7.1",
+        "axios": "^0.27.2",
+        "bn.js": "^5.2.1",
+        "database-ql": "^0.8.2",
         "decimal.js": "^10.3.1",
         "laf-client-sdk": "^0.8.0-alpha.9",
         "minio": "^7.0.28",
         "near-api-js": "^0.44.2"
     },
     "devDependencies": {
+        "@types/bn.js": "^5.1.0",
         "typescript": "^4.6.4"
     }
 }

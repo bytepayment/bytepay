@@ -12,9 +12,9 @@ export const rules = {
             message: 'Please input polka address you want to withdraw',
         },
         {
-            min: 40,
+            min: 6,
             max: 255,
-            message: 'length should be 40 to 255',
+            message: 'length should be 6 to 255',
         },
     ],
     amount: [{trigger: 'blur', required: true}],

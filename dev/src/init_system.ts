@@ -114,7 +114,7 @@ class BlockchainDispatchService implements BlockchainDispatch {
         if (value) {
             return value
         }
-        throw new Error('缺少 BlockchainService impl' + block)
+        throw new Error('缺少 BlockchainService impl: ' + block)
     }
 
     public async canWithdrawnAmount(blockchain: Blockchain, uid: number): Promise<string> {

@@ -1,33 +1,12 @@
+import type { Blockchain } from '@/_type/Blockchain'
 import type { BlockchainDispatch } from '@/_type/BlockchainDispatch'
 import type { TransactionRequest } from '@/_type/TransactionRequest'
 import type { UserAccount } from '@/_type/UserAccount'
 import cloud from '@/cloud-sdk'
 import * as crypto from 'crypto'
-import { Db } from 'database-ql'
-
-/**
- * <h2 color="red">
- *     这里的定义仅提供基础示例, 如果后期扩展 以 init_system 中为准
- * </h2>
- * value 和 用户信息中的账户名对应
- */
-enum Blockchain {
-    ACALA = 'acala',
-    POLKA = 'polka',
-    NEAR = 'near'
-}
+import type { Db } from 'database-ql'
 
 const SERVICE: BlockchainDispatch = cloud.shared.get('blockchain_service')
-/**
- * <h2 color="red">
- *     TODO: 不提供动态扩展 需要后期补充
- * </h2>
- */
-const CurrencyMapping = {
-    'DOT': Blockchain.POLKA,
-    'AUSD': Blockchain.ACALA,
-    'NEAR': Blockchain.NEAR,
-}
 const privateKey = 'OaXrkPelv%Artij0ZL7P^^qyHjBKc&wsfyD3V3AXnq@3Gj3zQ$9g7OXvm8==hnh'
 const DB: Db = cloud.database()
 const COLLECTION = {
@@ -38,7 +17,7 @@ type Body = {
     address: string,
     password: string,
     amount: number,
-    cm: keyof typeof CurrencyMapping
+    cm: Blockchain
 }
 
 /**
@@ -62,13 +41,7 @@ exports.main = async function (ctx: FunctionContext) {
     }
 
     try {
-        const currency = CurrencyMapping[cm.toUpperCase()]
-        if (!currency) {
-            // noinspection ExceptionCaughtLocallyJS
-            throw new Error('不支持的 类型' + cm)
-        }
-
-        const account: UserAccount = user[currency]
+        const account: UserAccount = user[cm]
 
         const t: TransactionRequest = {
             amount,
@@ -78,13 +51,12 @@ exports.main = async function (ctx: FunctionContext) {
             frozen: String(account.frozenAmount || 0),
         }
 
-        const maxAmount = await SERVICE.canWithdrawnAmount(currency, id)
+        const maxAmount = await SERVICE.canWithdrawnAmount(cm, id)
         console.log('最大可提现金额: ', maxAmount, '期待转账金额: ', amount)
         // 魔法值: 0.04 -> 转账手续费预留
         t.amount = Math.min(parseFloat(maxAmount) - 0.04, parseFloat(String(amount)))
 
-
-        return Response.ok(await SERVICE.transfer(currency, t))
+        return Response.ok(await SERVICE.transfer(cm, t))
     } catch (error) {
         console.log('Error: ', error)
         return Response.error('Internal Server Error', 5)

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
+import { Blockchain } from '@/api/Api'
 import { rules, Withdraw } from '@/views/settings/Withdraw'
 
 const {formData, formRef, availableBalance, formIsLoading, formSubmit, fillInWithOneClick} = new Withdraw()
-
 </script>
 
 <template>
@@ -10,15 +10,15 @@ const {formData, formRef, availableBalance, formIsLoading, formSubmit, fillInWit
     <h1>Withdraw</h1>
     <el-divider></el-divider>
     <div class="form-container">
-        <el-form :ref="el => formRef = (el) as any " v-loading="formIsLoading" :model="formData" :rules="rules"  label-suffix=":">
+        <el-form :ref="el => formRef = el as any " v-loading="formIsLoading" :model="formData" :rules="rules" label-suffix=":">
             <el-form-item label="Address" label-width="180px" prop="address">
                 <el-input v-model="formData.address" clearable style="width: 500px;" />
             </el-form-item>
             <el-form-item label="Token" label-width="180px" prop="cm">
                 <el-select v-model="formData.cm" placeholder="">
-                    <el-option label="DOT" value="DOT" />
-                    <el-option label="ACA" value="ACA" />
-                    <el-option label="Near" value="Near" />
+                    <el-option :value="Blockchain.POLKA" label="DOT" />
+                    <el-option :value="Blockchain.ACALA" label="ACA" />
+                    <el-option :value="Blockchain.NEAR" label="Near" />
                 </el-select>
             </el-form-item>
             <el-form-item label="Amount" label-width="180px" prop="amount">
