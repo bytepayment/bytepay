@@ -6,6 +6,7 @@ specifiers:
   '@types/node': ^17.0.6
   '@types/nprogress': ^0.2.0
   '@vitejs/plugin-vue': ^2.0.0
+  async-validator: ^4.2.5
   axios: ^0.25.0
   clipboard: ^2.0.8
   dayjs: ^1.11.0
@@ -56,6 +57,7 @@ dependencies:
 devDependencies:
   '@types/node': 17.0.45
   '@vitejs/plugin-vue': 2.3.3_vite@2.9.12+vue@3.2.37
+  async-validator: 4.2.5
   axios: 0.25.0
   eslint: 8.18.0
   eslint-plugin-vue: 8.7.1_eslint@8.18.0
@@ -85,11 +87,11 @@ packages:
     engines: {node: '>=6.9.0'}
 
   /@babel/parser/7.18.5:
-      resolution: { integrity: sha512-YZWVaglMiplo7v8f1oMQ5ZPQr0vn7HPeZXxXWsxXJRjGVrzUFn9OxFQl1sb5wzfootjA/yChhW84BV+383FSOw== }
-      engines: { node: '>=6.0.0' }
-      hasBin: true
-      dependencies:
-          '@babel/types': 7.18.4
+    resolution: {integrity: sha512-YZWVaglMiplo7v8f1oMQ5ZPQr0vn7HPeZXxXWsxXJRjGVrzUFn9OxFQl1sb5wzfootjA/yChhW84BV+383FSOw==}
+    engines: {node: '>=6.0.0'}
+    hasBin: true
+    dependencies:
+      '@babel/types': 7.18.4
 
   /@babel/types/7.18.4:
     resolution: {integrity: sha512-ThN1mBcMq5pG/Vm2IcBmPPfyPXbd8S02rS+OBIDENdufvqC7Z/jHPCv9IcP01277aKtDI8g/2XysBN4hA8niiw==}
@@ -492,7 +494,6 @@ packages:
 
   /async-validator/4.2.5:
     resolution: {integrity: sha512-7HhHjtERjqlNbZtqNqy2rckN/SpOOlmDliet+lP7k+eKZEjPk3DgyeU9lIXLdeLz0uBbbVp+9Qdow9wJWgwwfg==}
-    dev: false
 
   /axios/0.21.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}

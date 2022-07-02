@@ -1,4 +1,4 @@
-import { RuleItem } from 'async-validator'
+import { RuleItem } from 'async-validator/dist-types/interface'
 
 interface ImportMetaEnv {
     readonly VITE_API_BASE_URL: string
