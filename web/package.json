@@ -2,7 +2,7 @@
   "name": "dot-pay-client",
   "version": "1.0.0",
   "scripts": {
-    "dev": "vue-tsc --noEmit && vite",
+    "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "deploy:prod": "yarn run build && rsync -rvtP ./dist/  ssh bytepay:/root/workspace/dot-pay-client/dist",
