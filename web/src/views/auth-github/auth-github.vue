@@ -20,13 +20,13 @@ import { useRouter, useRoute } from "vue-router";
 import { useStore } from "vuex";
 import { ElLoading, ElMessage } from "element-plus";
 import logoUrl from "@/assets/GitHub.png";
-const client_id = import.meta.env.VITE_GITHUB_OAUTH_CLIENT_ID;
+const client_id = "Iv1.6a149edf7464a721";
 const Router = useRouter();
 const store = useStore();
 // check if redirect back
 onMounted(async () => {
   const code = (useRoute().query?.code as any) || "";
-  console.log(code, "");
+  console.log(code, "这个是啥啊");
 
   if (!code) return;
   console.log("Github Redirect Back, request access_token by temp code from github...");
@@ -37,6 +37,11 @@ onMounted(async () => {
     nextTick(() => {
       loadingInstance.close();
     });
+
+    let features =
+      "height=700, width=1000, top=100, left=100,toolbar=no, menubar=no,scrollbars=no,resizable=no, location=no, status=no";
+    window.open("https://github.com/apps/bytepay/installations/new", "newW", features);
+
     Router.push("/");
   } catch (error) {
     console.log(error);
