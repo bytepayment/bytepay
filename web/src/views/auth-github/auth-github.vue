@@ -20,7 +20,7 @@ import { useRouter, useRoute } from "vue-router";
 import { useStore } from "vuex";
 import { ElLoading, ElMessage } from "element-plus";
 import logoUrl from "@/assets/GitHub.png";
-const client_id = "Iv1.6a149edf7464a721";
+const client_id = import.meta.env.VITE_GITHUB_OAUTH_CLIENT_ID;
 const Router = useRouter();
 const store = useStore();
 // check if redirect back

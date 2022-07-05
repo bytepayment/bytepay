@@ -6,6 +6,7 @@ import { Link } from "@element-plus/icons-vue";
 import { BindedGithubRepo, DotpayTask, GithubUser } from "@/entity";
 import { get_binded_repos, get_tasks, get_dev_tasks, goto_task_page } from "@/api/user";
 import Router from "@/router";
+import { stringify } from "querystring";
 // =============== Datas ===============
 const user: GithubUser = useStore().state.user;
 const binded_repos: Ref<BindedGithubRepo[]> = ref([]);
@@ -90,6 +91,7 @@ onBeforeMount(async () => {
         repo_id: task.repo_id,
         repo_name: task.repo_name,
         meta: {
+          _id: task._id,
           id: task.repo_id,
           name: task.repo_name,
           owner: task?.repository?.owner || "",

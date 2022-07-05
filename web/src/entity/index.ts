@@ -22,6 +22,7 @@ export interface CPIUser {
   own_polka_address: string
 }
 export interface GithubRepo {
+  _id: string
   id: number
   name: string
   owner: GithubUser
