@@ -75,6 +75,7 @@ async function initData() {
   });
 
   const r = await cloud.invokeFunction("get_repo_list", { owner_id: user.id });
+  if (!r.ok) ElMessage(r.message);
   repos.value = r;
 }
 
