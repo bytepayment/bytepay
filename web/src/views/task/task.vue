@@ -111,7 +111,7 @@ onBeforeMount(async () => {
     <el-col :span="6">
       <div class="side-bar">
         <div class="line-one">
-          <h2 class="text-brief">Repos</h2>
+          <h2 class="text-brief">Repositories</h2>
           <el-button
             v-if="activeTabIndex === '0'"
             round
@@ -124,7 +124,7 @@ onBeforeMount(async () => {
         <!-- Switch Author And Developer -->
         <el-tabs class="tabs" v-model="activeTabIndex" :stretch="true" type="border-card">
           <!-- Author -->
-          <el-tab-pane label="My Repo" class="repo-list">
+          <el-tab-pane label="My Repositories" class="repo-list">
             <el-collapse
               v-model="activeAuthorRepoIndex"
               accordion
